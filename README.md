@@ -13,14 +13,21 @@ This repo is a complete AI toolkit for roofing. Every skill is a standalone prom
 
 | Skill | What it does | Time saved |
 |-------|-------------|------------|
-| 🏠 Roof Inspection Report | Turn photos and notes into a professional inspection report with findings and recommendations. | ~30 min/report |
-| 📐 Estimate Builder | Convert measurements and material choices into a formatted, customer-ready estimate. | ~25 min/estimate |
-| 🛡️ Insurance Supplement Writer | Draft supplement requests with line-item justification for underpaid claims. | ~45 min/supplement |
-| 📧 Follow-Up Sequence | Auto-generate a multi-touch follow-up cadence for open estimates. | ~10 min/lead |
-| 📅 Crew Schedule Optimizer | Balance crew availability, weather windows, and job priority into a weekly plan. | ~20 min/week |
-| 📦 Material Order Calculator | Calculate exact material quantities from roof measurements, including waste factor. | ~15 min/order |
+| Crew Schedule Optimizer | Balance crew availability, weather windows, job priority, route efficiency, and material delivery timing into an optimized weekly plan — with built-in contingency triggers for weather disruptions. | ~30 min/week |
+| Material Order Calculator | Calculate exact material quantities from roof measurements — broken down by material category with appropriate waste factors, bundle/unit conversions, and supplier-ready formatting — so you can place an accurate order without over- or under-buying. | ~15 min/order |
+| Roof Inspection Report | Turn field inspection photos and notes into a professional, structured inspection report with section-by-section findings, condition ratings, photo references, and prioritized recommendations — suitable for homeowner presentation, insurance documentation, or real estate transactions. | ~30 min/report |
+| Estimate Builder | Convert measurements and material choices into a formatted, customer-ready estimate — with built-in pricing sanity checks, good-better-best option tiers, and clear scope documentation that reduces change orders. | ~25 min/estimate |
+| Follow-Up Sequence | Generate a multi-touch follow-up cadence for open roofing estimates — with channel-specific messages (text, email, phone scripts, door knock talking points), roofing-specific urgency hooks, and objection-handling frameworks tailored to why homeowners delay roof decisions. | ~10 min/lead |
+| Maintenance Plan Generator | Create a customized preventive maintenance plan and subscription proposal for a customer's roof, based on its age, material type, local climate patterns, and repair history. | ~20 min/plan |
+| Predictive Lead Scorer | Analyze a batch of leads or prospects and assign priority scores based on property age, recent weather events, neighborhood patterns, and past interaction history — so your sales team focuses on the homeowners most likely to need roof work right now. | ~30 min/batch |
+| Tariff & Price Adjustment Communicator | Help roofing contractors communicate material price increases and tariff impacts to homeowners clearly and professionally — framing higher costs as industry-wide realities rather than company markups, presenting lifecycle cost comparisons across material tiers, and generating customer-facing content that builds trust during periods of price volatility. | ~15 min/estimate |
+| Lead Response Automator | Generate instant, channel-appropriate responses to new roofing leads — qualifying them by job type, urgency, and fit — and produce a structured intake sequence that captures property details, schedules inspections, and hands off a fully qualified lead to the estimator within minutes rather than hours. | ~20 min/lead |
+| Insurance Supplement Writer | Draft supplement requests to insurance carriers that recover underpaid line items, missing overhead & profit (O&P), code-upgrade costs, depreciation, and code-required accessories — structured around the carrier's Xactimate estimate so adjusters can approve changes quickly. | ~45 min/supplement |
+| Email Drafter | Turn rough notes into a polished, roofing-industry-appropriate email — with the right structure, tone, and call-to-action for the recipient type (homeowner, adjuster, supplier, crew lead, referral partner). | ~10 min/email |
+| Meeting Summarizer | Summarize meeting notes into action items, decisions, and follow-ups. | ~10 min/use |
+| Review Responder | Craft public, professional responses to online reviews on Google, Nextdoor, BBB, Angi, Yelp, Facebook, and manufacturer / contractor directories — with tailored tone based on star rating and the roofing-specific concern raised, plus an escalation path for legitimate complaints or inaccurate claims. | ~10 min/review |
 
-**Total time saved per use: ~145+ minutes across all skills.**
+**Total time saved per use: ~270+ minutes across all skills.**
 
 ## Quick Start
 

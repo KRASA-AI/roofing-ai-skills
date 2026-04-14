@@ -4,6 +4,17 @@
 
 The roofing industry is experiencing rapid AI adoption as businesses look to reduce administrative overhead, improve customer response times, and standardize quality across their operations.
 
+## AI Adoption Snapshot (April 2026)
+
+- 38% of commercial contractors report measurable business impact from AI, up from 17% in 2025
+- 74% of residential contractors view AI as an efficiency tool, but only 25% actively use it
+- Among active users: 48% report productivity gains, 45% cite time savings, 32% note improved customer experience
+- Most common AI applications: cost estimation/budgeting (24%), bid management (22%), customer communication
+- 68% of contractors using AI report higher close rates
+- 79% of roofers specifically are not yet using AI — creating a significant competitive gap for early adopters
+- Steel tariffs at 50%, shingle prices up 6–10%, and chemical tariffs as high as 272% are compressing margins and making AI-driven pricing accuracy more critical
+- Only 20% of contractors operate on unified platforms, indicating fragmentation that limits performance visibility
+
 ## Common Pain Points
 
 Roofing businesses typically struggle with:

@@ -14,6 +14,23 @@ The roofing industry is experiencing rapid AI adoption as businesses look to red
 - 79% of roofers specifically are not yet using AI — creating a significant competitive gap for early adopters
 - Steel tariffs at 50%, shingle prices up 6–10%, and chemical tariffs as high as 272% are compressing margins and making AI-driven pricing accuracy more critical
 - Only 20% of contractors operate on unified platforms, indicating fragmentation that limits performance visibility
+- 40% of roofing contractors report active AI use (ServiceTitan commercial report), with another 36% planning adoption in the next 12 months — a shift in baseline since late 2025
+- Contractors using 24/7 AI answering services are capturing roughly 27% more leads than competitors relying on human-only intake, largely from after-hours and weekend call capture
+
+## Insurance-AI Shift (Adversarial Use Against Homeowners)
+
+A new structural trend in 2026 is carriers deploying AI against policyholders, with downstream impact on roofing contractors:
+
+- Carriers including State Farm, Allstate, and Farmers are contracting aerial imagery vendors (CAPE Analytics, Nearmap, EagleView) to score existing roofs remotely
+- Non-renewal notices, repair demands, or ACV conversions often arrive within 30–60 days of the aerial assessment, without the homeowner ever seeing the imagery
+- Roof-age triggers have tightened — many carriers flag roofs as young as 15 years (from 20), with some regional markets triggering at 10 years
+- False positives are frequent: solar panels read as structural damage, neighbor imagery attributed to the wrong parcel, seasonal shadows interpreted as defects
+- For contractors, this creates a premium counter-documentation service line: homeowner-side inspection reports engineered to rebut algorithmic decisions, priced at $250–$500 per engagement (homeowners facing $15K–$25K in lost coverage accept the cost)
+- See the `insurance-appeal-inspection-report` skill for the structured deliverable
+
+## AI Search Visibility as a Lead Channel
+
+Homeowner behavior is shifting toward asking AI assistants (Claude, ChatGPT, Gemini, Perplexity) for contractor recommendations rather than traditional search. Contractors who get cited share four traits: (a) consistent authority signals across directories, (b) published pricing transparency, (c) local/climate specificity in their content, (d) structured data and answer-shaped content blocks. This is now a measurable channel separate from SEO — trackable via monthly prompt batteries run against the major AI assistants. See the `ai-search-visibility-auditor` skill for the diagnostic framework.
 
 ## Common Pain Points
 

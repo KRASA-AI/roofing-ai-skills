@@ -32,6 +32,18 @@ A new structural trend in 2026 is carriers deploying AI against policyholders, w
 
 Homeowner behavior is shifting toward asking AI assistants (Claude, ChatGPT, Gemini, Perplexity) for contractor recommendations rather than traditional search. Contractors who get cited share four traits: (a) consistent authority signals across directories, (b) published pricing transparency, (c) local/climate specificity in their content, (d) structured data and answer-shaped content blocks. This is now a measurable channel separate from SEO — trackable via monthly prompt batteries run against the major AI assistants. See the `ai-search-visibility-auditor` skill for the diagnostic framework.
 
+## Commercial B2B Emerging as a Distinct Channel
+
+Through early 2026, most roofing AI tooling targeted residential homeowners. A new category of B2B prospect-research tools now aggregates public data about commercial buildings (age, size, industry, ownership) and surfaces facility managers and building owners as outreach targets. For roofers with commercial capacity, this is a way to open a second pipeline that does not depend on storm cycles. Commercial sales cycles run longer and involve fewer decision-makers per building than residential, which inverts the playbook — accurate targeting matters more than outreach volume. See the `commercial-prospect-researcher` skill.
+
+## In-Shift Call Miss Is the Largest Lead-Capture Gap
+
+Trade reporting through early 2026 surfaces a consistent finding that reshapes how AI answering services should be positioned: the majority of missed inbound calls at a typical roofing shop happen during business hours while the office is stretched and crews are on roofs — not overnight. The implication is that the biggest capacity gain from AI voice agents and AI lead-response flows comes from during-the-workday overflow handling backed by live calendar booking, not only from extended hours. The `lead-response-automator` skill incorporates this pattern.
+
+## Phased Adoption Is the Right Mental Model
+
+Roofing contractors consistently over-invest in advanced tooling before their foundational stack is running, and under-invest in integration work. A three-phase roadmap — foundations (lead capture + drafting + review asks), core systems (CRM + measurement + answering service + integrations), differentiators (drone AI, AI-search visibility, insurance appeal service, commercial prospecting) — produces better outcomes than trying to buy a full AI stack at once. See `best-practices/adoption-roadmap.md` for the sequencing framework.
+
 ## Common Pain Points
 
 Roofing businesses typically struggle with:

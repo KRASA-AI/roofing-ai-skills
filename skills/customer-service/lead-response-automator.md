@@ -4,9 +4,9 @@ category: customer-service
 tools: [claude, chatgpt]
 difficulty: intermediate
 time_saved: "~20 min/lead"
-version: 1.0
+version: 1.1
 last_eval_score: null
-inspiration: "Concepts drawn from 2026 AI employee frameworks for home service businesses — instant qualification, triage, and multi-channel response cadences"
+inspiration: "Concepts drawn from 2026 AI employee frameworks for home service businesses (instant qualification, triage, multi-channel cadences) and 2026 trade reporting on in-shift call-miss patterns (majority of missed inbound calls happen during business hours while crews are in the field, which is where AI-calendar-booking recovers the most revenue)"
 ---
 
 # 🚀 Lead Response Automator
@@ -22,6 +22,7 @@ Generate instant, channel-appropriate responses to new roofing leads — qualify
 - To standardize the first-touch experience across all lead sources
 - When building or auditing an automated lead intake workflow
 - To create scripts for AI receptionist or chatbot configuration
+- To recover in-shift missed calls — the majority of unanswered inbound calls at most roofing shops occur during business hours when the office is swamped and crews are on roofs, so the biggest capacity gains come from AI-assisted booking during the workday, not only after hours
 
 ## Required Input
 
@@ -32,6 +33,8 @@ Provide the following:
 3. **Inquiry type** — If known: storm damage, routine maintenance, new roof, commercial, emergency leak, gutter/siding, insurance claim
 4. **Current capacity** — Estimator availability for the next 5 business days, preferred inspection time blocks
 5. **Response channels available** — Which channels are active: SMS, email, phone, chat widget
+6. **Calendar access** — Whether the AI layer can read the estimator calendar in real time (Google/Microsoft/CRM-native) and book directly, or whether it must offer two to three time blocks and hand off to a human to confirm
+7. **Fallback routing rules** — Where calls/messages go when the primary estimator is unavailable: secondary estimator, owner line, after-hours voicemail, or an outside AI answering service
 
 ## Instructions
 
@@ -68,6 +71,12 @@ You are an AI-powered intake specialist for a roofing company. Your job is to pr
    - Inspection slot booked (or next available options)
    - Any photos or notes the lead provided
    - Conversation history summary
+
+5. **Close the booking loop with calendar logic.** Most missed revenue at roofing shops comes from calls that land during business hours while the office is overwhelmed and estimators are on roofs. Wire the response sequence to a live estimator calendar so a booking can be confirmed in the same interaction instead of promising a callback.
+   - If calendar access is available: offer specific slots pulled from real availability, book in-interaction, and send an auto-confirmation with directions and a reschedule link
+   - If calendar access is not available: offer two to three typical slot options, capture the preferred slot, and hand off to a human to confirm within the hour — never let a lead end the interaction with only "we'll get back to you"
+   - Always apply fallback routing when the primary estimator has no availability in the target window: either route to a secondary estimator, offer a virtual/phone pre-qualification slot, or escalate to the owner line for emergency tiers
+   - For 🔴 emergency and 🟡 urgent tiers, override normal business-hours routing — never let these calls drop to voicemail even if it means paging the on-call estimator
 
 **Qualification questions to weave into the sequence:**
 - Is this for your primary residence or a rental/commercial property?

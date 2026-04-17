@@ -22,6 +22,27 @@
 - **Leaping AI (voice canvassing handoff)** — Voice AI that takes over when door-knocked homeowners call back, preventing canvasser-to-office handoff delays; reported 30–40% canvassing ROI lift
 - **VoiceDrop (digital door knocking)** — Voicemail-drop outreach to full storm swaths as an alternative to physical canvassing; dramatically lower cost-per-touch for initial outreach
 
+### Voice AI — Home-Services-Specific Patterns
+Generic voice AI and home-services-specific voice AI behave very differently in roofing workloads. Features that consistently matter for roofers:
+- Job-type detection on first mention (storm damage vs. leak vs. re-roof vs. gutter) so the triage tier is set before the qualification questions even start
+- Real-time calendar read/write to the estimator's actual calendar, so a booking is committed in the interaction rather than promised for callback
+- Service-area filtering so out-of-area calls are politely redirected without clogging the estimator queue
+- CRM write-back at call end, not as a nightly batch, so the same lead isn't worked twice
+- Bilingual (English/Spanish) routing for storm-zone markets
+
+### In-Shift Call Miss Pattern
+The majority of missed inbound calls at a typical roofing shop happen during business hours while the office is stretched and crews are on roofs — not overnight. That means the biggest capacity gain from an AI voice agent is during-the-workday overflow handling, not only after-hours. Contractors shopping for an answering service should benchmark the vendor's same-day booking rate during peak hours, not just its 24/7 availability.
+
+## Commercial B2B Prospecting
+- **Maverick AI (and similar category entrants)** — Aggregates public data (mapping services, state business registries, corporate websites) to identify facility managers and building owners as commercial-roofing outreach targets; emerging category distinct from residential lead-gen platforms, with reported monthly qualified-response volumes in the low double digits per rep
+- **Pattern note:** Commercial roofing has a longer sales cycle and a narrower decision-maker pool than residential, which makes accurate targeting (right building + right human + right trigger) more important than outreach volume. The `commercial-prospect-researcher` skill operationalizes this workflow.
+
+## Claims Workflow Integrations
+Vertical integrations between measurement/estimating platforms and insurance-claims systems are accelerating:
+- **Roofr ↔ Verisk (Xactimate ESX)** — Direct ESX file generation from the estimating platform eliminates manual roof redrawing in Xactimate and shortens claims turnaround
+- **CompanyCam ↔ supplement workflows** — GPS-tagged photos flow from field documentation into supplement writing without manual export/import
+- **Pattern note:** Integration consolidation is turning the CRM + measurement + estimating + claims stack into a single data spine. Contractors evaluating tools should weight integration depth more heavily than feature count.
+
 ## Insurance-AI Landscape (Adversarial)
 Insurance carriers now use AI against homeowners and, indirectly, against roofing contractors. Relevant vendors and dynamics:
 - **CAPE Analytics, Nearmap, EagleView, Zesty.ai** — Aerial imagery vendors whose AI scores roofs for carriers. Outputs drive non-renewals, repair demands, and RCV-to-ACV conversions
@@ -58,4 +79,4 @@ Common integration patterns for roofing AI stacks:
 
 ---
 
-*Last updated: 2026-04-13 by landscape monitor*
+*Last updated: 2026-04-16 by landscape monitor*

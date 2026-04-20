@@ -32,6 +32,19 @@ A new structural trend in 2026 is carriers deploying AI against policyholders, w
 
 Homeowner behavior is shifting toward asking AI assistants (Claude, ChatGPT, Gemini, Perplexity) for contractor recommendations rather than traditional search. Contractors who get cited share four traits: (a) consistent authority signals across directories, (b) published pricing transparency, (c) local/climate specificity in their content, (d) structured data and answer-shaped content blocks. This is now a measurable channel separate from SEO — trackable via monthly prompt batteries run against the major AI assistants. See the `ai-search-visibility-auditor` skill for the diagnostic framework.
 
+## Homeowner AI-Assistant Adoption Benchmarks (April 2026)
+
+Homeowner reliance on AI assistants to find roofers crossed from fringe to mainstream in the first four months of 2026. Reported benchmarks:
+
+- Roughly one in three homeowners under 45 has used an AI assistant to find a home-services provider in the past 90 days — a material share of the addressable market even before the 2026 storm season
+- 41% of surveyed homeowners trust AI recommendations for local services "as much or more" than personal referrals, up from about 12% in 2024 — a three-and-a-half-times increase over 18 months
+- AI-referred leads convert at a meaningfully higher rate than organic search leads in early 2026 reporting (commonly cited range: 60–75% for AI-referred vs. 25–35% for Google organic), because the assistant acts as a soft pre-qualifier
+- 62% of homeowners who receive an AI recommendation call the contractor within 30 minutes — the response-window pressure that already existed for Google organic leads is now even tighter for AI-referred leads
+- Estimates widely cited in early 2026 put the share of local-business queries that yield a shortlist citation at roughly 1–2% per major AI assistant, meaning visibility is concentrated in the handful of contractors with the strongest authority, pricing transparency, and structured-content signals
+- In the 72-hour window immediately after a storm, AI-assistant queries for "roofers near me" and variants spike sharply — contractors whose AI-search visibility program is in place before the storm arrives capture this window; contractors starting after the storm generally miss it
+
+Implications for the skill set: (a) the `lead-response-automator` first-touch time standard should treat AI-referred leads as urgent tier regardless of wording; (b) the `ai-search-visibility-auditor` program should run a pre-storm-season audit each year ahead of the primary regional storm window, not just an annual calendar check; (c) published pricing ranges, credentialed E-E-A-T signals, and structured FAQ content block are now table stakes, not differentiators.
+
 ## Commercial B2B Emerging as a Distinct Channel
 
 Through early 2026, most roofing AI tooling targeted residential homeowners. A new category of B2B prospect-research tools now aggregates public data about commercial buildings (age, size, industry, ownership) and surfaces facility managers and building owners as outreach targets. For roofers with commercial capacity, this is a way to open a second pipeline that does not depend on storm cycles. Commercial sales cycles run longer and involve fewer decision-makers per building than residential, which inverts the playbook — accurate targeting matters more than outreach volume. See the `commercial-prospect-researcher` skill.

@@ -4,9 +4,9 @@ category: sales
 tools: [claude, chatgpt]
 difficulty: beginner
 time_saved: "~25 min/estimate"
-version: 1.2
+version: 1.3
 last_eval_score: 8.2
-inspiration: "v1.2 added tariff-impact awareness, real-time material price notes, and lifecycle cost framing. v1.1 enhanced with pricing validation and good-better-best tiering concepts from 2026 roofing estimating automation trends"
+inspiration: "v1.3 added a downstream handoff to the new visual-proposal-generator skill so the numeric estimate can be rendered into a branded tiered one-pager for retail and commercial deals (reflects April 2026 conversational design tool launches). v1.2 added tariff-impact awareness, real-time material price notes, and lifecycle cost framing. v1.1 enhanced with pricing validation and good-better-best tiering concepts from 2026 roofing estimating automation trends"
 ---
 
 # 📐 Estimate Builder
@@ -70,6 +70,9 @@ You are a roofing estimator's AI assistant. Your job is to convert measurements 
 - Terms and conditions section (warranty, payment schedule, scope exclusions)
 - Any pricing flags or notes for the estimator's review before sending
 - Saved to `outputs/` if the user confirms
+
+**Downstream handoff — visual deliverable:**
+For retail (non-insurance) residential and for any commercial bid, the text estimate alone underperforms on presentation. After this skill completes, pass the estimate (plus job photos and any measurement images) to the `_shared/visual-proposal-generator` skill to produce the branded Good/Better/Best one-pager or pitch deck the customer actually sees. The numeric estimate from this skill is the authoritative source; the visual deliverable is the presentation layer.
 
 ## Example Output
 

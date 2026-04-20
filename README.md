@@ -30,8 +30,9 @@ This repo is a complete AI toolkit for roofing. Every skill is a standalone prom
 | Email Drafter | Turn rough notes into a polished, roofing-industry-appropriate email — with the right structure, tone, and call-to-action for the recipient type (homeowner, adjuster, supplier, crew lead, referral partner). | ~10 min/email |
 | Meeting Summarizer | Convert raw meeting notes or transcripts from roofing-industry meetings into structured, role-appropriate summaries — with action items (owner, due date), decisions logged, RFIs captured, safety notes flagged, and schedule-impact surfaced — so nothing falls through the cracks between the trailer, the truck, and the back office. | ~15 min/meeting |
 | Review Responder | Craft public, professional responses to online reviews on Google, Nextdoor, BBB, Angi, Yelp, Facebook, and manufacturer / contractor directories — with tailored tone based on star rating and the roofing-specific concern raised, plus an escalation path for legitimate complaints or inaccurate claims. | ~10 min/review |
+| Visual Proposal Generator | Turn a completed estimate, inspection report, or prospect brief into a polished, brand-consistent visual deliverable a homeowner or commercial decision-maker can read in under three minutes. | ~90 min/deliverable |
 
-**Total time saved per use: ~380+ minutes across all skills.**
+**Total time saved per use: ~470+ minutes across all skills.**
 
 ## Quick Start
 

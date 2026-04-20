@@ -1,4 +1,4 @@
-# AI Tools Landscape for Roofing (April 2026)
+# AI Tools Landscape for Roofing (April 2026, refreshed 2026-04-19)
 
 ## CRM & Operations Platforms
 - **ServiceTitan** — End-to-end field service management with built-in AI features for scheduling, dispatch, and reporting
@@ -56,6 +56,26 @@ Insurance carriers now use AI against homeowners and, indirectly, against roofin
 - **Hover** — 3D model from smartphone photos with shingle color and material visualization on the customer's actual home; particularly effective for retail (non-insurance) residential work
 - **AR overlay apps** — Emerging category for in-home presentation on tablet or phone, letting homeowners walk around a virtual rendering of the finished roof
 
+## Visual Proposal & Design Collateral (New — April 2026)
+A new category of conversational design tools is emerging that lets non-designers ship on-brand homeowner-facing and commercial deliverables in minutes rather than days. For roofing contractors, this closes a long-standing gap: the estimator has the price right but the deliverable looks like a field-tablet screenshot instead of a brochure.
+
+- **Claude Design (Anthropic Labs, launched April 17, 2026)** — Research-preview conversational design product for Claude Pro, Max, Team, and Enterprise subscribers. Produces one-pagers, pitch decks, interactive prototypes, landing pages, social assets, and marketing materials from natural-language prompts. Reads a team's codebase and design files to build a persistent brand system, then applies it automatically to every subsequent project. Included in paid Claude subscriptions with no additional charge at launch; Enterprise admins must enable it. Relevant roofing use cases: tiered estimate one-pagers, commercial RFP response decks, storm-response flyers, insurance-appeal cover packets, neighborhood trust sheets.
+- **Gamma / Beautiful.ai** — Slide-first conversational deck tools; faster than Claude Design for short decks when no brand system is configured, but weaker on one-pagers and printable collateral.
+- **Canva AI** — The de-facto fallback for print-heavy collateral (door hangers, yard signs, direct mail) where bleed, trim, and print-ready export matter.
+- **Why this category matters for roofing:** Contractors competing for retail (non-insurance) residential and commercial RFP work lose a meaningful share of deals on presentation rather than price. The visual deliverable gap has been one of the larger Phase 3 differentiators the adoption roadmap flagged without a good tool until now. See the new `_shared/visual-proposal-generator` skill for the workflow that sits on top of these tools.
+
+## Homeowner AI-Assistant Behavioral Benchmarks (April 2026)
+A reference set of benchmarks drawn from early-2026 consumer surveys and industry reporting — useful when calibrating which channels deserve investment:
+- Roughly 1 in 3 homeowners under 45 have used an AI assistant (ChatGPT, Gemini, Perplexity, Claude, Siri) to find a home-services provider in the past 90 days
+- Roughly 41% of surveyed homeowners now trust AI recommendations for local services "as much or more" than personal referrals (up from about 12% in 2024)
+- AI-referred leads report meaningfully higher close rates than Google-organic leads, commonly in the 60–75% vs. 25–35% range
+- 62% of homeowners act within 30 minutes of receiving an AI recommendation
+- Major AI assistants typically shortlist only about 1–2% of local businesses for a given query — concentration is high and visibility compounds quickly once an AEO program is in place
+- Post-storm (first 72 hours) AI-assistant queries for local roofers spike sharply; contractors whose visibility program is already running capture that window
+
+## Multi-Location Standardization Pattern
+Larger operators (20+ branches, $100M+ revenue) have surfaced a consistent precondition for AI payoff: standardize the operation first so that data flows cleanly, then deploy AI on top. The sequence observed in publicly reported cases from the largest US roofing operators: (1) normalize workflows across branches to eliminate tribal-knowledge variance, (2) put every branch on a single CRM of record with consistent pipeline stages and data entry standards, (3) then layer AI for recruiting triage, branch-level performance variance detection, and contract-to-install cycle-time reduction. Reported outcome at one operator (80+ branches): contract-to-installation window compressed from 41 days to under 20 days, plus recruiting throughput of 250–300 hires/week with AI-assisted screening. Relevance to typical $3–15M roofers: the principle scales down — data quality is the rate-limiting step on AI payoff, not tool selection.
+
 ## Inspection & Documentation
 - **CompanyCam** — Photo documentation with GPS tagging, team sharing, and project timelines
 - **Loveland Innovations (IMGING)** — Drone-based roof inspection with AI damage classification (hail, cracks, missing shingles, ponding, membrane blistering)
@@ -79,4 +99,4 @@ Common integration patterns for roofing AI stacks:
 
 ---
 
-*Last updated: 2026-04-16 by landscape monitor*
+*Last updated: 2026-04-19 by landscape monitor*

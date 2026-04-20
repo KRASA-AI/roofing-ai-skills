@@ -59,6 +59,7 @@ This framework assumes a typical $3M–$15M residential/retail roofer running a 
 **Skills that apply in Phase 3:**
 - `admin/insurance-appeal-inspection-report`
 - `_shared/ai-search-visibility-auditor`
+- `_shared/visual-proposal-generator`
 - `operations/safety-toolbox-talk-generator`
 - `sales/tariff-price-adjuster`
 - `sales/commercial-prospect-researcher`

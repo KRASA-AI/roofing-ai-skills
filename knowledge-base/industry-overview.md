@@ -25,6 +25,8 @@ A new structural trend in 2026 is carriers deploying AI against policyholders, w
 - Non-renewal notices, repair demands, or ACV conversions often arrive within 30–60 days of the aerial assessment, without the homeowner ever seeing the imagery
 - Roof-age triggers have tightened — many carriers flag roofs as young as 15 years (from 20), with some regional markets triggering at 10 years
 - False positives are frequent: solar panels read as structural damage, neighbor imagery attributed to the wrong parcel, seasonal shadows interpreted as defects
+- Claims now also pass through predictive denial scoring on intake — the first-pass automated routing assigns a fraud/denial risk score in under two seconds before any human adjuster is involved, and supplement requests undergo NLP triage before a human reviewer sees them
+- State regulators (NY DFS, Colorado DOI, California DOI, Florida OIR, Washington OIC and growing list of NAIC Model Bulletin adopters) now require explainability, disparate-impact testing, and human-review documentation on AI-driven adverse actions — a regulatory lever contractors can cite in supplements and appeal packets. See `regulations/insurance-ai-landscape.md` for the state-by-state reference and citation pattern
 - For contractors, this creates a premium counter-documentation service line: homeowner-side inspection reports engineered to rebut algorithmic decisions, priced at $250–$500 per engagement (homeowners facing $15K–$25K in lost coverage accept the cost)
 - See the `insurance-appeal-inspection-report` skill for the structured deliverable
 

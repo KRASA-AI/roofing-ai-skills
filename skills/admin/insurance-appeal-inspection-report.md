@@ -42,7 +42,7 @@ You are drafting a counter-documentation report for a homeowner fighting an algo
 **Before you start:**
 - Load `config.yml` from the repo root for company name, license number, credentials, signature block, and phone
 - Reference `knowledge-base/terminology/` for correct defect descriptors (granular loss vs. blistering vs. fishmouthing, etc.)
-- Reference `knowledge-base/regulations/` for any state insurance commission documentation standards
+- Reference `knowledge-base/regulations/` for any state insurance commission documentation standards. If the homeowner is in NY, CA, CO, WA, FL, or TX, consult `knowledge-base/regulations/insurance-ai-landscape.md` for the applicable state-specific hook (DFS Circular Letter 2024-7, C.R.S. §10-3-1104.9, SB 1120, WAC 284-30, OIR memoranda, TDI data-use framework) and include a request for the carrier's explainability documentation in the cover page and closing paragraph
 - Cross-reference with `roof-inspection-report` skill for base field findings, but override with the appeal-specific structure below
 
 **Design principles for this report (critical):**

@@ -1,4 +1,4 @@
-# AI Tools Landscape for Roofing (April 2026, refreshed 2026-04-23)
+# AI Tools Landscape for Roofing (April 2026, refreshed 2026-04-24)
 
 ## CRM & Operations Platforms
 - **ServiceTitan** — End-to-end field service management with built-in AI features for scheduling, dispatch, and reporting
@@ -57,9 +57,11 @@ A new category emerged in late April 2026: property-intelligence platforms that 
 Insurance carriers now use AI against homeowners and, indirectly, against roofing contractors. Relevant vendors and dynamics:
 - **CAPE Analytics, Nearmap, EagleView, Zesty.ai** — Aerial imagery vendors whose AI scores roofs for carriers. Outputs drive non-renewals, repair demands, and RCV-to-ACV conversions
 - **Carrier AI decisions** — State Farm, Allstate, Farmers, and regional carriers are issuing non-renewals within 30–60 days based on aerial assessments homeowners never see
+- **Predictive denial scoring on claim intake** — In addition to pre-renewal scoring, many carriers now run claims through a predictive denial model on intake, assigning a sub-two-second score that routes the claim into fast-approve, full-investigation, or automated-deny before a human adjuster is assigned. Supplement requests undergo a similar NLP triage before reaching a human reviewer
 - **Common false positives** — Solar panels flagged as structural damage, neighbor imagery attributed to wrong parcel, seasonal shadows misclassified as defects, tree cover misread as moss
 - **Roof-age thresholds tightening** — Many carriers moved triggers from 20 years to 15 years; some flag at 10 years
 - **Contractor opportunity** — Homeowner-side counter-documentation is a new premium service ($250–$500 per inspection + appeal report). See `insurance-appeal-inspection-report` skill
+- **Regulatory lever** — State insurance departments (notably NY DFS, Colorado DOI, California DOI, Florida OIR, Washington OIC) increasingly require explainability, disparate-impact testing, and human-review documentation on AI-driven adverse actions. Contractors can cite the applicable state rule in supplements and appeal packets to force the carrier to produce the explainability record — see `knowledge-base/regulations/insurance-ai-landscape.md` for the state-by-state reference and the citation pattern
 
 ## AI Visualization & Homeowner Presentation
 - **Before/After AI shingle visualization** — Takes current roof photo and generates a realistic preview with new architectural shingles across Good/Better/Best material tiers; increases close rate and upsell to premium products
@@ -92,8 +94,8 @@ Larger operators (20+ branches, $100M+ revenue) have surfaced a consistent preco
 - **Nearmap** — High-resolution aerial imagery with AI-powered property analytics
 
 ## General AI Assistants
-- **Claude (Anthropic)** — Proposal writing, email drafting, estimate explanations, customer communication. Claude Opus 4.7 (April 2026) raised supported input image resolution to approximately 2,576 pixels on the long edge — meaningful for roofers because drone and aerial photos that used to be downscaled for analysis can now be processed closer to native resolution, improving hail-spatter and granule-loss detection in the `roof-inspection-report` and `insurance-appeal-inspection-report` workflows
-- **ChatGPT (OpenAI)** — Similar general-purpose use cases for content generation and analysis. April 22, 2026 launch of **Workspace Agents** (Codex-powered, shareable within an organization, free research-preview on Business/Enterprise/Edu/Teachers plans through May 6, 2026) makes team-built roofing agents more practical — a small shop can build one inbound-lead triage agent and share it across the sales team without rebuilding it per rep
+- **Claude (Anthropic)** — Proposal writing, email drafting, estimate explanations, customer communication. Claude Opus 4.7 (April 2026) raised supported input image resolution to approximately 2,576 pixels on the long edge — meaningful for roofers because drone and aerial photos that used to be downscaled for analysis can now be processed closer to native resolution, improving hail-spatter and granule-loss detection in the `roof-inspection-report` and `insurance-appeal-inspection-report` workflows. On April 24, 2026 Anthropic opened a public beta of **memory on Claude Managed Agents**, which lets a cloud-hosted agent carry learned context across sessions (user preferences, recurring error patterns, shop-specific conventions) without the operator maintaining memory infrastructure. Published early-adopter results cite high-double-digit reductions in first-pass error rates and 30-ish-percent improvements in document-verification throughput — pattern-relevant for a roofing shop standing up a persistent supplement-review or inbound-triage agent that should not re-learn the shop's playbook every session
+- **ChatGPT (OpenAI)** — Similar general-purpose use cases for content generation and analysis. April 22, 2026 launch of **Workspace Agents** (Codex-powered, shareable within an organization, free research-preview on Business/Enterprise/Edu/Teachers plans through May 6, 2026) makes team-built roofing agents more practical — a small shop can build one inbound-lead triage agent and share it across the sales team without rebuilding it per rep. April 23, 2026 launch of **GPT-5.5** adds native desktop-navigation capabilities — the model can click buttons and type text across desktop applications to execute multi-step workflows, which is relevant for smaller roofing shops whose CRM or quoting platform lacks a usable API: a desktop agent running on top of the existing UI is now viable where an integration-first approach was not. GPT-5.5 also reports token-efficiency gains that reduce the running cost of long-form tasks like supplement drafting and inspection-report generation
 - **Gemini (Google)** — Integrated with Google Workspace for document and email workflows
 
 ## Integration Ecosystem
@@ -109,4 +111,4 @@ Common integration patterns for roofing AI stacks:
 
 ---
 
-*Last updated: 2026-04-23 by landscape monitor*
+*Last updated: 2026-04-24 by landscape monitor*

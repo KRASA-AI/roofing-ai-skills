@@ -1,4 +1,4 @@
-# AI Tools Landscape for Roofing (April 2026, refreshed 2026-04-19)
+# AI Tools Landscape for Roofing (April 2026, refreshed 2026-04-23)
 
 ## CRM & Operations Platforms
 - **ServiceTitan** — End-to-end field service management with built-in AI features for scheduling, dispatch, and reporting
@@ -12,6 +12,7 @@
 - **RoofSnap** — Roof measurement and estimating from aerial imagery with AI-assisted takeoff
 - **Roofr** — Instant roof measurements and proposal generation with AI-powered pricing
 - **SumoQuote** — Proposal and supplement creation with tiered pricing presentation
+- **Beam AI** — AI-assisted commercial takeoff from blueprints with QA-reviewed deliverables in a 24–72 hour turnaround; complements in-house estimating teams on larger commercial projects where the roof is one trade among several on the drawing set
 
 ## AI Communication & Lead Management
 - **MyQuoteIQ** — AI-powered CRM automation, tool roundups, and roofing-specific AI feature comparisons
@@ -42,6 +43,15 @@ Vertical integrations between measurement/estimating platforms and insurance-cla
 - **Roofr ↔ Verisk (Xactimate ESX)** — Direct ESX file generation from the estimating platform eliminates manual roof redrawing in Xactimate and shortens claims turnaround
 - **CompanyCam ↔ supplement workflows** — GPS-tagged photos flow from field documentation into supplement writing without manual export/import
 - **Pattern note:** Integration consolidation is turning the CRM + measurement + estimating + claims stack into a single data spine. Contractors evaluating tools should weight integration depth more heavily than feature count.
+
+## Agentic Property Intelligence (New — April 2026)
+A new category emerged in late April 2026: property-intelligence platforms that expose their data as callable tools for AI agents rather than only as static reports or dashboards. The distinguishing pattern is **Model Context Protocol (MCP) integration** and **agent-to-agent interfaces** — an external AI assistant (Claude, ChatGPT, a roofer's internal agent) can directly invoke filter-and-retrieve operations against the platform's property dataset in natural-language workflows.
+
+- **Eagleview Horizon (launched April 21, 2026)** — Agentic layer on top of the Eagleview One property dataset, exposing 20+ tools for property identification, filtering, scoring, and export through MCP. Marketed across insurance, construction/roofing, government, infrastructure, and property management. Roofing-specific use cases cited at launch include post-storm canvassing map generation filtered by roof age, roof material, roof size, and distance from a hail or wind swath — the same workflow that previously required stitching together three or four separate tools
+- **Agent-to-agent pattern** — External AI systems (a roofer's CRM agent, a general-purpose assistant) can directly query the intelligence platform rather than a human operating the platform UI. This is the first time a roofing-relevant data vendor has shipped first-class agent invocation, and it makes automated post-storm territory planning and continuous canvassing-heatmap refresh structurally achievable
+- **Market framing** — The launch targets a stated $1 trillion+ addressable opportunity spanning $28B roofing/construction, $1.05T P&C insurance direct premiums, and $120B property management — signalling that the roofing-specific use case sits inside a larger cross-industry platform play, which usually means the tool will stay funded and feature-rich but may not always prioritize roofing-first enhancements
+- **Pattern note for roofers:** The legacy workflow for an older roof adjacent to a storm path took hours across multiple platforms; the agentic pattern collapses that to a single natural-language request and returns a drive-through-ready target list in minutes. The `storm-canvassing-prioritizer` skill operationalizes this pattern and works with or without platform access — agentic intelligence platforms are a force multiplier on top of the workflow, not a precondition
+- **Watch items:** (a) whether competing property-intelligence vendors (Nearmap, CAPE Analytics, Zesty.ai) ship MCP interfaces on a similar timeline; (b) whether CRMs (JobNimbus, AccuLynx, ServiceTitan) expose agentic interfaces on the CRM side so a roofer's agent can act on CRM and property-intelligence data in a single session; (c) pricing transparency — launch posture is enterprise sales-led, which may price out solo operators and small shops for an initial period
 
 ## Insurance-AI Landscape (Adversarial)
 Insurance carriers now use AI against homeowners and, indirectly, against roofing contractors. Relevant vendors and dynamics:
@@ -82,8 +92,8 @@ Larger operators (20+ branches, $100M+ revenue) have surfaced a consistent preco
 - **Nearmap** — High-resolution aerial imagery with AI-powered property analytics
 
 ## General AI Assistants
-- **Claude (Anthropic)** — Proposal writing, email drafting, estimate explanations, customer communication
-- **ChatGPT (OpenAI)** — Similar general-purpose use cases for content generation and analysis
+- **Claude (Anthropic)** — Proposal writing, email drafting, estimate explanations, customer communication. Claude Opus 4.7 (April 2026) raised supported input image resolution to approximately 2,576 pixels on the long edge — meaningful for roofers because drone and aerial photos that used to be downscaled for analysis can now be processed closer to native resolution, improving hail-spatter and granule-loss detection in the `roof-inspection-report` and `insurance-appeal-inspection-report` workflows
+- **ChatGPT (OpenAI)** — Similar general-purpose use cases for content generation and analysis. April 22, 2026 launch of **Workspace Agents** (Codex-powered, shareable within an organization, free research-preview on Business/Enterprise/Edu/Teachers plans through May 6, 2026) makes team-built roofing agents more practical — a small shop can build one inbound-lead triage agent and share it across the sales team without rebuilding it per rep
 - **Gemini (Google)** — Integrated with Google Workspace for document and email workflows
 
 ## Integration Ecosystem
@@ -99,4 +109,4 @@ Common integration patterns for roofing AI stacks:
 
 ---
 
-*Last updated: 2026-04-19 by landscape monitor*
+*Last updated: 2026-04-23 by landscape monitor*

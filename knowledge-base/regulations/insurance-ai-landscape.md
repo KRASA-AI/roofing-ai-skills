@@ -1,6 +1,6 @@
-# Insurance-AI Regulatory Landscape for Roofers (April 2026)
+# Insurance-AI Regulatory Landscape for Roofers (April 2026, refreshed 2026-04-25)
 
-*Inspiration: Carried-over priority from the April 15, 16, and 23 monitor logs. April 2026 state of the insurance-AI regulatory environment synthesized from public NAIC, state department of insurance, and published legal analysis sources. Extracted as a compliance-and-strategy snapshot for roofers. No source text copied.*
+*Inspiration: Carried-over priority from the April 15, 16, and 23 monitor logs. April 2026 state of the insurance-AI regulatory environment synthesized from public NAIC, state department of insurance, and published legal analysis sources. Extracted as a compliance-and-strategy snapshot for roofers. No source text copied. The April 25 refresh adds the Tennessee and Kentucky aerial-imagery bulletins and the NAIC AI Systems Evaluation Tool pilot — both surfaced in the 2026-04-25 landscape monitor scan.*
 
 ## Why This File Exists
 
@@ -24,6 +24,8 @@ There is no federal insurance AI statute as of April 2026. Insurance regulation 
 The baseline reference document is the **NAIC Model Bulletin on the Use of Artificial Intelligence Systems by Insurers**, adopted December 2023. Its operating requirements are: (a) a written AI governance program documented at the board level; (b) risk assessment of each AI system before deployment; (c) vendor due diligence where a third-party model is used; (d) monitoring and auditing of outcomes for disparate impact; (e) explainability sufficient to respond to a consumer complaint. More than half of states have adopted the bulletin or a variation as of Q1 2026, and most of the rest are expected to follow through 2026.
 
 A **2026 NAIC Model Law on Third-Party Oversight** is anticipated for vote in mid-to-late 2026 based on published working-group agendas. The anticipated provisions include licensing or registration of third-party AI vendors selling into regulated insurers, and contractual disclosure obligations that run from the carrier through the vendor chain. Roofers should watch this because it would likely force aerial-imagery vendors to disclose more about their scoring models than they do today.
+
+The NAIC's Big Data and Artificial Intelligence Working Group is also piloting an **AI Systems Evaluation Tool**, with twelve participating states reported as of March 2026. The tool gives state regulators a structured way to evaluate carrier AI systems against the Model Bulletin's governance, risk, and explainability expectations. For contractors this matters indirectly: a carrier whose AI is being reviewed under the Evaluation Tool is more likely to respond cooperatively to a homeowner-side explainability request, since refusing to produce the documentation looks worse during an active state review than producing it.
 
 ## State-Level Rules That Affect Roofing Appeals
 
@@ -50,6 +52,19 @@ Florida's Office of Insurance Regulation has issued multiple informational memor
 ### Other States with Active AI Insurance Activity
 Connecticut, Illinois, Maryland, Massachusetts, New Jersey, Oregon, Rhode Island, Vermont, and Washington, D.C. have adopted some version of the NAIC Model Bulletin or a functional equivalent. Contractors in those states can reference the adoption and request the carrier's AI governance documentation in a supplement or appeal packet. The response rate on such requests is materially higher than on an unsupported appeal letter.
 
+## Aerial-Imagery-Specific State Bulletins (Emerging Pattern, 2026)
+
+A second regulatory track has surfaced in Q1–Q2 2026: state insurance departments issuing bulletins that specifically govern the use of satellite, drone, and aircraft imagery in claim decisions, non-renewals, and cancellations — distinct from the broader AI-governance bulletins above. Two states have moved first, and the pattern is expected to spread because the consumer-protection framing is straightforward and the legal authority is already in place under existing claims-handling and unfair-practices statutes.
+
+### Tennessee — Bulletin 25-03 (Tennessee Department of Commerce and Insurance, April 2026)
+Aerial images, whether captured by satellite, drone, or aircraft, cannot serve as the sole basis for denying a property-damage claim or refusing to renew a homeowners policy. The bulletin imposes four practical obligations on insurers: (a) any aerial imagery used in a decision must be recent and accurate, with stale imagery treated as unreliable; (b) the insurer must notify the homeowner when an action is being taken based on aerial imagery and must provide copies of the images to the homeowner; (c) the homeowner must be given an opportunity to provide updated information or dispute the imagery's accuracy; (d) if the imagery does not provide certainty, the insurer should physically inspect the property or obtain other supporting information. Insurers must also retain the imagery on file and produce it on request, including to the department in response to a homeowner complaint. Practical contractor angle: a Tennessee homeowner whose claim or policy was adversely affected based on aerial imagery has a directly enforceable right to receive the images and an opportunity to dispute them. The contractor's appeal packet should explicitly cite Bulletin 25-03 and request the imagery, the date of capture, and the carrier's accuracy verification — three asks the bulletin already requires the carrier to be able to answer.
+
+### Kentucky — Bulletin 2026-01 (Kentucky Department of Insurance, March 2026)
+Specifies that aerial or satellite imagery used in claims decisions, cancellations, or non-renewals must be date-stamped within the last twelve months, must be accompanied by a written summary explaining what the imagery shows, and cannot stand alone as justification for an adverse decision. Practical contractor angle: a Kentucky homeowner can demand the date-stamp and the written summary; absence of either is a procedural defect the insurance department will recognize. The contractor's counter-documentation package should pair its own dated, geo-tagged photographs with the demand for the carrier's twelve-month-or-newer imagery, making it visually obvious in the appeal packet which side has current evidence.
+
+### Why These Two Bulletins Matter Beyond Tennessee and Kentucky
+The bulletins are short, straightforward, and rely on existing claims-handling authority — a template other state insurance departments can adopt without new legislation. Legal-sector summaries from Q1 2026 already characterize these as the leading edge of a multi-state pattern. Roofers operating in Florida, Texas, Georgia, North Carolina, South Carolina, Oklahoma, and Missouri (high-storm states with large aerial-imagery use) should track their state department of insurance bulletins for similar guidance through the rest of 2026, and may surface useful consumer-protection arguments by analogy even before their state issues its own.
+
 ## What Roofers Can Cite in a Supplement or Appeal
 
 A consumer-side appeal packet or supplement request that cites the applicable state rule and requests explainability documentation will move faster than one that does not. The standard pattern:
@@ -70,6 +85,8 @@ A consumer-side appeal packet or supplement request that cites the applicable st
 ## Emerging Items to Watch Through 2026
 
 - **NAIC Third-Party Oversight Model Law (expected mid-to-late 2026)** — Likely to raise vendor disclosure obligations on the aerial-imagery vendors used by carriers. Watch for state adoption timelines through late 2026 and 2027
+- **NAIC AI Systems Evaluation Tool pilot expansion** — Twelve states piloting as of March 2026; broader rollout expected through 2026. State adoption indirectly increases pressure on carriers to respond to homeowner explainability requests cooperatively
+- **Spread of aerial-imagery-specific bulletins beyond TN and KY** — Watch high-storm states (FL, TX, GA, NC, SC, OK, MO) for bulletins modeled on Tennessee Bulletin 25-03 and Kentucky Bulletin 2026-01 through 2026. The legal authority for these bulletins exists in most states under unfair claims practices statutes, so additional issuance does not require new legislation
 - **State AI liability bills** — Several state legislatures have bills moving in the 2026 session that would create a private right of action against carriers for disparate-impact outcomes from AI-driven decisions. If any pass, the leverage on appeal letters increases further in those states
 - **Federal posture shift** — Insurance remains state-regulated, but federal activity on AI consumer protections (CFPB, FTC, state attorneys general) may create indirect pressure on carriers through adjacent statutes (consumer protection, deceptive practices). Watch for federal guidance letters with insurance implications
 - **Vendor consolidation** — The aerial-imagery AI market is consolidating. Roofers should track whether a carrier's vendor changes over time and whether that changes the scoring thresholds. Vendor changes are frequently the reason a previously-insured roof suddenly fails a scoring threshold

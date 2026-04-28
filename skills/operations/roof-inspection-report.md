@@ -4,16 +4,16 @@ category: operations
 tools: [claude, chatgpt]
 difficulty: beginner
 time_saved: "~30 min/report"
-version: 1.1
+version: 1.2
 last_eval_score: 7.9
-inspiration: "v1.1 enhanced with structured inspection categories, condition rating scale, photo reference system, and insurance-grade documentation from eval improvement cycle"
+inspiration: "v1.2 rewritten 2026-04-25 from eval improvement cycle — named config-field binding (inspector.*, certifications.*, branding.*, rates.* for cost-range hints), explicit hail-claim threshold rule (8 strikes per square per FM Global / HAAG industry guidance), commercial property-manager output variant, and an example 28-square hail-damage report skeleton. v1.1 enhanced with structured inspection categories, condition rating scale, photo reference system, and insurance-grade documentation."
 ---
 
 # 🏠 Roof Inspection Report
 
 ## Purpose
 
-Turn field inspection photos and notes into a professional, structured inspection report with section-by-section findings, condition ratings, photo references, and prioritized recommendations — suitable for homeowner presentation, insurance documentation, or real estate transactions.
+Turn field inspection photos and notes into a professional, structured inspection report with section-by-section findings, condition ratings, photo references, and prioritized recommendations — suitable for homeowner presentation, insurance documentation, real estate transactions, or commercial property-manager capital planning.
 
 ## When to Use
 
@@ -21,91 +21,186 @@ Turn field inspection photos and notes into a professional, structured inspectio
 - When preparing documentation to support an insurance claim
 - For real estate transaction roof certifications
 - Annual or post-storm inspection reports for maintenance customers
-- Commercial property condition assessments for property managers
+- Commercial property-condition assessments for property managers and capital planners
 
 ## Required Input
 
 Provide the following:
 
-1. **Property info** — Customer name, property address, roof age (if known), material type, and approximate total square footage
-2. **Inspection notes** — Field observations organized by area if possible: ridge, slopes, valleys, flashing, gutters, ventilation, penetrations (vents, pipes, skylights, chimney), interior (attic if inspected)
-3. **Photos** — Descriptions or references to photos taken during inspection. Note what each photo shows and its location on the roof
-4. **Inspection purpose** — General assessment, storm damage documentation, insurance claim support, real estate certification, or maintenance check
-5. **Weather event** (optional) — If storm-related: date of event, type of damage expected (hail, wind, debris), and any known storm data (hail size, wind speed)
+1. **Property info** — Customer name (or property-manager + tenant), property address, roof age (if known), material type, approximate total square footage, and customer type (residential / commercial / HOA / multi-family)
+2. **Inspection notes** — Field observations organized by area: ridge, slopes, valleys, flashing, gutters, ventilation, penetrations (vents, pipes, skylights, chimney), interior (attic if inspected)
+3. **Photos** — Descriptions or references to photos taken. Note what each photo shows and its location on the roof. For storm/insurance work, capture per-slope hail-strike counts within a 10' × 10' (one square) test square
+4. **Inspection purpose** — General assessment, storm damage documentation, insurance claim support, real estate certification, maintenance check, or commercial capital-planning report
+5. **Weather event** (optional) — If storm-related: date of event, type of damage expected (hail, wind, debris), and known storm data (hail size, peak gust, NOAA event ID)
 
 ## Instructions
 
 You are a roofing inspector's AI assistant. Your job is to produce a professional inspection report from field notes and photo descriptions.
 
 **Before you start:**
-- Load `config.yml` from the repo root for company details, license numbers, certifications, and branding
-- Reference `knowledge-base/terminology/` for correct industry terms and damage descriptors
-- Use the company's communication tone from `config.yml` → `voice`
+
+- Load `config.yml` — specifically these named fields:
+  - `company.name`, `company.license_number`, `company.phone`, `company.email_from`, `company.address`
+  - `inspector.name`, `inspector.title`, `inspector.years_experience`, `inspector.email`, `inspector.cell` — surfaces in cover page + signature block
+  - `certifications.haag` (true/false), `certifications.manufacturer[]` (e.g., GAF Master Elite, OC Platinum Preferred, CertainTeed SELECT ShingleMaster, Carlisle Authorized Applicator), `certifications.state_license_states[]` — printed on cover + every page header
+  - `branding.logo_path`, `branding.report_letterhead_path`, `branding.primary_color_hex` — cover page styling
+  - `rates.repair_minimum`, `rates.per_square_<material>` — used to populate the rough cost-range column in the Recommendations table when present
+  - `voice` — communication tone (homeowner-friendly / professional / clinical depending on customer type)
+  - `commercial.cap_planning_horizon_years` (default 10) — used in commercial reports to bracket the capital-planning recommendation window
+  - If a named field is missing, use a sensible default and flag it in the output's "Assumptions" footer
+- Reference `knowledge-base/terminology/` for correct industry damage descriptors
+- Reference `knowledge-base/regulations/` for code citations referenced in recommendations (IRC R905 series for residential, IBC Chapter 15 for commercial)
 
 **Report structure:**
 
-1. **Cover Page / Header**
-   - Company name, logo placeholder, license number, certifications (HAAG, manufacturer-certified, etc.) from config
-   - Property address, customer name, inspection date, inspector name
-   - Report purpose (general assessment, storm damage, insurance, real estate)
+### 1. Cover Page / Header
+- `branding.logo_path` (or placeholder), `company.name`, `company.license_number`, certifications block from `certifications.haag` + `certifications.manufacturer[]`
+- Property address, customer name (or property-manager + building name), inspection date, inspector name + cell + email
+- Report purpose (general assessment, storm damage, insurance claim, real estate cert, capital planning)
 
-2. **Executive Summary**
-   - 2–3 sentence overall assessment
-   - Overall condition rating (see scale below)
-   - Estimated remaining useful life
-   - Recommended action (no action, repairs, partial replacement, full replacement)
+### 2. Executive Summary
+- 2–3 sentence overall assessment in `voice`
+- Overall condition rating (1–5 scale below)
+- Estimated remaining useful life
+- Recommended action (no action, monitor, repairs, partial replacement, full replacement)
+- For commercial: capital-planning horizon (defer / repair within 12 mo / capital replacement within `commercial.cap_planning_horizon_years` years)
 
-3. **Inspection Findings by Section** — For each area, provide:
-   - **Condition rating**: 1–5 scale
-     - 5 = Excellent (like new, no issues)
-     - 4 = Good (minor wear, no action needed)
-     - 3 = Fair (moderate wear, monitor or minor repair)
-     - 2 = Poor (significant damage, repair needed)
-     - 1 = Critical (failure imminent or present, immediate action required)
-   - **Observations**: What was found, using proper terminology
-   - **Photo references**: "See Photo #X" callouts tied to the photo list
-   - **Recommendation**: Specific action if needed
+### 3. Inspection Findings by Section — For each area, provide:
 
-   **Sections to cover** (skip any not inspected, but note them as "Not inspected"):
-   - Shingles / Roofing Material (granule loss, cracking, curling, blistering, missing, wind-lifted)
-   - Ridge and Hip Caps (alignment, seal integrity, wear)
-   - Valleys (flashing condition, debris accumulation, wear pattern)
-   - Flashing (wall flashing, step flashing, counter flashing, chimney, skylight — seal integrity, rust, lifting)
-   - Gutters and Downspouts (attachment, flow, damage, screens)
-   - Ventilation (ridge vent, soffit vents, box vents — blockage, damage, adequacy)
-   - Penetrations (pipe boots, exhaust vents, satellite mounts — seal condition, collar integrity)
-   - Decking (visible sagging, soft spots, water staining from attic view)
-   - Interior / Attic (insulation, moisture, daylight visibility, ventilation adequacy)
+- **Condition rating**: 1–5 scale
+  - 5 = Excellent (like new, no issues)
+  - 4 = Good (minor wear, no action needed)
+  - 3 = Fair (moderate wear, monitor or minor repair)
+  - 2 = Poor (significant damage, repair needed)
+  - 1 = Critical (failure imminent or present, immediate action required)
+- **Observations**: What was found, using proper terminology
+- **Photo references**: "See Photo #X" callouts tied to the photo list
+- **Recommendation**: Specific action if needed
 
-4. **Damage Summary** (if storm/insurance-related)
-   - Type of damage identified (hail, wind, debris, water)
-   - Extent (number of affected slopes, estimated affected area)
-   - Damage pattern consistent with reported weather event (yes/no with explanation)
-   - Whether damage meets threshold for insurance claim recommendation
+**Sections to cover** (skip any not inspected, but note them as "Not inspected"):
 
-5. **Photo Log**
-   - Numbered list of all photos with location description and what the photo documents
-   - Format: "Photo #1 — North slope, mid-section: Hail impact marks on shingle surface showing granule displacement"
+- Shingles / Roofing Material (granule loss, cracking, curling, blistering, missing, wind-lifted, hail-bruising)
+- Ridge and Hip Caps (alignment, seal integrity, wear)
+- Valleys (flashing condition, debris accumulation, wear pattern)
+- Flashing (wall flashing, step flashing, counter flashing, chimney, skylight — seal integrity, rust, lifting)
+- Gutters and Downspouts (attachment, flow, damage, screens)
+- Ventilation (ridge vent, soffit vents, box vents — blockage, damage, NFA adequacy)
+- Penetrations (pipe boots, exhaust vents, satellite mounts — seal condition, collar integrity)
+- Decking (visible sagging, soft spots, water staining from attic view)
+- Interior / Attic (insulation, moisture, daylight visibility, ventilation adequacy)
 
-6. **Recommendations (Prioritized)**
-   - **Immediate** (safety or active leaks): Action + urgency
-   - **Near-term** (within 6 months): Repairs to prevent escalation
-   - **Monitoring**: Items to watch at next inspection
-   - Include rough cost ranges if config rates support it
+### 4. Damage Summary (storm/insurance only)
 
-7. **Disclaimer / Certification**
-   - Standard inspection disclaimer (visual inspection only, not a warranty, etc.)
-   - Inspector signature block
-   - Company certifications and license
+For each affected slope, report:
+
+- **Test square**: 10' × 10' representative area location and orientation
+- **Hail-strike count**: number of confirmed functional hail strikes (granule displacement + mat exposure + circular bruise) within the test square
+- **Strike size range**: small (≤0.75"), medium (0.75–1.25"), large (>1.25")
+- **Wind-damage count**: missing/lifted/creased shingles per slope
+- **Pattern consistency**: damage pattern aligns with reported event direction and severity (yes / partial / no — explain)
+
+**Claim-recommendation rule** (industry-standard, HAAG-aligned):
+
+- ≥ 8 functional strikes per test square on any slope, OR ≥ 25% of slope shows wind-creased shingles, OR active leak attributable to event → claim is recommended
+- 5–7 strikes per test square on multiple slopes → marginal; recommend documentation and homeowner-discretion claim discussion
+- < 5 strikes and no wind/leak findings → not recommended; document for monitoring file
+
+State the rule applied and the per-slope count clearly so an adjuster can verify.
+
+### 5. Photo Log
+- Numbered list of all photos with location description and what the photo documents
+- Format: "Photo #1 — North slope, mid-section: 6 functional hail strikes within 10×10 test square, granule displacement and exposed mat visible"
+
+### 6. Recommendations (Prioritized)
+
+- **Immediate** (safety or active leaks): Action + urgency
+- **Near-term** (within 6 months): Repairs to prevent escalation
+- **Monitoring**: Items to watch at next inspection
+- Cost ranges populated from `rates.repair_minimum` and `rates.per_square_<material>` when present; "estimate-on-request" otherwise
+
+### 7. Disclaimer / Certification
+- Standard inspection disclaimer (visual inspection only, not a warranty, not a guarantee of insurability)
+- Inspector signature block from `inspector.name` / `inspector.title` / `inspector.years_experience` / certifications
+- Company license + cert footer on every page
 
 **Output requirements:**
-- Professional formatting suitable for customer delivery or insurance adjuster review
-- Consistent condition ratings throughout with the 1–5 scale
+
+- Professional formatting suitable for customer delivery, insurance adjuster review, or commercial PM capital file
+- Consistent 1–5 condition ratings throughout
 - Photo references integrated into findings (not just appended)
-- Actionable recommendations with priority levels
-- Company branding from config throughout
-- Saved to `outputs/` if the user confirms
+- Actionable recommendations with priority levels and (when config supports) cost ranges
+- Branding from `branding.*` config fields throughout
+- Saved to `outputs/inspections/{property-address-slug}-{YYYY-MM-DD}.md` if user confirms
 
-## Example Output
+**Variant: Commercial Property-Manager Report**
 
-> [This section will be populated by the eval system with a reference example. For now, run the skill with sample input to see output quality.]
+When `customer_type` is commercial / multi-family / HOA, also produce:
+
+- **Capital-Planning Section**: 5- and 10-year repair-vs-replace cost projection table (rows: defer, repair-only, partial-replacement, full-replacement; columns: scope, year-1 cost, 5-yr total, 10-yr total)
+- **Compliance Section**: Code-upgrade items (IBC 1503, ASCE 7 wind zone, energy code if applicable) the PM needs in their reserve study
+- **Tenant Coordination Notes**: Any access constraints, business-hours work windows, common-area protection requirements for the bid scope
+
+**Efficiency notes:**
+
+- Generate from field notes + photo descriptions without excessive clarification
+- For storm work, infer the test-square count from the photo descriptions if not explicitly tabulated, then state the inference in the Assumptions footer
+- Cross-reference sibling skills: `insurance-supplement-writer` (if claim is recommended), `insurance-appeal-inspection-report` (if the carrier disputes findings), `maintenance-plan-generator` (if condition warrants ongoing service), `estimate-builder` (if a replacement scope is recommended)
+
+## Example Output (28-square asphalt, post-hail, residential)
+
+```
+[GAF MasterElite logo]    HAAG Certified Inspector
+ACME ROOFING, LLC                                License #TX-RC-0481234
+
+Roof Inspection Report — Insurance Claim Support
+Property:   1248 Maple Ridge Dr, Frisco, TX 75070
+Owner:      Jane Doe
+Inspected:  2026-04-22, 9:15 AM CDT
+Inspector:  Marcus Patel — Senior Inspector, 14 yrs, HAAG #H-2019-4421
+
+EXECUTIVE SUMMARY
+Roof shows functional hail damage from the 2026-04-18 event consistent with
+1.5" reported peak stone (NOAA event 20260418-DFW-HAIL-117). North and west
+slopes meet HAAG-aligned claim threshold (≥8 strikes per test square). Overall
+condition: 2 (Poor — storm-driven). Recommended action: file insurance claim
+for full replacement of north and west slopes; south and east slopes show
+marginal damage and should be documented in the claim narrative.
+
+DAMAGE SUMMARY (per slope)
+Slope    Test SQ Location    Strikes  Strike Size      Wind  Pattern  Verdict
+North    Mid-slope,  20' E   12       Med (0.75–1.25") 0     ✅       Claim
+West     Upper,      8' S    9        Med + 2 Large    1     ✅       Claim
+South    Lower,      15' W   3        Small            0     —        Marginal
+East     Mid-slope,  10' N   4        Small            0     —        Marginal
+
+INSPECTION FINDINGS
+Shingles            2  See Photos 1–14   GAF Timberline HDZ, 9 yrs old.
+                                          Functional hail damage on N + W slopes.
+Ridge / Hip Caps    3  See Photo 15     Two cracked caps on N ridge.
+Valleys             3  See Photo 16     Open metal valley intact, debris light.
+Flashing            4  See Photo 17     Step flashing intact at chimney.
+Gutters             2  See Photos 18–19 Hail dents in gutter face confirm event.
+Ventilation         4  See Photo 20     Ridge vent intact, NFA adequate.
+Penetrations        3  See Photos 21–22 Pipe boots within useful life.
+Decking             4  Attic visible    No staining, no soft spots.
+Attic               4  See Photo 23     Insulation dry, no moisture intrusion.
+
+CLAIM RECOMMENDATION
+Industry-standard rule applied: ≥8 functional strikes per 10×10 test square on
+any single slope qualifies for claim recommendation. North slope: 12 strikes.
+West slope: 9 strikes. Both meet threshold. Recommend filing claim for full
+replacement scope. Routing to insurance-supplement-writer skill once carrier
+estimate arrives.
+
+RECOMMENDATIONS
+Immediate    None — roof is watertight.
+Near-term    File claim within carrier's typical 60-day notice window.
+             Replace N + W slopes (est. $9,400–$11,200 from config rates,
+             pending carrier scope).
+Monitoring   Re-inspect S + E slopes in 12 mo for delayed granule loss.
+
+— Marcus Patel, Senior Inspector — Acme Roofing, LLC
+  HAAG #H-2019-4421 — License #TX-RC-0481234
+```
+
+(Run with your own field data to replace these illustrative values.)

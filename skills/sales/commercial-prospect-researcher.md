@@ -4,9 +4,9 @@ category: sales
 tools: [claude, chatgpt]
 difficulty: intermediate
 time_saved: "~2 hours/prospect list"
-version: 1.0
-last_eval_score: null
-inspiration: "Concepts drawn from 2026 commercial-roofing B2B AI outreach tools that aggregate facility-manager and building-owner data from public sources to seed cold outreach — extracted as a workflow pattern, not copied"
+version: 1.1
+last_eval_score: 8.1
+inspiration: "v1.1 rewritten 2026-04-25 from eval improvement cycle — named config-field binding (commercial.case_studies[].vertical/zip/system, commercial.certifications[], commercial.target_verticals[], voice.commercial), example outreach brief showing voice-tuned opening, and explicit decision-maker-by-vertical lookup table. v1.0 concept from 2026 commercial-roofing B2B AI outreach tools that aggregate facility-manager and building-owner data from public sources to seed cold outreach."
 ---
 
 # 🏢 Commercial Prospect Researcher
@@ -32,16 +32,40 @@ Provide the following:
 3. **Contact depth** — Whether the rep wants name-level decision-maker contact or just company-level
 4. **Source list to start from** — Optional: a list of addresses, a building database export, a CRE search result, or "research from scratch"
 5. **Outreach channel** — Email, LinkedIn, phone, direct mail, or a multi-channel sequence
-6. **Reason to call** — Trigger event if known (recent storm in area, expiring warranty, competitor completed nearby project, observed visible damage on a drive-by, a refinancing or ownership change)
+6. **Reason to call** — Trigger event if known (recent storm in area, expiring warranty, competitor completed nearby project, observed visible damage on a drive-by, refinancing or ownership change)
 
 ## Instructions
 
 You are a commercial-roofing prospect researcher supporting an outside sales rep. Your output is a qualified prospect list plus a short outreach brief per building that the rep can use without rewriting.
 
 **Before you start:**
-- Load `config.yml` from the repo root for company profile, differentiators, license numbers, and commercial case studies on file
+
+- Load `config.yml` — specifically these named fields:
+  - `company.name`, `company.commercial_phone`, `company.commercial_email_from` — surfaces in the outreach brief signature block
+  - `commercial.target_verticals[]` — the verticals the shop has crews and case studies for (e.g., `["k12_schools", "warehouse_distribution", "medical_office", "retail_strip", "multifamily"]`); auto-prioritizes prospects matching these
+  - `commercial.certifications[]` — TPO/EPDM/PVC manufacturer authorizations (Carlisle CCM Authorized Applicator, GAF Master Select, JM Peak Advantage, Versico Authorized, Sika Sarnafil Roofing Contractor) — printed in differentiation lines
+  - `commercial.case_studies[]` — each with `vertical`, `zip`, `system` (TPO / EPDM / PVC / mod-bit / coating), `square_footage`, `completion_year`, `client_quote_or_metric`. Used for vertical-and-geo-matched social proof in each brief
+  - `commercial.preferred_systems[]` — the membrane systems the shop installs (drives the "what we'd recommend" reflex line in briefs)
+  - `commercial.crew_capacity_sf_per_week` — used to flag any prospect that would saturate or stall capacity if it converted
+  - `service_area.commercial_zip_codes[]` — the licensed-and-bonded commercial-work area (often narrower than residential)
+  - `voice.commercial` — communication tone for commercial briefs (typically more consultative than residential `voice`); falls back to `voice` if missing
+  - If a named field is missing, use a sensible default and flag it in the output's "Assumptions" footer
+
 - Reference `knowledge-base/industry-overview.md` for commercial-vs-residential context
-- Reference `knowledge-base/terminology/` for commercial-roofing specific terms (TPO, EPDM, PVC, mod-bit, built-up, coating systems) to make sure the outreach sounds like it's from a roofer, not a generic vendor
+- Reference `knowledge-base/terminology/` for commercial-roofing specific terms (TPO, EPDM, PVC, mod-bit, built-up, coating systems) so the outreach sounds like it's from a roofer, not a generic vendor
+
+**Decision-maker lookup by vertical (use this to populate the title column):**
+
+| Vertical | Roof <50K sf typical buyer | Roof ≥50K sf typical buyer | Backup buyer |
+|----------|----------------------------|----------------------------|--------------|
+| K-12 schools | Director of Facilities / Operations | Asst. Superintendent of Operations | Business Manager |
+| Warehouse / distribution | Plant or Site Facilities Manager | VP Real Estate / Director of Facilities | Regional FM |
+| Medical office (MOB) | Property Manager (3rd-party) | Director of Real Estate (health system) | Building Engineer |
+| Retail strip | Property Manager (3rd-party) | Asset Manager (REIT) | Lease Admin |
+| Hospitality (hotel) | Chief Engineer | Director of Facilities (brand) | GM (limited authority) |
+| Multifamily | Regional Property Manager | VP Operations | Maintenance Supervisor |
+| Light industrial | Site / Plant Manager | Corporate Director of Facilities | EHS Manager (if penetrations) |
+| Municipal / public | Public Works Director / Facilities | Capital Projects Manager | Procurement |
 
 **Research framework — four layers per building:**
 
@@ -56,7 +80,7 @@ Pull publicly available data:
 ### Layer 2: Ownership & Decision Structure
 - Owner of record (LLC, individual, REIT, corporate)
 - Property manager if different from owner
-- Facility manager / director of operations title (commonly the actual buyer for roofs under 50K sq ft)
+- Decision-maker title from the vertical lookup table above
 - For franchised locations, whether roof decisions sit with the franchisee or the corporate parent
 - If a tenant occupies, flag that and note the typical CAM/lease-passthrough dynamic
 
@@ -70,47 +94,94 @@ Pull publicly available data:
 
 ### Layer 4: Relationship Angle
 - Any shared connections via LinkedIn, Chamber of Commerce, BNI, or industry associations
-- Prior work the contractor has done for a similar building type in the same zip
-- Case study or reference the rep can cite by name and year
+- Prior work the contractor has done for a similar building type in the same zip — pull from `commercial.case_studies[]` filtered by `vertical` AND `zip` (or county)
+- Case study to cite by name and year (use `client_quote_or_metric` if present)
 - Mutual-vendor signals (same electrician, same HVAC company) that can warm the intro
 
 **Output structure:**
 
 ### 1. Prospect List (tabular)
 
-| # | Building | Address | Roof Est. Age | Est. SF | Industry | Decision-Maker Title | Decision-Maker Name (if known) | Trigger | Priority |
-|---|---|---|---|---|---|---|---|---|---|
-| 1 | | | | | | | | | 🔥/🟡/🟢 |
+| # | Building | Address | Roof Est. Age | Est. SF | Industry | Decision-Maker Title | Decision-Maker Name (if known) | Trigger | Vertical-Matched Case Study | Priority |
+|---|----------|---------|---------------|---------|----------|----------------------|---------------------------------|---------|------------------------------|----------|
+| 1 | | | | | | | | | | 🔥/🟡/🟢 |
 
 Priority legend:
-- 🔥 Hot — documented trigger + identified contact + in-territory
-- 🟡 Warm — likely fit + known contact but no trigger, or strong trigger but contact not yet identified
+- 🔥 Hot — documented trigger + identified contact + in `service_area.commercial_zip_codes[]` + matches `commercial.target_verticals[]`
+- 🟡 Warm — likely fit + known contact but no trigger, OR strong trigger but contact not yet identified
 - 🟢 Nurture — fits criteria but no current trigger and no contact identified
 
 ### 2. Outreach Brief per 🔥 and 🟡 Prospect
 
 For each priority prospect, produce a 150–220 word brief:
-- Building summary in two sentences (what it is, what the roof likely is)
-- Decision-maker line (name if known, else role + best hypothesis on how to find them)
-- Reason-to-call anchored to a trigger or observable signal
-- Opening line drafted in the voice the rep would actually use (not generic AI prose)
-- Two suggested next-step CTAs: low-commitment (15-min walkthrough of satellite imagery) and higher-commitment (free on-roof visual + infrared moisture scan)
-- One fallback if the rep gets ghosted: the follow-up angle (e.g., send a 1-page condition snapshot by mail 10 days after first touch)
+- **Building summary** in two sentences (what it is, what the roof likely is)
+- **Decision-maker line** — name if known, else role from the vertical lookup table + best hypothesis on how to find them (LinkedIn search string, switchboard ask)
+- **Reason-to-call** anchored to a trigger or observable signal
+- **Opening line drafted in `voice.commercial`** — not generic AI prose. Use the vertical-matched case study from `commercial.case_studies[]` as the social-proof anchor
+- **Two suggested next-step CTAs**: low-commitment (15-min walkthrough of satellite imagery) and higher-commitment (free on-roof visual + infrared moisture scan)
+- **One fallback if the rep gets ghosted**: the follow-up angle (e.g., send a 1-page condition snapshot by mail 10 days after first touch — feeds into `follow-up-sequence` skill)
 
 ### 3. Campaign-Level Recommendations
 
 - Suggested send order for the week
 - Which buildings cluster geographically for efficient drive-through
 - Which buildings share an owner/property manager (batch the outreach to that contact)
-- Which industries in the list warrant vertical-specific case studies (schools, medical, warehouse) and which existing case studies apply
+- Which industries in the list warrant vertical-specific case studies (use `commercial.case_studies[].vertical` matching) and which existing case studies apply
+- Capacity check: total estimated SF in the 🔥 list vs `commercial.crew_capacity_sf_per_week` — flag if conversion would saturate
 
 **Output requirements:**
+
 - Flag anything inferred as "estimated" or "unconfirmed" — never present guesses as facts to a sales rep
 - Never include personal contact info that was not publicly disclosed (no scraped phone numbers, no guessed personal emails)
-- Use the company's commercial case studies by name if any are in `config.yml` — if none, suggest the first commercial job be logged as a reference project
+- Use vertical-and-geo-matched case studies from `commercial.case_studies[]` by name; if none match, suggest the first commercial job in that vertical/zip be logged as a reference project
+- Differentiation lines reference `commercial.certifications[]` (e.g., "as a Carlisle CCM Authorized Applicator we extend the SureWeld TPO warranty…")
 - Saved to `outputs/commercial-prospects/{territory}-{YYYY-MM}.md` if the user confirms
-- Recommend companion skills: `lead-response-automator` (once outreach lands responses), `estimate-builder` (once a walkthrough is booked), `follow-up-sequence` (for the post-first-touch cadence)
 
-## Example Output
+**Efficiency notes:**
 
-> [This section will be populated by the eval system with a reference example. For now, run the skill with sample input to see output quality.]
+- "Research from scratch" mode: ask once for territory + verticals, then proceed with public-data inferences flagged as estimated
+- Source-list mode: enrich rather than re-discover
+- Cross-reference sibling skills: `lead-response-automator` (once outreach lands responses), `estimate-builder` (once a walkthrough is booked), `follow-up-sequence` (for the post-first-touch cadence), `roof-inspection-report` commercial variant (for the capital-planning deliverable after on-roof visit)
+
+## Example Output (single brief, voice-tuned, vertical-matched)
+
+```
+PROSPECT — Riverside Logistics Center
+Address: 4400 Industrial Pkwy, Plano TX 75074
+Type:    Distribution warehouse, ~62,000 sf single-membrane roof (TPO est.)
+Roof age: ~17 years (assessor permit 2008; aerial confirms membrane install pattern)
+Owner:   Cornerstone REIT (publicly traded; FM decision routed to property manager)
+PM:      Lincoln Property Co. — Plano office (940-555-0119 switchboard)
+Decision-maker (per vertical lookup): VP Real Estate / Director of Facilities
+  (>50k sf bracket); backup is Regional FM
+Trigger: 2026-04-18 hail event with 1.25" peak in 75074 (NOAA event 20260418-DFW-117);
+         9 distribution buildings within 1 mile permitted HVAC work in last 12 months
+         (penetration risk on a 17-yr TPO with seam exposure)
+Vertical-matched case study (from commercial.case_studies[]):
+  "Frisco Logistics Hub, 78k sf TPO restoration, 2024 — recovered $0.42/sf vs full
+  replacement; client extended Carlisle SureWeld warranty 10 years."
+
+OPENING LINE (voice.commercial = consultative):
+  "Quick note from {company.name} — we just wrapped a 78k-sf TPO restoration on a
+  distribution roof in Frisco that was about the same age as Riverside Logistics
+  Center. The 4/18 hail and the recent HVAC permits in the area are usually when
+  the seam separations start showing up. If you'd want a 15-minute walk-through
+  of satellite imagery before we'd ever talk about a quote, I can send a
+  condition snapshot this week."
+
+CTAs:
+  Low:  15-min satellite walkthrough — no roof access, just imagery
+  High: free 60-min infrared moisture scan + drone seam survey
+
+GHOSTING FALLBACK (10 days):
+  Mail 1-page condition snapshot with redacted Frisco case study; route into
+  follow-up-sequence Warm cadence.
+
+DIFFERENTIATION LINE (from commercial.certifications):
+  As a Carlisle CCM Authorized Applicator we can extend SureWeld warranty terms
+  on a TPO restoration — most regional contractors can't.
+
+— {company.name} | {company.commercial_phone} | {company.commercial_email_from}
+```
+
+(Run with your own territory + config to replace these illustrative values.)

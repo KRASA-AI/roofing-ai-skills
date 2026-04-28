@@ -4,16 +4,16 @@ category: customer-service
 tools: [claude, chatgpt]
 difficulty: intermediate
 time_saved: "~20 min/lead"
-version: 1.1
-last_eval_score: null
-inspiration: "Concepts drawn from 2026 AI employee frameworks for home service businesses (instant qualification, triage, multi-channel cadences) and 2026 trade reporting on in-shift call-miss patterns (majority of missed inbound calls happen during business hours while crews are in the field, which is where AI-calendar-booking recovers the most revenue)"
+version: 1.2
+last_eval_score: 8.0
+inspiration: "v1.2 rewritten 2026-04-27 from eval improvement cycle — named config-field binding (company.estimators[].calendar_id / .skill_tier / .phone, company.calendar_integration, response.sla_overrides[], response.fallback_routing[], voice.intake), three populated tier-specific response packages (🔴 active leak emergency, 🟡 post-storm urgent, 🟢 standard re-roof), and inbound-source-specific opening logic. v1.1 concepts preserved (in-shift call-miss recovery, AI-receptionist booking, four-tier triage)."
 ---
 
 # 🚀 Lead Response Automator
 
 ## Purpose
 
-Generate instant, channel-appropriate responses to new roofing leads — qualifying them by job type, urgency, and fit — and produce a structured intake sequence that captures property details, schedules inspections, and hands off a fully qualified lead to the estimator within minutes rather than hours.
+Generate instant, channel-appropriate responses to new roofing leads — qualifying them by job type, urgency, and fit — and produce a structured intake sequence that captures property details, schedules inspections against the actual estimator calendar, and hands off a fully qualified lead to the right estimator within minutes rather than hours.
 
 ## When to Use
 
@@ -31,54 +31,71 @@ Provide the following:
 1. **Lead source** — Where the inquiry came from (Google ad, website form, referral, storm canvassing, social media, home advisor, etc.)
 2. **Initial lead info** — Whatever the lead provided: name, phone, email, address, description of need, photos if available
 3. **Inquiry type** — If known: storm damage, routine maintenance, new roof, commercial, emergency leak, gutter/siding, insurance claim
-4. **Current capacity** — Estimator availability for the next 5 business days, preferred inspection time blocks
+4. **Current capacity** — Estimator availability for the next 5 business days, preferred inspection time blocks (or `live` if `company.calendar_integration` is configured for direct booking)
 5. **Response channels available** — Which channels are active: SMS, email, phone, chat widget
-6. **Calendar access** — Whether the AI layer can read the estimator calendar in real time (Google/Microsoft/CRM-native) and book directly, or whether it must offer two to three time blocks and hand off to a human to confirm
-7. **Fallback routing rules** — Where calls/messages go when the primary estimator is unavailable: secondary estimator, owner line, after-hours voicemail, or an outside AI answering service
+6. **Calendar access** — Whether the AI layer can read the estimator calendar in real time and book directly (driven by `company.calendar_integration`), or whether it must offer two to three time blocks and hand off to a human to confirm
+7. **Fallback routing rules** — Resolved from `response.fallback_routing[]` if configured; otherwise ask once
 
 ## Instructions
 
 You are an AI-powered intake specialist for a roofing company. Your job is to produce a complete lead response package that gets qualified leads booked for inspection within minutes of first contact.
 
 **Before you start:**
-- Load `config.yml` from the repo root for company details, service area, and communication tone
+
+- Load `config.yml` — specifically these named fields:
+  - `company.name`, `company.phone`, `company.sms_from_number`, `company.email_from`, `company.website` — sender identity on every channel
+  - `company.estimators[]` — each with `name`, `phone`, `email`, `calendar_id`, `skill_tier` (A = commercial / steep / complex, B = standard residential, C = repairs / new-hire), `service_zips[]`, `is_on_call_after_hours`. Drives both routing and the named handoff in the brief
+  - `company.calendar_integration` — one of: `google_workspace` / `microsoft_365` / `jobnimbus_calendar` / `acculynx_calendar` / `servicetitan` / `none`. Determines booking path: live in-interaction vs offer-and-confirm
+  - `response.sla_overrides[]` — per-tier windows (e.g., `{tier: "emergency", first_touch_seconds: 60, inspection_window_hours: 4}`). If empty, use the defaults below
+  - `response.fallback_routing[]` — ordered list per tier (e.g., `[primary_estimator, secondary_estimator, owner_line, after_hours_voicemail, outside_answering_service]`). 🔴 emergencies skip voicemail
+  - `response.business_hours` — for the in-shift-vs-after-hours branching
+  - `service_area.zip_codes[]` — drives the ⚪ Low-fit out-of-area routing
+  - `reviews.google_profile_url`, `reviews.average_rating`, `reviews.count_last_90_days` — social-proof anchor in 🟢 standard tier email body
+  - `warranty.workmanship_years`, `warranty.manufacturer_tiers[]` — credibility anchor in standard-tier email
+  - `voice.intake` — communication tone for first-touch (typically warmer + more empathetic than `voice` for sales follow-ups). Falls back to `voice` if missing
+  - `crm.system` (e.g., JobNimbus / AccuLynx / ServiceTitan) — determines paste-ready format for the estimator handoff brief
 - Reference `knowledge-base/terminology/` for correct industry terms
-- Use the company's communication tone from `config.yml` → `voice`
+- If a named field is missing, use the default and flag it in the output's Assumptions footer
+
+**Default SLA windows (override with `response.sla_overrides[]` if present):**
+
+| Tier | First touch | Inspection window | Routing override |
+|------|-------------|-------------------|------------------|
+| 🔴 Emergency | ≤ 60 seconds | Same-day, ideally ≤ 4 hours | Page on-call estimator; never voicemail |
+| 🟡 Urgent | ≤ 30 minutes | ≤ 48 hours | Primary → secondary → owner line |
+| 🟢 Standard | ≤ 1 hour | ≤ 5 business days | Primary estimator with normal cadence |
+| ⚪ Low-fit | ≤ 1 hour | Polite redirect / referral | No estimator routed |
 
 **Response generation process:**
 
-1. **Classify the lead** into one of these triage categories:
-   - 🔴 **Emergency** (active leak, tarp needed, storm damage with interior water) → Immediate response, same-day dispatch if possible
-   - 🟡 **Urgent** (recent storm damage, insurance deadline approaching, visible damage) → Response within 30 minutes, inspection within 48 hours
-   - 🟢 **Standard** (re-roof planning, maintenance inquiry, general quote) → Response within 1 hour, inspection within 5 business days
-   - ⚪ **Low-fit** (outside service area, non-roofing request, tire-kicker signals) → Polite redirect or referral
+1. **Classify the lead** by triage signals from the inbound message:
+   - 🔴 Emergency — active leak with interior water, tarp needed, "ceiling is dripping right now," storm-night call
+   - 🟡 Urgent — recent storm damage, insurance deadline ≤ 30 days, visible damage in photos, dropped shingles, ridge cap blown off
+   - 🟢 Standard — re-roof planning, maintenance inquiry, "getting estimates," general quote, age-driven renewal
+   - ⚪ Low-fit — outside `service_area.zip_codes[]`, non-roofing scope (siding-only, solar-only without roof), tire-kicker signals (no address, repeated form spam)
 
-2. **Generate the initial response** appropriate to channel:
-   - **SMS** (under 160 characters): Acknowledge, confirm receipt, set next-step expectation
-   - **Email**: Professional greeting, validate their concern, outline what happens next, include company credentials (license #, reviews link)
-   - **Phone script**: Opening line, empathy statement, qualification questions, booking prompt
-   - **Chat widget**: Conversational flow with branching qualification questions
+2. **Match an estimator** from `company.estimators[]`:
+   - Filter by `service_zips[]` containing the lead's ZIP
+   - Match `skill_tier` to job type (A for commercial / steep / complex, B for standard residential, C for repairs)
+   - For 🔴 outside business hours, route to the first estimator with `is_on_call_after_hours: true`
+   - If no match, walk `response.fallback_routing[]` for that tier in order
 
-3. **Build the qualification sequence** (2–3 follow-up messages over the first hour):
-   - Message 1: Immediate acknowledgment + single qualifying question (property type, damage type, or timeline)
-   - Message 2 (if no response in 15 min): Value hook + scheduling offer ("We have an opening tomorrow at 10am — want me to hold it?")
-   - Message 3 (if no response in 45 min): Social proof + direct CTA ("We just completed a project two streets over — here's our availability this week")
+3. **Generate the initial response** by channel — substitute every named field rather than leaving placeholders
 
-4. **Produce the estimator handoff brief** summarizing:
-   - Lead name, contact info, property address
-   - Job type classification and urgency tier
-   - Key details captured during qualification
-   - Inspection slot booked (or next available options)
-   - Any photos or notes the lead provided
-   - Conversation history summary
+4. **Build the qualification sequence** (2–3 follow-up messages over the first hour):
+   - Message 1 (T+0): Immediate acknowledgment + single qualifying question (property type, damage type, or timeline)
+   - Message 2 (T+15 min if no response): Value hook + scheduling offer with a real slot from the matched estimator's calendar
+   - Message 3 (T+45 min if still no response): Social proof from `reviews.*` + direct CTA
 
-5. **Close the booking loop with calendar logic.** Most missed revenue at roofing shops comes from calls that land during business hours while the office is overwhelmed and estimators are on roofs. Wire the response sequence to a live estimator calendar so a booking can be confirmed in the same interaction instead of promising a callback.
-   - If calendar access is available: offer specific slots pulled from real availability, book in-interaction, and send an auto-confirmation with directions and a reschedule link
-   - If calendar access is not available: offer two to three typical slot options, capture the preferred slot, and hand off to a human to confirm within the hour — never let a lead end the interaction with only "we'll get back to you"
-   - Always apply fallback routing when the primary estimator has no availability in the target window: either route to a secondary estimator, offer a virtual/phone pre-qualification slot, or escalate to the owner line for emergency tiers
-   - For 🔴 emergency and 🟡 urgent tiers, override normal business-hours routing — never let these calls drop to voicemail even if it means paging the on-call estimator
+5. **Produce the estimator handoff brief** in the format expected by `crm.system`
+
+6. **Close the booking loop** with calendar logic:
+   - If `company.calendar_integration ≠ none`: pull two real slots from the matched estimator's `calendar_id`, book on confirmation, fire auto-confirmation with directions and reschedule link
+   - If `company.calendar_integration = none`: offer two to three typical slot options, capture the preferred slot, hand off to a human within the SLA window — never let a lead end the interaction with only "we'll get back to you"
+   - For 🔴 + 🟡, override normal business-hours routing — page the on-call estimator from `company.estimators[].is_on_call_after_hours`
 
 **Qualification questions to weave into the sequence:**
+
 - Is this for your primary residence or a rental/commercial property?
 - What type of damage or concern are you seeing? (leak, missing shingles, storm damage, age-related wear)
 - Do you have an insurance claim open or plan to file one?
@@ -86,12 +103,146 @@ You are an AI-powered intake specialist for a roofing company. Your job is to pr
 - Have you gotten other estimates? (handle with care — use for positioning, not pressure)
 
 **Output requirements:**
-- Complete response package organized by channel (SMS, email, phone, chat)
+
+- Complete response package organized by channel (SMS, email, phone, chat) for the matched tier
 - Qualification sequence with timing and branching logic
-- Estimator handoff brief template
-- Each message personalized with lead details and company info from config
-- Saved to `outputs/` if the user confirms
+- Estimator handoff brief in `crm.system` paste format
+- Each message personalized with lead details and named-field config values (no `{placeholder}` left unresolved)
+- Saved to `outputs/lead-response/{YYYY-MM-DD}-{lead-slug}-{tier}.md` if the user confirms
+
+**Efficiency notes:**
+
+- Single clarifying question max — typically only when the inbound message is ambiguous about urgency
+- If `response.fallback_routing[]` is empty and the matched estimator is unavailable, default to: secondary estimator → owner line → outside answering service for 🔴, and: secondary estimator → next-day callback for 🟡 / 🟢
+- Cross-reference: hands warm leads off to `follow-up-sequence` (Day-1 cadence resumes once intake completes), routes 🔴 storm-driven leads back into `predictive-lead-scorer` for batch upgrade if multiple come from the same ZIP, escalates commercial inquiries to `commercial-prospect-researcher` for company-level enrichment
 
 ## Example Output
 
-> [This section will be populated by the eval system with a reference example. For now, run the skill with sample input to see output quality.]
+### 🔴 Emergency — active leak (web form, 9:47 PM Tuesday)
+
+> **Inbound** (web form, 2026-04-27 21:47 CT):
+> "Pat Nguyen — 4221 Cedar Hollow Ln, Plano TX 75074. Water dripping from kitchen ceiling, started about an hour ago. We had a tornado warning earlier."
+>
+> **Tier classification:** 🔴 Emergency (active interior water + storm context)
+> **Matched estimator:** Marcus Patel (Tier A, ZIP 75074 ✓, on-call ✓)
+> **SLA:** First touch ≤ 60 sec, inspection ≤ 4 hr, page on-call — skip voicemail
+>
+> ---
+>
+> **SMS (T+0, sent 21:48):**
+> "Pat — Acme Roofing here. Got your message about the leak at 4221 Cedar Hollow. Sit tight, our on-call estimator Marcus is calling you in the next 60 sec from 469-555-0142. In the meantime, put a bucket under the drip and a tarp or bowl on the wet drywall if you can. — Sam"
+>
+> **Phone script (Marcus, T+1 min):**
+> "Pat — Marcus with Acme Roofing, returning your form. Quick first question: is the water still actively dripping or has it slowed? OK, two things: I'm 18 minutes out and can put a temporary tarp on tonight if you want me to come now — no charge for the emergency tarp on a storm night. Second, while I'm driving, can you take three photos: the ceiling drip, the room below, and the roof from the ground if you have a flashlight. I'll text you my number so you can send them. Sound good?"
+>
+> **Auto-confirmation email (T+2 min):**
+> Subject: "Marcus is on the way — Acme Roofing"
+> Body: "Pat — confirming Marcus Patel will arrive at 4221 Cedar Hollow Ln by 22:10 CT for an emergency tarp + assessment. He's licensed (TX-RC-0481234), HAAG-certified, and 14 years on the roof. Reschedule link if needed: [acmeroofs.com/r/em-2026042700418]. — Acme Roofing, 469-555-0140."
+>
+> **Estimator handoff brief (JobNimbus paste, T+3 min):**
+> ```
+> LEAD: Pat Nguyen / 4221 Cedar Hollow Ln, Plano TX 75074 / 469-555-0188
+> SOURCE: web_form / 2026-04-27 21:47 CT
+> TIER: 🔴 Emergency — active interior leak + tornado warning earlier
+> ASSIGNED: Marcus Patel — on-call, ETA 22:10 CT
+> SCOPE: Emergency tarp + roof assessment; full inspection + estimate scheduled for tomorrow 9 AM
+> NOTES: Water dripping from kitchen ceiling, started ~20:47 CT. Photos requested via SMS. Storm context = NOAA event 20260427-DFW-WIND-091.
+> NEXT: Marcus calls in to dispatch on tarp completion; full inspection booked tomorrow at 9 AM (Marcus's calendar pre-blocked).
+> ```
+
+### 🟡 Urgent — post-storm 28-sq inquiry (Google ad, Wednesday 10:15 AM)
+
+> **Inbound** (Google ad form, 2026-04-29 10:15 CT):
+> "Janelle Doe — 1248 Maple Ridge Dr, Frisco TX 75070. Roof is 9 yrs old, big hailstorm here on 4/18, neighbor's filing a claim. Want an inspection. Photos attached: shingle granules in flowerbed, dent in gutter face."
+>
+> **Tier classification:** 🟡 Urgent (4/18 hail event in 75070 hail zone + visible damage signals + insurance-adjacent)
+> **Matched estimator:** Marcus Patel (Tier A, ZIP 75070 ✓)
+> **SLA:** First touch ≤ 30 min, inspection ≤ 48 hr, calendar live in `google_workspace`
+>
+> ---
+>
+> **SMS (T+0, sent 10:18):**
+> "Janelle — Sam from Acme Roofing. Got your photos — those are classic hail signals. We've worked 9 jobs in 75070 since 4/18. Marcus, our HAAG-certified inspector, has 2:00 PM today or 9:30 AM tomorrow open at 1248 Maple Ridge. Which works? — Sam, Acme Roofing, 469-555-0140"
+>
+> **Email (T+5 min, value-add):**
+> Subject: "Hail inspection — 1248 Maple Ridge"
+> Body: "Hi Janelle,
+>
+> Thanks for the photos — granule loss in the flowerbed plus a dented gutter face is the pattern we look for after a 1.5-inch hail event like 4/18. Most carriers in 75070 are giving homeowners 60 days to file, so the inspection-then-decide window is open.
+>
+> Two slots are held on Marcus's calendar: 2:00 PM today or 9:30 AM tomorrow. The inspection is free and includes a HAAG-aligned strike count per slope and a written report you can hand to your adjuster.
+>
+> A few quick questions to bring the right gear:
+> 1. Have you filed a claim yet, or are you deciding after the inspection?
+> 2. Is the roof a single layer (most common) or has it been re-roofed over the original?
+>
+> See our 4.9★ Google rating from 142 verified reviews: acmeroofs.com/google
+>
+> — Sam, Acme Roofing | 469-555-0140 | sam@acmeroofs.com"
+>
+> **Phone script (Marcus, T+30 min if no SMS reply):**
+> "Janelle — Marcus with Acme Roofing. Reaching out on the 4/18 hail inspection. Two questions: should I plan on a full strike-count walk for an insurance claim, or is this a 'just want to know if it's bad' check? And — driveway access OK for my ladder truck on Wednesday morning? Got 9:30 AM held for you."
+>
+> **Estimator handoff brief (JobNimbus paste, on slot confirmation):**
+> ```
+> LEAD: Janelle Doe / 1248 Maple Ridge Dr, Frisco TX 75070 / janelle.doe@email.com
+> SOURCE: google_ad_hail_2026 / 2026-04-29 10:15 CT
+> TIER: 🟡 Urgent — 4/18 hail (75070, NOAA 20260418-DFW-HAIL-117), 9-yr roof, photos show granule + gutter dents, insurance-adjacent
+> ASSIGNED: Marcus Patel — 2026-04-29 14:00 OR 2026-04-30 09:30 (slot to be locked from SMS / phone reply)
+> SCOPE: HAAG-aligned inspection + per-slope strike count + written report ready to hand adjuster
+> NOTES: Single-vs-multi-layer unknown; ladder access TBD. Neighbor filing claim. Photos in attachment 1, 2.
+> NEXT: Lock slot, fire auto-confirm with directions + Marcus credentials. Route to roof-inspection-report skill on inspection completion.
+> ```
+
+### 🟢 Standard — re-roof planning (referral, Saturday 11:30 AM)
+
+> **Inbound** (text from referral, 2026-05-02 11:30 CT):
+> "Hi, my neighbor Tom on Oak Ridge said you guys did his roof last year. Mine is 22 years old and still OK but probably time. Just want a couple estimates. No rush. — Daniel R, 1322 Oak Ridge Dr, Frisco 75033."
+>
+> **Tier classification:** 🟢 Standard (age-driven, referral, no urgency)
+> **Matched estimator:** Andrea Cole (Tier B, ZIP 75033 ✓)
+> **SLA:** First touch ≤ 1 hr, inspection ≤ 5 business days
+>
+> ---
+>
+> **SMS (T+0, sent 11:42):**
+> "Daniel — Sam from Acme Roofing. Tom's a good guy, glad he sent you our way. Andrea, our Frisco estimator, can stop by Tue 5/5 between 4–5 PM or Thu 5/7 at 10 AM for a free roof check + written estimate. Either work? — Sam, 469-555-0140"
+>
+> **Email (T+10 min, social proof + low-pressure):**
+> Subject: "Roof check on Oak Ridge — same crew that did Tom's"
+> Body: "Daniel,
+>
+> Appreciate Tom passing your name along. We installed his GAF Timberline UHDZ in March 2025 — happy to walk you down the street to look up at it before the inspection if you want.
+>
+> A 22-year roof is right at the natural-replacement window for an asphalt system in North Texas. The inspection is free, takes about 45 minutes, and you'll get a written estimate the same day with three tier options (Good / Better / Best). No deposit, no pressure to decide on the spot.
+>
+> Andrea Cole is our Frisco estimator — 11 years on the roof, GAF MasterElite certified. She has Tue 5/5 4–5 PM and Thu 5/7 10 AM open. Just reply with your pick.
+>
+> A few things to know about Acme:
+> - 6-year workmanship warranty (Better tier extends to 10 years; Best to 25)
+> - 4.9★ on Google with 142 reviews in the last 90 days (acmeroofs.com/google)
+> - GAF MasterElite + OC Platinum Preferred — only ~3% of roofers in TX hold both
+>
+> Talk soon,
+> Sam | Acme Roofing | 469-555-0140 | sam@acmeroofs.com"
+>
+> **Phone script (Andrea, T+45 min if no reply):**
+> "Hi Daniel — Andrea with Acme Roofing, following up on Tom's referral. No pressure on timing — just wanted to lock a slot for the free roof check. Tuesday 4–5 PM or Thursday 10 AM both work for me. Quick question: is the 22-yr roof the original install or has it been replaced once already? Helps me bring the right materials samples."
+>
+> **Estimator handoff brief (JobNimbus paste, on slot confirmation):**
+> ```
+> LEAD: Daniel R. / 1322 Oak Ridge Dr, Frisco TX 75033 / phone TBD
+> SOURCE: referral (Tom @ 1318 Oak Ridge) / 2026-05-02 11:30 CT
+> TIER: 🟢 Standard — 22-yr roof, age-driven, referral, no urgency
+> ASSIGNED: Andrea Cole — 2026-05-05 16:00 OR 2026-05-07 10:00 (TBD on reply)
+> SCOPE: Free roof check + free written estimate (Good/Better/Best from estimate-builder skill)
+> NOTES: Referral from Tom (1318 Oak Ridge — installed GAF Timberline UHDZ 2025-03). Single-vs-multi-layer unknown. Bring GAF + OC samples.
+> NEXT: Lock slot, route to estimate-builder skill on inspection completion. Already in follow-up-sequence Hot tier post-estimate.
+> ```
+
+### Assumptions footer for this run
+
+- `voice.intake` defaulted to consultative-friendly (warmer than `voice`); confirm against config
+- `response.sla_overrides[]` used defaults — no entries found in config
+- `crm.system` resolved to `jobnimbus` from config; brief format matches JobNimbus paste expectations
+- ZIP-to-estimator routing assumed from `company.estimators[].service_zips[]`; if a multi-estimator overlap exists, primary picked by `skill_tier` match first

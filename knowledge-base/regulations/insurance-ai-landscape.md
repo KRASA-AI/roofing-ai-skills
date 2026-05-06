@@ -1,4 +1,4 @@
-# Insurance-AI Regulatory Landscape for Roofers (April 2026, refreshed 2026-04-26)
+# Insurance-AI Regulatory Landscape for Roofers (April–May 2026, refreshed 2026-05-05)
 
 *Inspiration: Carried-over priority from the April 15, 16, and 23 monitor logs. April 2026 state of the insurance-AI regulatory environment synthesized from public NAIC, state department of insurance, and published legal analysis sources. Extracted as a compliance-and-strategy snapshot for roofers. No source text copied. The April 25 refresh added the Tennessee and Kentucky aerial-imagery bulletins and the NAIC AI Systems Evaluation Tool pilot. The April 26 refresh extends the multi-state-spread analysis with the Texas and Georgia legislative-bill activity and the Florida HB 815 result — both surfaced in the 2026-04-26 landscape monitor scan.*
 

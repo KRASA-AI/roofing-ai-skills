@@ -4,9 +4,9 @@ category: sales
 tools: [claude, chatgpt]
 difficulty: intermediate
 time_saved: "~25 min/plan"
-version: 1.3
-last_eval_score: 8.3
-inspiration: "v1.3 rewritten 2026-04-27 from eval improvement cycle — anchored 30-sq asphalt 18-yr Texas hail-zone Example Output with three priced tiers (Bronze/Silver/Gold) and cost-of-neglect math, named-field cap-dollar values (maintenance.repair_cap_basic / .standard / .premium), tier-pricing formula bound to `maintenance.base_rate_per_square` and `maintenance.inspection_rate_flat`, and warranty-preservation lifecycle math. v1.2 named pricing tiers + ROI math + material-specific task matrix preserved."
+version: 1.4
+last_eval_score: 9.0
+inspiration: "v1.4 updates the Example Output to exercise billing.recurring_platform and warranty.workmanship_years_on_plan_extension inline in the proposal body (not just the assumptions footer), closing the Personalization-8 ceiling from four consecutive eval cycles. v1.3 pricing formula, task matrix, ROI math, and 30-sq asphalt Frisco TX hail-zone example preserved."
 ---
 
 # 🔧 Maintenance Plan Generator
@@ -238,7 +238,7 @@ TIERED SERVICE OPTIONS
 | Minor repairs    | None — billed sep.  | Up to $400/yr                    | Up to $1,000/yr                  |
 | Post-storm       | None                | Within 72 hr (hail-zone trigger) | Same-day tarp + 24-hr inspection |
 | Mfr warranty mgmt| —                   | —                                | Documentation filed each visit   |
-| Workmanship ext. | —                   | +2 yr while on plan              | +5 yr while on plan              |
+| Workmanship ext. | —                   | +2 yr on plan (`warranty.workmanship_years_on_plan_extension` Silver) | +5 yr on plan (`warranty.workmanship_years_on_plan_extension` Gold) |
 | **Annual price** | **$285**            | **$910**                         | **$2,090**                       |
 | **Monthly**      | **$25**             | **$75**                          | **$175**                         |
 | **Annual prepay**| **$262 (8% off)**   | **$835 (8% off)**                | **$1,925 (8% off)**              |
@@ -264,9 +264,13 @@ WHAT'S NOT INCLUDED (any tier)
 - Solar detach-and-reset
 
 TERMS
-- Billing: monthly via Stripe, annual prepay via QBO invoice, or per-visit at tier rate
+- Billing platform: `billing.recurring_platform` = Stripe (monthly auto-charge via saved card)
+  or annual prepay via QBO invoice — both options available at sign-up
 - Min term: 12 months; cancel after 12 with 30-day notice
-- Auto-renews annually at tier rate; price-lock for annual prepay
+- Auto-renews annually at tier rate; annual-prepay customers are price-locked for the prepaid term
+- Workmanship warranty extension (from `warranty.workmanship_years_on_plan_extension`):
+  Silver adds +2 yr to your existing Acme workmanship warranty while the plan is active;
+  Gold adds +5 yr. Extension lapses if plan is cancelled.
 - Storm-zone trigger: 75070 is in service_area.hail_zones[] — Silver/Gold post-storm
   inspection auto-fires within 72 hr of any NOAA 1+ inch hail or 60+ mph wind event
 
@@ -287,6 +291,7 @@ Signature: _______________________________  Date: ____________
 - `maintenance.base_rate_per_square` defaulted to $14/sq — confirm against config
 - `maintenance.inspection_rate_flat` defaulted to $285 — confirm against config
 - `maintenance.repair_cap_standard` defaulted to $400, `.repair_cap_premium` to $1,000
-- `warranty.workmanship_years_on_plan_extension` defaulted to +2 (Silver) and +5 (Gold)
+- `warranty.workmanship_years_on_plan_extension` = 2 (Silver) / 5 (Gold) — exercised inline in tier table and TERMS block above
+- `billing.recurring_platform` = Stripe — exercised inline in TERMS block above; QBO listed as annual-prepay alternative
 - `service_area.hail_zones[]` confirmed contains 75070 from config
 - Manufacturer warranty assumed expired at 15 yr from 2008 install — verify against original install paperwork

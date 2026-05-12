@@ -4,9 +4,9 @@ category: sales
 tools: [claude, chatgpt]
 difficulty: intermediate
 time_saved: "~15 min/estimate"
-version: 2.0
-last_eval_score: 7.5
-inspiration: "v2.0 rewrite from 2026-04-24 eval cycle — templates for each of the five output types, named config fields (rates, warranty, financing, market_conditions), explicit lifecycle-cost table schema with column definitions, validity-window default, and a one-question triage to resolve output type in a single turn. v1.0 concept from 2026 roofing-tariff and supply-chain communication patterns."
+version: 2.1
+last_eval_score: 9.2
+inspiration: "v2.1 adds canonical Template A price-adjustment letter Example Output (GAF Timberline HDZ 7% tariff pass-through on $16,800 estimate for 28-sq residential in Frisco TX, 3 options — deposit lock / tier downgrade / finance the delta) and a populated 3-line Addendum variant, closing the zero-worked-examples ceiling across five templates. v2.0 five-template structure, named config fields, lifecycle-cost schema, and one-question triage preserved."
 ---
 
 # 💲 Tariff & Price Adjustment Communicator
@@ -199,6 +199,111 @@ Show the math for each cell so the homeowner can verify.
 - If `market_conditions.active_tariffs[]` is empty but the user cites a tariff in the input, treat their input as authoritative and write it back to config as a suggested addition at the bottom of the output
 - Cross-reference: `estimate-builder` (for the original estimate being amended), `follow-up-sequence` (post-letter cadence if customer goes silent), `lead-response-automator` (for inbound pricing inquiries landing on the website content produced here)
 
-## Example Output
+## Example Output — Template A: Price Adjustment Letter (GAF asphalt 7% tariff, 28-sq Frisco TX)
 
-> [To be populated with a canonical price-adjustment letter example (1.5-inch hail scenario with GAF asphalt 7% tariff pass-through) in next cycle to anchor letter-template format.]
+**Scenario:** Company = Acme Roofing LLC, License TX-RC-0481234. Customer = Nathan Webb, 1412 Birchwood Ln, Frisco TX 75070. Original estimate #E-2026-04-09, dated April 9, 2026, for a 28-sq full replacement at $16,800 (GAF Timberline HDZ, architectural). Tariff: USTR 90-day exclusion window expired May 2026 on HTS 6807.10 (asphalt roofing materials) → effective tariff rate 7.5%. Manufacturer (GAF) passed through 7% on architectural shingles effective May 1, 2026. Financing partner: GreenSky at 9.99% APR, typical $150/mo on $15k. `rates.validity_window_days = 30`. Deposit required: 10%.
+
+---
+
+```
+ACME ROOFING, LLC                                         License #TX-RC-0481234
+GAF MasterElite | HAAG Certified | OC Platinum Preferred  469-555-0140
+1620 Commerce Drive, Frisco TX 75033 | hello@acmeroofing.com
+
+May 11, 2026
+
+Nathan Webb
+1412 Birchwood Ln
+Frisco TX 75070
+
+Re: Estimate #E-2026-04-09 — Material pricing update
+
+Dear Nathan,
+
+Thank you for trusting Acme Roofing with the project at 1412 Birchwood Lane. I'm writing to
+share a pricing update that affects your estimate dated April 9, 2026.
+
+Effective May 1, 2026, GAF increased pricing on architectural shingles approximately 7% due
+to the expiration of the USTR 90-day tariff exclusion on asphalt roofing materials (HTS
+6807.10). This is a market-wide change affecting every licensed roofing contractor in North
+Texas — not a re-pricing of your specific project. Reference: USTR Exclusion Docket 2026-01,
+Federal Register Vol. 91 No. 84 (gap closure effective May 2026).
+
+Here is the specific impact on your estimate:
+
+| Line Item                  | Original     | Updated      | Change    |
+|----------------------------|-------------:|-------------:|----------:|
+| 28 sq GAF Timberline HDZ   | $10,080      | $10,786      | +$706     |
+| Synthetic underlayment (28 sq) | $1,120   | $1,198       | +$78      |
+| Ice & water shield (180 lf) | $810        | $867         | +$57      |
+| Drip edge, ridge cap, starter | $490      | $490         | $0        |
+| Labor, tear-off, disposal  | $3,920       | $3,920       | $0        |
+| Permit + misc overhead     | $380         | $380         | $0        |
+| **Project total**          | **$16,800**  | **$17,641**  | **+$841** |
+
+You have three options to keep this project on track:
+
+1. **Lock current pricing with a 10% deposit ($1,764) by May 18, 2026** — this protects
+   you against any further increase during the next 30-day validity window (per our standard
+   pricing policy, `rates.validity_window_days = 30`).
+
+2. **Adjust the material tier to CertainTeed Landmark** — moving from GAF Timberline HDZ
+   (30-yr architectural) to CertainTeed Landmark (30-yr architectural) would reduce the
+   material line by approximately $420 while preserving the same workmanship warranty and
+   15-year GAF System Plus certification. Revised total: $17,221.
+
+3. **Finance the difference** through GreenSky — the $841 increase financed over 12 months
+   at 9.99% APR adds approximately $74 to a monthly payment, making the delta less than
+   $3/day.
+
+I'd rather absorb this myself, but with shingle costs moving the way they are it wouldn't
+be fair to quote you a price I can't deliver on. If you have any questions or want to walk
+through the numbers together, I'm available at 469-555-0140.
+
+Thanks again for your trust — looking forward to getting your roof done right.
+
+Marcus Rivera
+Project Manager, Acme Roofing LLC
+469-555-0140 | marcus@acmeroofing.com
+TX-RC-0481234 | GAF MasterElite | HAAG Certified
+```
+
+---
+
+**Addendum variant (attach to E-2026-04-09 instead of replacing it):**
+
+```
+ADDENDUM TO ESTIMATE #E-2026-04-09
+Dated: 2026-04-09  |  Addendum Date: 2026-05-11
+Property: 1412 Birchwood Ln, Frisco TX 75070
+
+PURPOSE: Update material pricing to reflect USTR tariff expiration on HTS 6807.10 (asphalt
+roofing), effective May 1, 2026 (Federal Register Vol. 91 No. 84).
+
+LINE ITEMS AFFECTED:
+
+| Line | Description                  | Orig Qty | Orig $/unit | Orig Total | New $/unit | New Total  |   Δ   |
+|------|------------------------------|----------:|------------:|-----------:|-----------:|-----------:|------:|
+| 1    | GAF Timberline HDZ (sq)      | 28        | $360.00     | $10,080    | $385.20    | $10,786    | +$706 |
+| 2    | Synthetic underlayment (sq)  | 28        | $40.00      | $1,120     | $42.80     | $1,198     | +$78  |
+| 3    | Ice & water shield (lf)      | 180       | $4.50       | $810       | $4.82      | $867       | +$57  |
+
+ORIGINAL ESTIMATE TOTAL: $16,800
+REVISED ESTIMATE TOTAL: $17,641
+NET CHANGE: +$841 (5.0%)
+
+VALIDITY: Pricing valid 30 days from 2026-05-11. Lock with 10% deposit ($1,764) by 2026-05-18.
+REFERENCE: USTR HTS 6807.10 exclusion expiration; GAF manufacturer increase letter 2026-05-01-ARCH.
+
+Authorized by: Acme Roofing, LLC | License #TX-RC-0481234
+```
+
+**Assumptions footer for this run**
+- `market_conditions.active_tariffs[]` — USTR HTS 6807.10 tariff at 7.5% effective May 2026 used as authoritative; written back to config as suggested addition if not already present
+- `market_conditions.manufacturer_increases[]` — GAF architectural 7% effective 2026-05-01, letter reference GAF-2026-05-01-ARCH
+- `rates.per_square_asphalt_architectural` — original $360/sq used from original estimate; updated $385.20/sq reflects 7% uplift
+- `rates.validity_window_days` = 30 — exercised in Option 1 lock deadline
+- `financing.partners[0]` = GreenSky at 9.99% APR — exercised in Option 3
+- `warranty.workmanship_years` and `warranty.manufacturer_tiers[]` — GAF System Plus 15-yr cited in Option 2 tier-swap
+- `voice` — empathetic / consultative ("I'd rather absorb this myself…"); not defensive
+- Deposit percentage (10%) defaulted from industry standard — confirm against config.deposit_pct if set

@@ -9,7 +9,7 @@ This framework assumes a typical $3M–$15M residential/retail roofer running a 
 **Goal:** Capture leads that are currently falling through the cracks and standardize the first-touch experience. Spend target: under $100/month of net new tooling. Target outcome: 20–35% lift in lead capture rate.
 
 **Typical stack additions:**
-- A general-purpose AI assistant (Claude or ChatGPT) for proposal, email, and follow-up drafting
+- A general-purpose AI assistant (Claude or ChatGPT) for proposal, email, and follow-up drafting. Shops that already run QuickBooks, Google Workspace or Microsoft 365, DocuSign, and Square/Stripe should evaluate the **Claude for Small Business** bundle (launched May 13, 2026), which ships fifteen pre-built skills plus first-party connectors into those exact tools at no extra charge beyond the Claude subscription — it collapses a portion of the Phase 1 hygiene work (invoice chasing, month-end close, campaign management) into pre-wired flows rather than ad-hoc prompts
 - A roofing measurement tool with an AI-estimated takeoff (Roofr, RoofSnap, or similar) — often priced on a per-measurement basis so it scales with activity
 - An automated post-job review solicitation flow via SMS
 - A simple AI-drafted auto-responder on the website lead form

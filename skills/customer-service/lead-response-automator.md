@@ -4,9 +4,9 @@ category: customer-service
 tools: [claude, chatgpt]
 difficulty: intermediate
 time_saved: "~20 min/lead"
-version: 1.2
-last_eval_score: 8.0
-inspiration: "v1.2 rewritten 2026-04-27 from eval improvement cycle — named config-field binding (company.estimators[].calendar_id / .skill_tier / .phone, company.calendar_integration, response.sla_overrides[], response.fallback_routing[], voice.intake), three populated tier-specific response packages (🔴 active leak emergency, 🟡 post-storm urgent, 🟢 standard re-roof), and inbound-source-specific opening logic. v1.1 concepts preserved (in-shift call-miss recovery, AI-receptionist booking, four-tier triage)."
+version: 1.3
+last_eval_score: 8.8
+inspiration: "v1.3 adds the fourth ⚪ Low-fit Example Output — a Tyler TX out-of-service-area lead with a polite-referral script, no-estimator-routed handoff, and a CRM note flagging the redirect for source-quality analytics. Exercises service_area.zip_codes[] exclusion, response.fallback_routing[] for the ⚪ tier (referral partners), and the no-routed-estimator brief format. Closes the two-cycle Output Quality 8 ceiling on three-of-four tier coverage. v1.2 SLA windows, named bindings, estimator-matching algorithm, and three existing tier examples preserved."
 ---
 
 # 🚀 Lead Response Automator
@@ -240,9 +240,62 @@ You are an AI-powered intake specialist for a roofing company. Your job is to pr
 > NEXT: Lock slot, route to estimate-builder skill on inspection completion. Already in follow-up-sequence Hot tier post-estimate.
 > ```
 
+### ⚪ Low-fit — out-of-service-area redirect (Facebook ad form, Thursday 2:15 PM)
+
+> **Inbound** (Facebook lead-ad form, 2026-05-08 14:15 CT):
+> "Wendy Ortega — 1840 Pine Bluff Rd, Tyler TX 75703. Looking for a quote on a 22-sq replacement, asphalt. Saw your ad. Single story, no urgency."
+>
+> **Tier classification:** ⚪ Low-fit (Tyler is in Smith County, ~95 mi SE of Frisco — outside `service_area.zip_codes[]` and outside `service_area.licensed_counties[] = [Collin, Denton, Dallas, Tarrant]`)
+> **Matched estimator:** None routed (geo-exclusion fires before estimator match)
+> **SLA:** First touch ≤ 1 hr, polite referral, no inspection scheduled, no follow-up cadence triggered
+> **Source-quality note:** Tyler is outside service area but receiving the Facebook ad — flag for the marketing-audit channel
+>
+> ---
+>
+> **SMS (T+0, sent 14:32):**
+> "Hi Wendy — Sam with Acme Roofing. Thanks for reaching out about the roof at 1840 Pine Bluff in Tyler. We actually only service the Dallas-Fort Worth metro (Collin / Denton / Dallas / Tarrant counties) so I can't send a crew that far, but I don't want to leave you stuck. Two reputable Tyler roofers I'd send my own mom to: Henson Roofing in Tyler (903-555-0188, also GAF MasterElite) and Cypress Roofing in Whitehouse (903-555-0142, HAAG certified). Both will give you a free estimate. Good luck with the project! — Sam, Acme Roofing"
+>
+> **Email (T+5 min, polite-referral with reference list):**
+> Subject: "Roof in Tyler — outside our DFW service area, here are two we'd recommend"
+> Body: "Hi Wendy,
+>
+> Thanks for the inquiry about the 22-sq replacement at 1840 Pine Bluff Rd. I want to be upfront: Acme Roofing only services the Dallas-Fort Worth metro — specifically Collin, Denton, Dallas, and Tarrant counties — so we wouldn't be the right fit for a Tyler property. (Driving a crew 95 miles each way burns cost we'd have to pass to you, and we wouldn't be local enough for warranty service.)
+>
+> Two roofers we know and trust in East Texas — both we'd send a family member to:
+>
+> 1. **Henson Roofing** (Tyler) — 903-555-0188, GAF MasterElite certified, ~25 yrs in business. Ask for Dale.
+> 2. **Cypress Roofing** (Whitehouse) — 903-555-0142, HAAG-certified inspector, strong on insurance claims if your roof has any storm damage history.
+>
+> Both will give you a free estimate with no pressure. Mention you came from Acme in Frisco — neither will charge a referral fee back to you.
+>
+> If you ever move to the DFW metro or have a property up here, our door's open.
+>
+> — Sam | Acme Roofing | 469-555-0140 | sam@acmeroofs.com"
+>
+> **Phone script (no callback unless inbound caller asks for one — ⚪ tier does not auto-page):**
+> If Wendy calls back asking for a recommendation: "Wendy, glad you got the message. The two Tyler roofers I'd point you toward are Henson Roofing (Dale, 903-555-0188) and Cypress Roofing (903-555-0142). Tell them Sam from Acme in Frisco sent you — they know us. If you want, I can also forward your inquiry directly to Dale at Henson — just say the word."
+>
+> **CRM handoff brief (JobNimbus paste, T+10 min — closed-lost-redirected):**
+> ```
+> LEAD: Wendy Ortega / 1840 Pine Bluff Rd, Tyler TX 75703 / phone TBD
+> SOURCE: facebook_lead_ad_dfw_2026_q2 / 2026-05-08 14:15 CT
+> TIER: ⚪ Low-fit — Tyler is outside service_area.zip_codes[] AND outside .licensed_counties[]
+> ASSIGNED: NONE (no estimator routed — geo-exclusion fired)
+> SCOPE: Polite referral to Henson Roofing (Tyler) + Cypress Roofing (Whitehouse). No inspection scheduled.
+> STATUS: Closed-Lost-Redirected (source: out-of-area)
+> SOURCE-QUALITY FLAG: ⚠️ Facebook ad set "dfw_2026_q2" is delivering to Tyler ZIP — audit campaign targeting. 4th out-of-area lead this month from same ad set; recommend tightening geo-radius in ad manager.
+> FOLLOW-UP: None. ⚪ tier does NOT enter follow-up-sequence; does NOT enter predictive-lead-scorer batch.
+> ```
+>
+> **Marketing-audit note (auto-routed to office@acmeroofs.com):**
+> "⚪ Low-fit redirect #4 this month from `facebook_lead_ad_dfw_2026_q2`. Recommend reducing campaign geo-radius from 'Texas' to 'DFW metro 50 mi' in ad manager. Estimated wasted CPL on out-of-area leads this month: ~$320 (4 × $80 avg lead cost)."
+
 ### Assumptions footer for this run
 
 - `voice.intake` defaulted to consultative-friendly (warmer than `voice`); confirm against config
 - `response.sla_overrides[]` used defaults — no entries found in config
 - `crm.system` resolved to `jobnimbus` from config; brief format matches JobNimbus paste expectations
 - ZIP-to-estimator routing assumed from `company.estimators[].service_zips[]`; if a multi-estimator overlap exists, primary picked by `skill_tier` match first
+- ⚪ Low-fit redirect partners (Henson Roofing / Cypress Roofing) pulled from `response.fallback_routing[].out_of_area_referrals[]` if configured; otherwise the rep is asked once for two trusted partners on first run and they are cached to config
+- ⚪ Low-fit closed-lost-redirected status does NOT trigger `follow-up-sequence` and does NOT enter `predictive-lead-scorer` batch — confirmed at the CRM handoff step
+- Source-quality flag fires when ≥3 out-of-area leads in 30 days route from the same ad source — count maintained in `response.source_quality_log_path`

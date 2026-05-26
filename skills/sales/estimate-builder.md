@@ -4,9 +4,9 @@ category: sales
 tools: [claude, chatgpt]
 difficulty: beginner
 time_saved: "~25 min/estimate"
-version: 1.4
-last_eval_score: 7.8
-inspiration: "v1.4 rewrite from 2026-04-26 eval improvement cycle — named config-field binding (rates.per_square_<material>, rates.per_lf_<accessory>, dump_fee, permit_rate, deposit_pct, validity_window_days, financing.partners), explicit Good/Better/Best price-delta schema, lifecycle cost-per-year formula with worked numbers, and a populated 28-square asphalt tear-off Example Output with three fully priced tiers. v1.3 added downstream visual-proposal-generator handoff. v1.2 added tariff-impact awareness, real-time material price notes, and lifecycle cost framing. v1.1 enhanced with pricing validation and good-better-best tiering concepts."
+version: 1.5
+last_eval_score: 9.1
+inspiration: "v1.5 adds a second fully-worked Example Output — a 32-square 9:12 standing-seam metal tear-off (Frisco TX), with Good/Better/Best tiered by gauge + finish (24-ga PVDF / Galvalume Galvalume+ / Copper) and lifecycle math against the 30/40/50-yr asphalt proxies. Exercises the metal-row sanity range ($10–$18/sq ft), the Section 232 steel/aluminum surcharge market_conditions.active_tariffs[] flag, and the 4-anchor-point steep-pitch flag carried into Terms. Closes the asphalt-only Output Quality 9 ceiling. v1.4 asphalt example, pricing formula, lifecycle-cost-per-year math, and named-field bindings preserved unchanged."
 ---
 
 # 📐 Estimate Builder
@@ -210,3 +210,55 @@ For retail (non-insurance) residential and any commercial bid, the text estimate
 > **Pricing flags (estimator review):** None — all line items within ±15% of rate card last updated 2026-04-15.
 >
 > **Assumptions:** Pitch confirmed at 6:12 from field notes. Single-layer tear-off confirmed. Frisco permit rate from rates.permit_rate. Dumpster sized at 15 yd from `dump.bundles_per_yard` × 84 bundles ÷ 6 = 14 yd, rounded up.
+
+## Example Output — Metal (32-sq, 9:12 standing seam, Frisco TX)
+
+> Estimate #2026-EST-0507 — Park Residence
+> 4815 Bluebonnet Trail, Frisco, TX 75033
+> Date: 2026-05-07 | Valid through: 2026-06-06 (30 days from `rates.validity_window_days`)
+>
+> **Scope:** Full tear-off (single layer asphalt) and replacement with 24-gauge standing-seam metal — 32-square 9:12 pitch (steep — Tier-A crew + 4-anchor-point fall-protection per crew-schedule-optimizer flag) on a 2-story residence with two dormers and a detached garage tied in. Includes 260 lf drip edge, 480 lf high-temp ice & water shield (IRC R905.1.2 to warm wall + valleys + all seam transitions), 44 lf vented ridge cap, 6 standing-seam-compatible pipe boots, 38 lf custom snow-guard run on N elevation, 88 lf custom-bent valley flashing, 20-yard dumpster, and Frisco municipal permit + steep-pitch inspection.
+>
+> **Line-Item Detail (Good Tier — 24-ga PVDF painted steel)**
+>
+> | # | Line Item | Qty | Unit | $/Unit | Total |
+> |---|-----------|----:|-----:|-------:|------:|
+> | 1 | Tear-off, single layer asphalt | 32 | sq | $90 | $2,880 |
+> | 2 | 24-ga PVDF standing-seam install (16" panel) | 32 | sq | $1,180 | $37,760 |
+> | 3 | High-temp synthetic underlayment (metal-rated) | 3,200 | sf | $0.78 | $2,496 |
+> | 4 | High-temp ice & water shield | 480 | lf | $2.35 | $1,128 |
+> | 5 | Drip edge (matching PVDF, custom bent) | 260 | lf | $3.80 | $988 |
+> | 6 | Vented ridge cap (matching profile) | 44 | lf | $24.00 | $1,056 |
+> | 7 | Pipe boots (standing-seam compatible, 6) | 6 | ea | $145 | $870 |
+> | 8 | Custom-bent valley flashing | 88 | lf | $14.50 | $1,276 |
+> | 9 | Snow guards (38 lf custom run, N elevation) | 38 | lf | $32.00 | $1,216 |
+> | 10 | Dump (20 yd — metal + asphalt mixed) | 1 | ea | $625 | $625 |
+> | 11 | Frisco permit + steep-pitch inspection | 1 | ea | $475 | $475 |
+> | | **Subtotal — Good** | | | | **$50,770** |
+>
+> **Tier Comparison**
+>
+> | Tier | Material | Finish | Workmanship | Mfr Warranty | Total | Δ vs Good | $/yr (40-yr proxy) |
+> |------|----------|--------|-------------|--------------|------:|----------:|-------------------:|
+> | 🥉 Good | 24-ga PVDF painted steel (Sheffield) | Kynar 500 PVDF, 30-yr finish | 10 yr | 30-yr finish + 50-yr panel | $50,770 | — | $1,269 |
+> | 🥈 Better | 24-ga Galvalume Plus (AK Steel) | Galvalume Plus mill finish, 40-yr | 15 yr | 40-yr substrate | $54,910 | +$4,140 (+8.2%) | $1,098 |
+> | 🥇 Best | 16-oz copper, hand-soldered seams | Natural patina | 25 yr | Lifetime substrate (75-yr proxy) | $112,400 | +$61,630 (+121%) | $1,499 |
+>
+> **Lifecycle Cost Note**
+> Better tier costs $4,140 more upfront but $171/year less over its expected 40+-yr life — the Galvalume substrate eliminates the 30-yr finish-failure repaint cycle that PVDF requires at year 25–30 (typical $8k–$12k repaint cost on this size roof). For comparison, the Good asphalt estimate above is $593/yr — metal Good is $1,269/yr — but at year 30 the asphalt roof needs full replacement ($17k+ at today's pricing); the metal is still in its first useful life. Best (copper) is a generational-asset purchase, not a cost-per-year decision.
+>
+> **Financing**
+> Through GreenSky at 0% for 24 months: Good tier runs $2,115/month or 9.99% APR for 144 months at $601/month. Better tier at $650/month over 144 months. Best tier at $1,331/month over 144 months. (Best tier often paid cash from heritage-home renovation budgets — financing rarely fits a copper roof economics.)
+>
+> **Terms**
+> - Pricing valid for 30 days from 2026-05-07; lock with 25% deposit ($12,693 on Good, $14,003 on Better, $28,100 on Best)
+> - Warranty: 10-yr workmanship (Good), 15-yr (Better), 25-yr (Best); manufacturer warranties per tier
+> - Payment: 25% deposit / 50% at dry-in (metal panel arrives ~14 biz days after deposit lock — custom roll-form) / 25% at completion
+> - Steep-pitch flag (9:12): Tier-A crew required (Jones), 4-anchor-point OSHA 1926 Subpart M fall protection, +1 install day vs 6:12 pitch
+> - Lead time: 14 biz days from deposit to material delivery (custom roll-form metal); 6:12 asphalt by contrast ships next day
+> - Exclusions: decking replacement (priced separately on discovery), landscape damage waiver, HOA fees, gutter detach/reset (separate quote)
+> - Pricing reflects current market conditions: 2026 Section 232 steel/aluminum surcharge per market_conditions.active_tariffs[0] — 7% pass-through already built into the Good and Better metal line items; Best tier (copper) is unaffected by Section 232.
+>
+> **Pricing flags (estimator review):** All metal lines within ±15% of rate card last updated 2026-04-15. Sanity check: $50,770 / (32 sq × 100 sf/sq) = $15.87/sf — inside the $10–$18/sf metal sanity band. Better at $17.16/sf — top of band, expected for Galvalume. Best at $35.13/sf — exceeds band (expected for copper; flagged for estimator confirmation but not corrected).
+>
+> **Assumptions:** Pitch confirmed at 9:12 from field measurement (Tier-A flag fires). Two dormers + detached garage tie-in confirmed from drone scan. Permit + steep-pitch inspection rate from `rates.permit_rate` + `rates.steep_pitch_inspection_addendum`. Dumpster sized at 20 yd vs 15 yd from `dump.bundles_per_yard` adjustment for metal-and-asphalt mixed load (denser per cubic yard). Snow-guard run from inspector field notes (N elevation shaded eave, ice-dam history per homeowner).

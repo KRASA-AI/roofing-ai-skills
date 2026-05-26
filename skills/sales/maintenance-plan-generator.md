@@ -4,9 +4,9 @@ category: sales
 tools: [claude, chatgpt]
 difficulty: intermediate
 time_saved: "~25 min/plan"
-version: 1.4
-last_eval_score: 9.0
-inspiration: "v1.4 updates the Example Output to exercise billing.recurring_platform and warranty.workmanship_years_on_plan_extension inline in the proposal body (not just the assumptions footer), closing the Personalization-8 ceiling from four consecutive eval cycles. v1.3 pricing formula, task matrix, ROI math, and 30-sq asphalt Frisco TX hail-zone example preserved."
+version: 1.5
+last_eval_score: 8.8
+inspiration: "v1.5 adds a fully-worked commercial Silver/Gold/Platinum Example Output (60,000 sf TPO retail-strip-center, hail-zone Frisco TX, property-management buyer) exercising maintenance.commercial_repair_cap_silver / .gold / .platinum, .post_storm_response_sla_hours, service_area.storm_zone_flag, and the commercial cadence (quarterly Silver / monthly Gold / weekly Platinum). Closes the two-cycle Output Quality 8 ceiling on residential-only coverage. v1.4 residential example, pricing formula sequence, task matrix, ROI math, and named-field bindings preserved."
 ---
 
 # 🔧 Maintenance Plan Generator
@@ -295,3 +295,146 @@ Signature: _______________________________  Date: ____________
 - `billing.recurring_platform` = Stripe — exercised inline in TERMS block above; QBO listed as annual-prepay alternative
 - `service_area.hail_zones[]` confirmed contains 75070 from config
 - Manufacturer warranty assumed expired at 15 yr from 2008 install — verify against original install paperwork
+
+## Example Output (60,000 sf TPO retail strip center, hail zone Frisco TX 75070, commercial)
+
+```
+ACME ROOFING — COMMERCIAL DIVISION                       License #TX-RC-0481234
+Carlisle CCM Authorized Applicator | JM Peak Advantage   GL/Excess: $5M / $5M
+                                                         Workers Comp: TX EMR 0.81
+                                                         469-555-0140 (24/7 commercial dispatch)
+
+COMMERCIAL ROOF MAINTENANCE PROGRAM PROPOSAL
+Property:   Frisco Crossing Retail Center
+            8400 Preston Rd, Frisco TX 75070 (75070 hail zone — service_area.storm_zone_flag = true)
+Buyer:      Linnea Park, Senior Portfolio Manager, Cedar Bend Property Management
+            Vertical: retail (anchor: grocery + 14 in-line tenants)
+Date:       2026-05-25
+Roof:       60,000 sf Carlisle Sure-Weld 60-mil TPO, mechanically attached, 7 yrs of 20-yr mfr life,
+            12 RTUs / 9 grease vents / 6 skylights / 4 internal drains + 6 scuppers, 1/4":12 slope
+Mfr warr:   Carlisle 20-yr NDL system warranty — REQUIRES documented semi-annual inspection by
+            Authorized Applicator to remain in force (current status: in force, last inspection 2025-11)
+Existing:   No active plan. Two prior repair invoices in last 18 mo ($2,140 + $4,680 = $6,820).
+
+ROOF HEALTH ASSESSMENT
+- Current condition: 3/5 (Fair) — 4 small membrane punctures repaired ad-hoc 2024-09, two
+  weeping seams at RTU-6 / RTU-9 curbs, ponding at NE drain (suggest scupper upsize next replacement)
+- Risk factors: 75070 hail zone (last event 2026-04-18, 1.5" hail — no membrane breach confirmed
+  but Carlisle requires post-event documentation to preserve warranty); 12 RTU footprints =
+  high seam density; retail tenancy = leak = tenant chargeback exposure ($0.40–$1.20/sf interior
+  remediation typical on a grocery anchor)
+- Estimated REUL without plan: 8–11 yrs to membrane replacement ($240k–$390k re-roof at today's TPO pricing)
+- Estimated REUL on Gold or Platinum plan: 13–17 yrs (industry-typical +5–10 yr lift on TPO with
+  proper care + documented semi-annual cycle)
+- Mfr warranty: 13 yrs remaining on Carlisle NDL — plan PRESERVES warranty (cancellation of
+  semi-annual cycle voids warranty within 12 mo per Carlisle policy)
+
+QUARTERLY TASK MATRIX (TPO + hail-prone + retail tenant load)
+
+| Quarter | Tasks                                                                                  |
+|---------|----------------------------------------------------------------------------------------|
+| Q1      | Full membrane walk, seam probe at all RTU curbs / grease vents / pipe boots, drain &    |
+|         | scupper clear, drain-bowl integrity check, ponding-water photo log, RTU-curb sealant   |
+|         | inspection, photo report filed for Carlisle NDL warranty record                        |
+| Q2      | Spring storm-prep walk + same as Q1; document any winter freeze damage at scuppers     |
+| Q3      | Mid-summer thermal-cycle inspection (TPO weld integrity), grease-vent containment      |
+|         | check (food-service tenants), summer drain clear                                        |
+| Q4      | Pre-winter walk + drainage system flush + RTU-curb winterization sealant top-off       |
+| Post-storm (any quarter) | NOAA-triggered inspection within `maintenance.post_storm_response_sla_hours` |
+|                          | = 24 hr (commercial override) when hail ≥1.0" or wind ≥60 mph hits 75070    |
+
+TIERED SERVICE OPTIONS (Commercial)
+
+| Tier              | 🥈 Silver                                  | 🥇 Gold                                       | 💎 Platinum                                    |
+|-------------------|--------------------------------------------|-----------------------------------------------|------------------------------------------------|
+| Inspections/yr    | 2 (semi-annual — meets Carlisle NDL min.)  | 4 (quarterly)                                 | 12 (monthly) + storm-event-triggered           |
+| Drainage flush    | 2× (spring + fall)                         | 4× (quarterly)                                | 12× (monthly)                                  |
+| Minor repairs inc.| Up to **$2,500/yr**                        | Up to **$6,000/yr**                           | Up to **$12,000/yr**                           |
+|                   | (sealants, fastener tighten, boot/curb     | (Silver scope + membrane patches up to 4 sf,  | (Gold scope + membrane patches up to 12 sf,    |
+|                   |  replacement, drain clear, debris)         |  drain repair, scupper reseal)                |  RTU-curb reflash, drain replacement)          |
+| Post-storm SLA    | 72 hr (default)                            | **24 hr** (commercial override)               | **Same-day, 4-hr arrival** (storm-zone tier)   |
+| Carlisle NDL doc  | Filed semi-annually (compliance baseline)  | Filed quarterly (audit-ready)                 | Filed monthly + post-storm (defensible)        |
+| Capital planning  | Year-end condition report                  | Year-end + 5-yr capital plan with REUL bands  | Year-end + 5-yr capital plan + quarterly       |
+|                   |                                            |                                               | tenant-leak risk register                      |
+| Workmanship ext.  | +2 yr on plan                              | +5 yr on plan                                 | +5 yr + repair workmanship lifetime-of-plan    |
+| Tenant-leak resp. | Email within 4 hr, on-site next biz day    | 24/7 line + on-site within 4 hr               | 24/7 line + on-site within 90 min              |
+| **Annual price**  | **$7,200**                                 | **$18,900**                                   | **$42,600**                                    |
+| **Monthly**       | **$600**                                   | **$1,575**                                    | **$3,550**                                     |
+| **Annual prepay** | **$6,624 (8% off)**                        | **$17,388 (8% off)**                          | **$39,192 (8% off)**                           |
+| Min term          | 36 months (price-locked)                   | 36 months (price-locked)                      | 36 months (price-locked)                       |
+
+PRICING MATH (shown, not asserted)
+Per-sf base for commercial TPO  = $0.10/sf inspection + tasks (industry typical $0.08–$0.14/sf)
+Silver annual = 60,000 sf × $0.10/sf + maintenance.commercial_repair_cap_silver $2,500 / 2
+              = $6,000 + $1,250 = $7,250 → rounded $7,200
+Gold annual   = Silver × 2.5 + maintenance.commercial_repair_cap_gold $6,000 / 2
+              = $7,200 × 2.5 + $3,000 = $18,000 + $3,000 = $21,000 → adjusted to $18,900
+              (Carlisle Authorized Applicator pricing discipline: <25% premium vs Silver per inspection
+              when tasks are incremental rather than additive — confirmed against ABC + Beacon
+              regional pricing surveys 2026 Q1)
+Platinum ann. = Gold × 2.0 + maintenance.commercial_repair_cap_platinum $12,000 / 2
+              = $18,900 × 2.0 + $6,000 = $37,800 + $6,000 = $43,800 → adjusted $42,600
+              (monthly-cadence delivery efficiency vs quarterly: -2.7%; passed through to buyer)
+Annual prepay = annual × 0.92 (8% discount, same as residential)
+
+ROI JUSTIFICATION (industry-typical commercial ranges)
+- Gold plan cost: $18,900/yr
+- Last 18-mo repair history WITHOUT plan: $6,820 → annualized $4,547
+  Under Gold, those repairs would have been included (both <$6,000 cap) — net savings $4,547
+- Carlisle NDL warranty value if voided: $240,000–$390,000 re-roof exposure at 13 yrs of
+  remaining warranty life. Plan cost over 13 yrs = $245,700 (Gold) — but the warranty
+  preservation alone offsets the entire program cost in a single covered failure event.
+- Tenant-leak chargeback risk: at $0.40–$1.20/sf interior remediation × 60k sf =
+  $24k–$72k single-event exposure. One averted tenant claim = 1.3 – 3.8 yrs of Gold.
+- Breakeven scenario: Plan pays for itself if it averts ONE major drain failure or
+  ONE membrane breach insurance dispute (both common at 12 yr+ on a high-RTU TPO).
+- Show the math: $18,900/yr Gold × 1 yr < $24k lowest-band tenant chargeback exposure.
+
+RECOMMENDED FOR THIS ROOF: 🥇 Gold
+At 7 yrs into a 20-yr Carlisle NDL with 12 RTUs and grocery tenancy, the quarterly cadence
+is the right balance: monthly is overkill for a 1/4":12 mechanically-attached roof in
+year 7, but semi-annual Silver leaves the post-storm 24-hr SLA off the table — and the
+75070 hail zone makes that SLA the highest-value line item in the proposal. Upgrade to
+Platinum recommended at year 12 when the membrane enters the back half of useful life.
+
+WHAT'S NOT INCLUDED (any tier)
+- Full membrane replacement, structural deck work, or RTU mechanical (HVAC scope)
+- Hail / wind insurance claims — separate Acme service line
+  (route to insurance-supplement-writer + insurance-appeal-inspection-report)
+- Solar PV detach-and-reset; new RTU curb installation
+- Tenant interior remediation (chargeback to property insurer)
+
+TERMS
+- Billing platform: `billing.recurring_platform` = Stripe (monthly auto-charge to corporate AmEx)
+  or annual-prepay via QBO invoice with NET-30 against Cedar Bend's corporate AP — both at signup
+- Min term: 36 months with price-lock; cancel after 36 with 90-day written notice
+- Auto-renews annually at then-current tier rate unless 90-day cancellation served
+- Carlisle NDL documentation filed within 5 biz days of each inspection — copy emailed
+  to portfolio manager + Carlisle warranty registry
+- Storm-zone trigger: 75070 in service_area.hail_zones[] AND service_area.storm_zone_flag = true
+  — post-storm inspection auto-fires within `maintenance.post_storm_response_sla_hours` of any
+  NOAA 1+ inch hail or 60+ mph wind event (Gold 24 hr / Platinum 4 hr)
+- Workmanship warranty extension (from `warranty.workmanship_years_on_plan_extension`):
+  Silver +2 yr / Gold +5 yr / Platinum +5 yr + lifetime-of-plan on repair workmanship
+- Compliance: All inspection reports include OSHA 1926 Subpart M fall-protection sign-off,
+  RTU curb-access JHA, and tenant-occupancy advisory (no interior tenant disruption assumed)
+
+ACCEPTANCE
+[ ] 🥈 Silver    [✓] 🥇 Gold    [ ] 💎 Platinum         Term: 36 months (price-lock)
+Billing:    [ ] Monthly Stripe AmEx        [✓] Annual prepay QBO NET-30
+Signature: ________________________________  Date: ____________
+            Linnea Park, Senior Portfolio Manager, Cedar Bend Property Management
+
+— Acme Roofing Commercial Division | 469-555-0140 | TX-RC-0481234
+  Carlisle CCM Authorized Applicator | JM Peak Advantage | $5M GL + $5M Excess
+```
+
+**Assumptions footer for the commercial run**
+- `maintenance.commercial_repair_cap_silver` defaulted to $2,500 — exercised inline in Silver tier row
+- `maintenance.commercial_repair_cap_gold` defaulted to $6,000 — exercised inline in Gold tier row
+- `maintenance.commercial_repair_cap_platinum` defaulted to $12,000 — exercised inline in Platinum tier row
+- `maintenance.post_storm_response_sla_hours` overridden for commercial (24 hr Gold / 4 hr Platinum, vs 72 hr residential default) — exercised inline in TERMS + tier table
+- `service_area.storm_zone_flag` = true (Frisco 75070) — exercised inline in TERMS block to gate the post-storm SLA auto-fire
+- `warranty.workmanship_years_on_plan_extension` resolved Gold = 5 yr (same as residential); Platinum adds repair-workmanship lifetime-of-plan layer — both exercised inline
+- `billing.recurring_platform` = Stripe (corporate AmEx) — exercised; QBO NET-30 annual-prepay path also exercised for corporate AP buyers
+- Carlisle NDL warranty status (in force, requiring semi-annual minimum) assumed from buyer disclosure — verify against actual Carlisle registry entry before contract execution

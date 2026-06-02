@@ -4,9 +4,9 @@ category: sales
 tools: [claude, chatgpt]
 difficulty: intermediate
 time_saved: "~3 hours/storm event"
-version: 1.1
+version: 1.2
 last_eval_score: 8.7
-inspiration: "v1.1 rewritten 2026-04-27 from eval improvement cycle — named config-field binding (canvassing.territories[].name / .zips / .streets / .priority_streets, canvassing.script_personality, team.canvasser_roster[].name / .languages / .vehicle / .shift_window, weather_rules.hail_size_threshold_in / .wind_threshold_mph, service_area.licensed_counties[]), populated 4/18 DFW hail Example Output (1.5 inch peak, 75070/75071/75074, 3 named clusters, agentic-platform tool-call pattern), and per-state cooling-off compliance lookup. v1.0 five-layer framework + agentic Eagleview Horizon orchestration preserved."
+inspiration: "v1.2 (2026-06-01) added the Pre-Storm Orchestration Layer — a forecast-triggered multi-role staging sequence (intake / outbound / dispatch) that runs before storm arrival rather than after, inspired by the multi-agent pre-staging pattern surfaced in the May 19 2026 Zuper Sense announcement (architectural concept only, no source text reused). v1.1 rewritten 2026-04-27 from eval improvement cycle — named config-field binding (canvassing.territories[].name / .zips / .streets / .priority_streets, canvassing.script_personality, team.canvasser_roster[].name / .languages / .vehicle / .shift_window, weather_rules.hail_size_threshold_in / .wind_threshold_mph, service_area.licensed_counties[]), populated 4/18 DFW hail Example Output (1.5 inch peak, 75070/75071/75074, 3 named clusters, agentic-platform tool-call pattern), and per-state cooling-off compliance lookup. v1.0 five-layer framework + agentic Eagleview Horizon orchestration preserved."
 ---
 
 # 🌩️ Storm Canvassing Prioritizer
@@ -130,6 +130,28 @@ For each cluster in the top tier (🔥 priority), produce a 100–150 word brief
 
 **Agentic-platform orchestration note:**
 If the shop has access to an agentic property-intelligence platform with MCP exposure, the research layers can be invoked as tool calls rather than manually assembled. A typical prompt pattern is: "Return every roof over {age_threshold} years old, {size_range}, within {radius} of polygon {storm_id}, filtered to {material_list}, excluding {crm_overlap_list}, grouped into drive-through clusters of {cluster_size}." When the platform is unavailable, this skill produces the same structure from map + assessor + drive-by inputs, flagged with lower confidence.
+
+**Pre-Storm Orchestration Layer (v1.2 — new):**
+
+The skill's default output is a *post-storm* canvassing plan. When the shop's CRM or operations platform supports it, the same upstream weather signal that produces this plan can also pre-stage three role-specific actions hours *before* the storm arrives — compressing the time between "storm in the forecast" and "fully scripted intake + dispatch posture" from days to hours. The output below adds a pre-storm staging block when the input includes a `forecast_lead_time_hours` value (commonly 6–48 hours of usable lead time on hail, 24–72 on tropical systems).
+
+The three pre-stage roles, in the order their first action fires:
+
+1. **Intake-side pre-stage (CSR / answering service / AI receptionist)** — Load the predicted-polygon ZIP list into the intake routing table so any inbound call originating from those ZIPs is tagged "storm-affected" on the first ring; pre-load a storm-specific opening line, a triage tree (damage symptoms → photo request → inspection slot), and the cooling-off / disclosure line for the operating state. Cross-references: `customer-service/lead-response-automator` for the script-side; the 15-second AI follow-up benchmark applies once the storm window opens
+2. **Outbound-side pre-stage (existing-customer warm list + adjacent-prospect warm list)** — Identify customers within the predicted polygon whose roofs are over the `weather_rules.hail_size_threshold_in` material yield bracket, plus any adjacent-prospect contacts within `service_area.zip_codes[]` and `service_area.licensed_counties[]`; pre-draft an SMS / voicemail / email sequence in `canvassing.script_personality` voice that ships within the first 4 hours after storm arrival (not before, to avoid unsolicited storm-chasing optics in `canvassing.cooling_off_states[]`)
+3. **Dispatch-side pre-stage (crew capacity + territory alignment)** — Use the predicted polygon, `team.canvasser_roster[]`, `team.phone_canvasser_roster[]`, and current `crew_schedule_optimizer` output to publish a draft Day-1 / Day-2 assignment map *before* the storm hits, so the morning-after standup is a confirmation rather than a planning session. Cross-references: `operations/crew-schedule-optimizer` for the schedule-side, `material-order-calculator` for the parts-on-hand pre-position decision
+
+The pre-stage block does *not* fire any outbound homeowner contact before storm arrival — the outbound queue is staged, not sent. The compliance rationale: in `canvassing.cooling_off_states[]` and most state consumer-protection regimes, contacting a homeowner about damage before that damage has occurred is reputation-negative and in some jurisdictions actionable. The pre-stage exists to make the *post-arrival* response immediate, not to front-run the storm.
+
+**Pre-stage output block (added to Section 1 of the plan when `forecast_lead_time_hours` is set):**
+
+```
+PRE-STORM STAGING (forecast +{lead_time_hours}h)
+- Intake routing: {N} predicted-polygon ZIPs tagged "storm-affected" in {CRM_or_answering_service}; storm-specific opening line + triage tree loaded
+- Outbound warm list: {N_customers} existing customers + {N_adjacent} adjacent prospects in queue; first send fires {first_send_offset}h after storm arrival
+- Dispatch draft: Day-1 assignment map published to {N_canvassers} canvassers + {N_phone} phone canvassers; morning standup time {standup_time}
+- Compliance: outbound queue holds until storm arrival per {state_list} cooling-off / consumer-protection posture
+```
 
 **Output storage:**
 - Save the plan as `outputs/storm-canvassing/{YYYY-MM-DD}-{storm-name}-plan.md`

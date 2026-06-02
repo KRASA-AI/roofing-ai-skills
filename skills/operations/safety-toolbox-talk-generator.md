@@ -4,9 +4,9 @@ category: operations
 tools: [claude, chatgpt]
 difficulty: beginner
 time_saved: "~25 min/talk"
-version: 1.2
+version: 1.3
 last_eval_score: 8.8
-inspiration: "v1.2 rewritten 2026-04-28 from eval improvement cycle — named config-field binding (safety.muster_points[] / .nearest_hospitals[] / .jha_path / .standdown_in_progress / .heat_index_data_source / .stop_work_authority_statement, crew_leads[].name / .language_preference, company.osha_jurisdiction), populated Example Output (105°F heat-illness talk on a mixed-language crew with one new hire on Day-3 acclimatization, plus the Construction Safety Week May 4–8 three-pillar fall-protection variant), and date-window auto-default for the Stand-Down. v1.1 Heat NEP / CPL 03-00-024 logic preserved."
+inspiration: "v1.3 (2026-06-01) surfaces the three 2026-06-01 KB refresh items on osha-heat-enforcement.md inside the skill itself — Appendix J citation framework, co-inspection trigger (any active-case visit becomes a de facto heat inspection during heat season), and NWS heat-advisory random-inspection authority on listed industries including roofing. The heat-day Example Output assumptions footer now carries the Appendix J reference, the co-inspection-posture flag, and a 'random-inspection-eligible today' line gated on an active NWS advisory; a new Instructions-side bullet teaches foremen to treat every site visit as a heat-program visit during heat season. v1.2 rewritten 2026-04-28 from eval improvement cycle — named config-field binding (safety.muster_points[] / .nearest_hospitals[] / .jha_path / .standdown_in_progress / .heat_index_data_source / .stop_work_authority_statement, crew_leads[].name / .language_preference, company.osha_jurisdiction), populated Example Output (105°F heat-illness talk on a mixed-language crew with one new hire on Day-3 acclimatization, plus the Construction Safety Week May 4–8 three-pillar fall-protection variant), and date-window auto-default for the Stand-Down. v1.1 Heat NEP / CPL 03-00-024 logic preserved."
 ---
 
 # 🦺 Safety Toolbox Talk Generator
@@ -51,6 +51,11 @@ You are a foreman's AI assistant. Your job is to produce a ready-to-deliver tool
   - `safety.stop_work_authority_statement` — one-sentence company commitment that any crew member can stop work without consequence; pulled into the commitment line of every fall-protection talk and any high-energy-hazard talk during the Stand-Down window
   - `safety.acclimatization_log_path` (optional) — file path used to cross-reference Day-N acclimatization status for any new-hire talk
 - Reference `knowledge-base/regulations/` for current OSHA citations (29 CFR 1926 Subpart M fall protection, Subpart X ladders/stairways, Subpart L scaffolds, Subpart E PPE) and `knowledge-base/regulations/osha-heat-enforcement.md` for the 2026 Heat NEP (Directive CPL 03-00-024, effective April 10, 2026) and acclimatization expectations
+- **2026-06-01 Heat NEP operational specifics (apply on every heat-day talk during the heat season):**
+  - **Appendix J citation framework** — the 2026 directive standardizes how field observations translate into citation items across regions; the heat-day talk should be written so each control bullet maps to a named citation item (acclimatization gap / hydration cadence / shade availability / supervisor monitoring / written plan / recordkeeping). The signed sheet becomes the defense artifact against each Appendix J item
+  - **Co-inspection trigger** — a compliance officer arriving for ANY active case (fall-protection, trenching, ladder, electrical) during heat season is expected to evaluate heat-program gaps in the same site walk and code them to the same case file. Practical posture: keep the heat program continuously defensible every day above the elevated threshold, not just on days a heat-specific inspection is most likely. Foremen running a fall-protection talk during the heat season should still print the day's heat sign-off sheet alongside it
+  - **Random-inspection authority on NWS heat-advisory days** — on a day when the NWS has an active heat advisory or heat warning out for the operating area, compliance officers carry standing authority to drop in unannounced on roofing jobsites without a prior complaint trigger. The talk should record the heat-advisory status on the sign-off sheet ("NWS heat-advisory active: ☐ yes / ☐ no") so the artifact reflects the inspection-risk context the talk was delivered under
+  - **Acclimatization gap is the primary citation item** when an incident occurs in a worker's opening week — the talk's acclimatization section is the first item an inspector reads for a Day-1 to Day-14 worker on the crew. Capture the acclimatization Day-N for every such worker on the sign-off sheet
 - Reference `knowledge-base/terminology/` for consistent hazard language across talks
 - If a named field is missing, use a sensible default and flag it in the Assumptions footer
 - Pick the topic intelligently if not specified — prioritize weather-driven hazards (heat ≥ 85°F or heat index ≥ 90°F or wind > 20 mph escalates the day), then `safety.standdown_in_progress` (defaults to fall protection in the three-pillar framing), then site-specific hazards, then rotational baseline topics (falls weekly minimum). During the heat-index elevated window, the topic defaults to heat illness unless the foreman explicitly overrides — the Heat NEP makes a signed heat-day toolbox talk the primary compliance artifact
@@ -141,14 +146,17 @@ The Stand-Down expects an on-site demonstration component (a foreman-led walk-th
 > - `safety.heat_index_data_source` → NWS-NDFD
 > - `safety.acclimatization_log_path` → confirms Jamal Wright Day 3 (workload cap 60% — 20% Day 1, +20% Day 2, +20% Day 3)
 > - `safety.standdown_in_progress` → false (08-12 outside May 4–8 window)
+> - **NWS heat-advisory status for 75070 on 2026-08-12** → ACTIVE (Heat Advisory in effect 11:00 AM – 8:00 PM CT, NWS Fort Worth). Random-inspection authority is in effect today under the 2026 Heat NEP — talk is printed with the advisory-active line on the sign-off sheet
 >
 > ---
 >
 > **TOOLBOX TALK — Heat Illness Prevention | Charla de Seguridad — Prevención de Enfermedad por Calor**
 > Date: 2026-08-12 | Project: 1248 Maple Ridge Dr, Frisco TX 75070 | Foreman / Capataz: Hector Vega
 > Topic: Heat Illness — Heat Index 112°F (NWS-NDFD) | Tema: Enfermedad por Calor — Índice 112°F
-> Companion JHA: `safety/jha/heat-illness.md` | OSHA: 29 CFR 1926.95 + Heat NEP CPL 03-00-024 (eff. 2026-04-10)
+> Companion JHA: `safety/jha/heat-illness.md` | OSHA: 29 CFR 1926.95 + Heat NEP CPL 03-00-024 (eff. 2026-04-10) | Appendix J citation framework applies
 > Duration: 7 min | Duración: 7 min
+> NWS heat-advisory in effect for ZIP 75070 today: **☑ YES** / ☐ no — random-inspection-eligible under CPL 03-00-024
+> Co-inspection posture: any OSHA visit today (for ANY reason) will be evaluated as a heat-program inspection in the same case file
 >
 > **OPENING / APERTURA**
 >
@@ -188,6 +196,7 @@ The Stand-Down expects an on-site demonstration component (a foreman-led walk-th
 > Al firmar, me comprometo a tomar mis descansos, hidratarme cada 15 min, vigilar a mis compañeros, y parar el trabajo ante síntomas de calor — sin penalización, sin preguntas.
 >
 > Heat index reading at sign-off: **___°F** (NWS-NDFD)
+> NWS heat-advisory active at sign-off: ☐ yes / ☐ no  |  Acclimatization Day-N captured for all Day-1–14 workers: ☐ yes  |  Appendix J defense items addressed today: ☐ acclimatization gap (program ref / Day-N captured)  ☐ hydration cadence (8 oz / 15 min documented)  ☐ shade available (vehicle / canopy)  ☐ supervisor monitoring (buddy-check cadence)  ☐ written plan referenced (Companion JHA)  ☐ recordkeeping (this sheet retained 3+ yrs)
 >
 > | Name / Nombre | Signature / Firma | Time / Hora |
 > |---|---|---|
@@ -286,4 +295,9 @@ The Stand-Down expects an on-site demonstration component (a foreman-led walk-th
 - `safety.nearest_hospitals[]` resolved by ZIP (75070 → Texas Health Frisco; 75074 → Medical City Plano)
 - `safety.standdown_in_progress` auto-set to `true` for 2026-05-05 (inside May 4–8 window); foreman did not opt out so the topic auto-defaulted to the three-pillar fall-protection framing
 - `safety.heat_index_data_source` defaulted to `NWS-NDFD` since not set
-- Acclimatization Day-3 status pulled from `safety.acclimatization_log_path`; 60% workload cap applied per CPL 03-00-024 acclimatization curve
+- Acclimatization Day-3 status pulled from `safety.acclimatization_log_path`; 60% workload cap applied per CPL 03-00-024 acclimatization curve and surfaced as the primary Appendix J defense item for Jamal Wright on the sign-off sheet
+- **2026 Heat NEP defensive-posture flags surfaced inline on the heat-illness talk:**
+  - **Appendix J citation framework** cited in the header so each control bullet maps to a named Appendix J item (acclimatization gap / hydration cadence / shade availability / supervisor monitoring / written plan / recordkeeping); the sign-off sheet's Appendix J checklist captures all six items as defense artifacts in one place
+  - **Co-inspection posture** disclosed in the header — Hector's crew is reminded that any OSHA visit today (even an unrelated fall-protection or trenching visit at a sibling jobsite, if the same compliance officer rotates) will be evaluated as a heat-program inspection in the same case file
+  - **NWS heat-advisory random-inspection authority** — the talk records the NWS Fort Worth Heat Advisory active for 75070 on 2026-08-12 (11 AM – 8 PM CT) and surfaces "random-inspection-eligible under CPL 03-00-024" on the sign-off sheet so the artifact reflects the inspection-risk context the talk was delivered under. The fall-protection talk on 2026-05-05 does NOT surface this flag (no advisory in effect that day, outside heat season)
+- New named-binding introduced: `safety.nws_advisory_source` (default `NWS-WFO`) — cited in the heat-advisory-active line so the advisory provenance is traceable on the sign-off sheet

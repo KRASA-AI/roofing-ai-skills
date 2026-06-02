@@ -4,9 +4,9 @@ category: sales
 tools: [claude, chatgpt]
 difficulty: intermediate
 time_saved: "~15 min/estimate"
-version: 2.1
-last_eval_score: 9.2
-inspiration: "v2.1 adds canonical Template A price-adjustment letter Example Output (GAF Timberline HDZ 7% tariff pass-through on $16,800 estimate for 28-sq residential in Frisco TX, 3 options — deposit lock / tier downgrade / finance the delta) and a populated 3-line Addendum variant, closing the zero-worked-examples ceiling across five templates. v2.0 five-template structure, named config fields, lifecycle-cost schema, and one-question triage preserved."
+version: 2.2
+last_eval_score: 8.8
+inspiration: "v2.2 (2026-06-01) populates Template D (Objection-Handling Script) end-to-end with the canonical five-objection set ('it's too expensive' / 'I'll wait for prices to drop' / 'the other guy is cheaper' / 'can you match the old price?' / 'my insurance won't cover the increase'), each resolved against the same 28-sq Frisco TX scenario as Template A so the two outputs compose. Each objection block carries trigger language, underlying concern, voice-matched 2–3 sentence response, a supporting data point pulled from config.market_conditions, and a bridge-to-close question. Closes the three-of-five unpopulated-templates gap on the highest-frequency template (every estimate during a volatile window triggers an objection script). v2.1 adds canonical Template A price-adjustment letter Example Output (GAF Timberline HDZ 7% tariff pass-through on $16,800 estimate for 28-sq residential in Frisco TX, 3 options — deposit lock / tier downgrade / finance the delta) and a populated 3-line Addendum variant, closing the zero-worked-examples ceiling across five templates. v2.0 five-template structure, named config fields, lifecycle-cost schema, and one-question triage preserved."
 ---
 
 # 💲 Tariff & Price Adjustment Communicator
@@ -307,3 +307,206 @@ Authorized by: Acme Roofing, LLC | License #TX-RC-0481234
 - `warranty.workmanship_years` and `warranty.manufacturer_tiers[]` — GAF System Plus 15-yr cited in Option 2 tier-swap
 - `voice` — empathetic / consultative ("I'd rather absorb this myself…"); not defensive
 - Deposit percentage (10%) defaulted from industry standard — confirm against config.deposit_pct if set
+
+## Example Output — Template D: Objection-Handling Script (same 28-sq Frisco TX scenario)
+
+**Scenario:** Same as Template A — Acme Roofing LLC, customer Nathan Webb, 1412 Birchwood Ln, Frisco TX 75070, original estimate #E-2026-04-09 at $16,800 (28-sq GAF Timberline HDZ architectural) revised to $17,641 after the USTR HTS 6807.10 tariff expiration + GAF 7% pass-through. Marcus Rivera is the rep on this account. `voice = consultative` (matches the Template A letter close). Five canonical objections, each resolved against this scenario so the rep can read directly from the page on a callback or live counter at the kitchen-table close.
+
+---
+
+```
+OBJECTION-HANDLING SCRIPT — E-2026-04-09 (Nathan Webb, 1412 Birchwood Ln)
+For: Marcus Rivera, Acme Roofing LLC
+Trigger context: $16,800 → $17,641 (+$841, 5.0%) after USTR HTS 6807.10 expiration + GAF 7% architectural pass-through, effective May 1, 2026
+Voice: consultative (matches the Template A letter close)
+Use on: callback after letter delivery, live counter at kitchen-table close, inbound after estimate addendum email
+
+══════════════════════════════════════════════════════════════════════
+OBJECTION 1 — "It's too expensive."
+══════════════════════════════════════════════════════════════════════
+Trigger language (what Nathan likely says):
+  "$17,600 is just more than we budgeted. That's too expensive."
+
+Underlying concern: He's anchored on the original $16,800 number from
+  April 9 and the +$841 feels like a re-pricing of HIS project rather
+  than a market-wide shift.
+
+Response (consultative voice, 2–3 sentences):
+  "I hear you — and I'd be having the same reaction. Here's what changed:
+  the federal tariff exclusion on asphalt materials expired May 1, and
+  GAF passed through 7% the same day. Every licensed roofer in North
+  Texas re-priced their April estimates this month — your number went
+  up exactly $841 because the materials on YOUR project went up exactly
+  $841, not because we rewrote the estimate."
+
+Supporting data point (from config):
+  `market_conditions.active_tariffs[0].source_url` — USTR Exclusion
+  Docket 2026-01, Federal Register Vol. 91 No. 84 (asphalt roofing HTS
+  6807.10). Show Nathan the line-item delta table from the May 11 letter
+  so he can see the 3 line items that moved and the 3 that didn't.
+
+Bridge to close (reopens the decision):
+  "Of the three options in my letter — lock-with-deposit, tier-swap to
+  CertainTeed Landmark, or finance the $841 over 12 months at about
+  $74/month — which one feels closest to where you'd like to land?"
+
+══════════════════════════════════════════════════════════════════════
+OBJECTION 2 — "I'll wait for prices to drop."
+══════════════════════════════════════════════════════════════════════
+Trigger language:
+  "I'll just wait six months and see if prices come back down."
+
+Underlying concern: He thinks roofing prices behave like commodity
+  prices (visible spikes followed by visible drops). They don't —
+  asphalt has stair-stepped up for 22 of the last 25 years. He may
+  also be hoping the tariff gets reversed (politically possible but
+  on a multi-year timeline, not a six-month one).
+
+Response (consultative voice, 2–3 sentences):
+  "I get that instinct — and on most things it'd be the right one. On
+  asphalt shingles, the history is the opposite. GAF has raised
+  architectural prices 22 times in the last 25 years, never lowered
+  them once. And the tariff that drove this $841 is unlikely to reverse
+  in under 18–24 months. Waiting six months almost always costs more,
+  not less — and if we get a hail event in that window, we're talking
+  about repair on a roof that's another season older."
+
+Supporting data point (from config):
+  `market_conditions.manufacturer_increases[]` — GAF historical price-
+  letter cadence (typically 2 per year, 4–8% each, no reductions on
+  record). Pair with `service_area.hail_zones[]` and the NWS DFW
+  historical hail-event rate (3–5 qualifying events/yr in 75070).
+
+Bridge to close:
+  "If we set the deposit today and lock the $17,641, you're protected
+  for 30 days and we can schedule the install before the July hail
+  window. Does the timing of the install matter to you separately from
+  the price?"
+
+══════════════════════════════════════════════════════════════════════
+OBJECTION 3 — "The other guy is cheaper."
+══════════════════════════════════════════════════════════════════════
+Trigger language:
+  "I got another quote at $15,400. Can you do better?"
+
+Underlying concern: He's not sure if the other quote is for the same
+  scope. Most "cheaper" competing quotes in this market are missing
+  ice-and-water shield to warm-wall, missing drip edge, missing
+  starter strip, or omitting code-required ventilation. The $1,400
+  delta is usually the missing scope, not the markup.
+
+Response (consultative voice, 2–3 sentences):
+  "Happy to look at that quote side-by-side with mine. What I usually
+  find is the gap is in the line items — ice-and-water shield to warm
+  wall (IRC R905.1.2), code-required drip edge (R905.2.8.5), the
+  starter strip and the synthetic underlayment grade. If their scope
+  matches mine line for line, I'll either match the price or tell you
+  honestly we can't get there at that number — and tell you why."
+
+Supporting data point (from config):
+  `warranty.workmanship_years` (10-yr Acme workmanship) and
+  `warranty.manufacturer_tiers[0]` (GAF System Plus 15-yr enhanced
+  warranty, gated on GAF MasterElite certification). Most cheaper
+  quotes are from non-certified shops where the manufacturer warranty
+  is the bare 25-yr limited, not the 15-yr enhanced. Show Nathan the
+  difference in writing.
+
+Bridge to close:
+  "Send me a photo of the competing estimate and I'll have a line-by-
+  line comparison back to you within 4 hours. Fair?"
+
+══════════════════════════════════════════════════════════════════════
+OBJECTION 4 — "Can you match the old price?"
+══════════════════════════════════════════════════════════════════════
+Trigger language:
+  "Can you just honor the April 9 price of $16,800?"
+
+Underlying concern: He's testing whether the letter is real or whether
+  the rep has discretion to absorb the $841. This is the most common
+  objection on the day the letter lands. The wrong answer (saying yes)
+  breaks the integrity of the tariff-letter approach across every
+  customer the rep talks to this month. The right answer is to be
+  honest about the constraint without being defensive.
+
+Response (consultative voice, 2–3 sentences):
+  "I wish I could, Nathan, and I asked the same question internally.
+  The honest answer is no — the $841 is at-cost on materials, not
+  margin we'd be giving up. If I absorbed it on your project I'd have
+  to absorb it on the other 27 April estimates too, and that's about
+  $23,000 we don't have. What I CAN do is the financing option — split
+  the $841 into 12 monthly payments of roughly $74 so the impact on
+  your monthly cash flow is less than a dinner out."
+
+Supporting data point (from config):
+  `financing.partners[0]` — GreenSky 9.99% APR or 0% promotional
+  windows when available. Mention that 0%-for-24 promos run quarterly;
+  if one is active, the $841 splits to $35/mo with zero interest cost.
+
+Bridge to close:
+  "If financing the delta doesn't fit, the tier-swap to CertainTeed
+  Landmark drops the project back to $17,221 with the same workmanship
+  warranty. Want me to walk through that scope on the phone now?"
+
+══════════════════════════════════════════════════════════════════════
+OBJECTION 5 — "My insurance won't cover the increase."
+══════════════════════════════════════════════════════════════════════
+Trigger language:
+  "State Farm already approved $16,800. They're not going to pay the
+  extra $841."
+
+Underlying concern: He thinks his out-of-pocket has just gone up $841.
+  In a hail / wind claim with a properly-filed supplement, the carrier
+  is obligated to cover increases driven by documented market-wide
+  tariffs and manufacturer letters under most state insurance
+  bulletins (TX TDI included). The $841 is supplementable, not
+  out-of-pocket.
+
+Response (consultative voice, 2–3 sentences):
+  "Good news here — the $841 isn't your out-of-pocket. State Farm is
+  required to update the approved scope for documented market-wide
+  cost shifts. We file a quick supplement with the USTR docket and the
+  GAF price letter as backup, and they typically approve in 7–10
+  business days. Our supplement-recovery rate on tariff-driven items
+  is over 90% in the last 12 months."
+
+Supporting data point (from config):
+  `supplement.typical_recovery_per_claim`, `appeals.recent_wins[]`,
+  `inspector.haag_id`, and the cross-skill handoff to
+  `insurance-supplement-writer`. Cite TX TDI bulletin language on
+  market-cost-shift supplements (and KY Bulletin 2026-01 if Nathan
+  were in KY — note for the rep, not the customer).
+
+Bridge to close:
+  "I'll have the supplement drafted and submitted to your State Farm
+  adjuster tomorrow morning. Once they approve, the increase comes out
+  of YOUR side of the ledger and lands on the claim side. Do you want
+  me to copy you on the supplement when it goes out so you're in the
+  loop?"
+
+══════════════════════════════════════════════════════════════════════
+USAGE NOTES (for Marcus, not for Nathan)
+══════════════════════════════════════════════════════════════════════
+- Read the bridge-to-close question, then STOP TALKING. Silence after
+  the bridge is the highest-converting move in the kitchen-table close
+- If Nathan stacks two objections (e.g., 3 + 5), answer 5 first (the
+  insurance one is the only one where the dollar number moves off his
+  ledger) — that often dissolves 3 by itself
+- Track which objection Nathan actually raises in the CRM so the
+  follow-up sequence (`sales/follow-up-sequence`) can branch into the
+  matched objection-response thread on T+3 and T+7
+- Voice is consultative, never defensive. The phrase "I asked the same
+  question internally" on Objection 4 is the key disarm — it puts the
+  rep on Nathan's side of the table
+```
+
+---
+
+**Assumptions footer for the Template D run**
+- All five objection blocks resolved against the same 28-sq Frisco TX scenario as Template A — letter and objection script compose so the rep can use them together on a single follow-up call
+- `voice = consultative` resolved end-to-end; phrasing matches the Template A close ("I'd rather absorb this myself…" / "I asked the same question internally")
+- `market_conditions.active_tariffs[]` and `.manufacturer_increases[]` carried forward from Template A — same USTR HTS 6807.10 + GAF-2026-05-01-ARCH bindings
+- `financing.partners[0]` = GreenSky 9.99% APR / 0%-for-24 promotional windows — exercised in Objections 1 and 4
+- `warranty.workmanship_years` (10) + `warranty.manufacturer_tiers[0]` (GAF System Plus 15-yr, gated on GAF MasterElite) — exercised in Objection 3 to differentiate scope vs price
+- `supplement.typical_recovery_per_claim` + `appeals.recent_wins[]` + `inspector.haag_id` — exercised in Objection 5 cross-skill handoff to `insurance-supplement-writer`
+- Cross-skill bindings introduced via the worked example: `sales/follow-up-sequence` objection-thread branch on T+3 / T+7 (new named touchpoint that follow-up-sequence v2.2+ should consume); `admin/insurance-supplement-writer` for the Objection 5 supplement filing
+- `commercial.case_studies[]` and `.preferred_systems[]` NOT exercised in Template D (residential scenario only); a commercial Template D variant remains the next lift target

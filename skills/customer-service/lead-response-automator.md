@@ -4,9 +4,9 @@ category: customer-service
 tools: [claude, chatgpt]
 difficulty: intermediate
 time_saved: "~20 min/lead"
-version: 1.3
+version: 1.4
 last_eval_score: 8.8
-inspiration: "v1.3 adds the fourth ⚪ Low-fit Example Output — a Tyler TX out-of-service-area lead with a polite-referral script, no-estimator-routed handoff, and a CRM note flagging the redirect for source-quality analytics. Exercises service_area.zip_codes[] exclusion, response.fallback_routing[] for the ⚪ tier (referral partners), and the no-routed-estimator brief format. Closes the two-cycle Output Quality 8 ceiling on three-of-four tier coverage. v1.2 SLA windows, named bindings, estimator-matching algorithm, and three existing tier examples preserved."
+inspiration: "v1.4 (2026-06-01) adds the fifth Example Output covering the documented 'biggest capacity gain' use case from the When to Use section: a 🔴 in-shift call-miss recovery during business hours (separate from the v1.3 storm-night active leak). Scenario: 75070 inbound voice call at 2:43 PM Wed dropped to voicemail because the office was on three other calls and the AI receptionist's ring-time threshold expired without a human pickup. The skill demonstrates the 60-second AI-assisted callback pattern (transcript-from-VM auto-classify → callback-bot dials within 60 sec → live SMS with two real calendar slots → estimator handoff brief in JobNimbus). Exercises a new named binding (response.in_shift_missed_call_recovery_window_seconds, default 60) plus the existing response.business_hours and company.calendar_integration = google_workspace path. Closes the documented-but-unexemplified gap flagged as the 2026-05-25 recommended next-cycle improvement. v1.3 adds the fourth ⚪ Low-fit Example Output — a Tyler TX out-of-service-area lead with a polite-referral script, no-estimator-routed handoff, and a CRM note flagging the redirect for source-quality analytics. v1.2 SLA windows, named bindings, estimator-matching algorithm, and three existing tier examples preserved."
 ---
 
 # 🚀 Lead Response Automator
@@ -299,3 +299,67 @@ You are an AI-powered intake specialist for a roofing company. Your job is to pr
 - ⚪ Low-fit redirect partners (Henson Roofing / Cypress Roofing) pulled from `response.fallback_routing[].out_of_area_referrals[]` if configured; otherwise the rep is asked once for two trusted partners on first run and they are cached to config
 - ⚪ Low-fit closed-lost-redirected status does NOT trigger `follow-up-sequence` and does NOT enter `predictive-lead-scorer` batch — confirmed at the CRM handoff step
 - Source-quality flag fires when ≥3 out-of-area leads in 30 days route from the same ad source — count maintained in `response.source_quality_log_path`
+
+### 🔴 In-shift call-miss recovery — 75070 inbound, voicemail dropped during business hours (Wed 2:43 PM)
+
+> **Inbound** (voice call → voicemail, 2026-06-03 14:43 CT, ring timeout after 22 sec because the front desk was on three concurrent calls and no human picked up before the AI receptionist's `response.in_shift_missed_call_recovery_window_seconds` voicemail-handoff threshold):
+> "Hi, uh, this is David Park at 2207 Heritage Oaks Ln in Frisco, 75070. We've got a leak in the upstairs ceiling — not gushing, but the drywall is wet and it's still raining out. Wondering if anyone can come look today or tomorrow. My cell is 469-555-0294. Thanks."
+>
+> **AI transcription + auto-classification (T+5 sec after voicemail save):**
+> - Transcript captured by `company.calendar_integration = google_workspace` voice-AI layer
+> - Keywords scored: "leak" + "drywall is wet" + "still raining" = 🔴 active interior water under storm context
+> - ZIP 75070 = inside `service_area.zip_codes[]` AND inside `service_area.licensed_counties[] = [Collin, Denton, Dallas, Tarrant]`
+> - `response.business_hours = Mon-Fri 08:00-18:00 CT` → 14:43 CT is in-shift → in-shift-recovery branch fires, not after-hours branch
+>
+> **Tier classification:** 🔴 Emergency (active interior leak + active rain), in-shift call-miss
+> **Matched estimator:** Marcus Patel (Tier A, ZIP 75070 ✓, on-call NOT required because in-shift). Andrea Cole (Tier B, ZIP 75070 ✓) flagged as secondary if Marcus's calendar holds nothing in the next 4 hours
+> **SLA:** First touch ≤ 60 sec from VM save (not from original call drop) — the in-shift recovery clock starts the moment the VM transcribes
+>
+> ---
+>
+> **AI callback (T+45 sec from VM save, ringing David's cell at 14:44 CT):**
+> "David — Sam, the AI receptionist at Acme Roofing. I just got your voicemail about the leak at 2207 Heritage Oaks. Three things real quick: are you still home, is anyone safe, and is the water still actively coming through? … OK — Marcus, our HAAG-certified estimator who lives 6 minutes from you, has 3:30 PM today open OR 8:00 AM tomorrow. With the rain still going I'd take the 3:30. Want me to book that and have Marcus call you in the next 5 minutes to coordinate?"
+>
+> (Note: if David doesn't pick up the AI callback within 2 rings, the call routes directly to Marcus's cell — escalation does NOT wait for a second AI attempt because the active-leak signal already qualifies for human override on the in-shift miss.)
+>
+> **SMS (T+90 sec from VM save, sent 14:45):**
+> "David — Sam at Acme Roofing. Just called you back about the leak at 2207 Heritage Oaks. While the rain's still going, here are two slots for Marcus (our HAAG-certified estimator, 6 min from you):
+>
+> 🕒 Today 3:30 PM (recommended — leak is active)
+> 🕗 Tomorrow 8:00 AM (if today doesn't work)
+>
+> Reply 1 for today or 2 for tomorrow and I'll confirm immediately. — Sam, Acme Roofing, 469-555-0140"
+>
+> **Phone script (Marcus, T+4 min — calls David directly while AI receptionist holds the slot):**
+> "David — Marcus with Acme Roofing, the guy Sam mentioned. I'm at 1620 Commerce 6 minutes north of you and I'm walking out the door right now. While I drive, two quick things: any electrical fixtures near the wet drywall? Don't touch them. And can you take a phone photo of the ceiling stain so I know which slope to start on when I get there. Send to this number. See you in 8."
+>
+> **Auto-confirmation email (T+5 min, sent on slot lock):**
+> Subject: "Marcus is on the way to 2207 Heritage Oaks — 3:30 PM today"
+> Body: "David — confirming Marcus Patel will arrive at 2207 Heritage Oaks Ln by 3:35 PM CT for an emergency tarp + leak assessment. He's licensed (TX-RC-0481234), HAAG-certified, and 14 years on the roof. No charge for the emergency tarp on an active-leak callout. Reschedule link if needed: [acmeroofs.com/r/em-2026060300027]. — Acme Roofing, 469-555-0140."
+>
+> **Estimator handoff brief (JobNimbus paste, T+6 min from VM save):**
+> ```
+> LEAD: David Park / 2207 Heritage Oaks Ln, Frisco TX 75070 / 469-555-0294
+> SOURCE: inbound_voice → voicemail → ai_callback_recovery / 2026-06-03 14:43 CT (VM saved 14:43:22)
+> TIER: 🔴 Emergency (in-shift call-miss recovery) — active interior leak + active rain
+> RECOVERY-PATH: response.in_shift_missed_call_recovery_window_seconds = 60 fired at 14:43:27; AI callback 14:44:07; SMS 14:44:52; Marcus dispatched 14:47
+> ASSIGNED: Marcus Patel — ETA 15:35 CT today (T+0:52 from original call drop; T+0:48 from VM save)
+> SCOPE: Emergency tarp + leak source ID + full inspection booked for tomorrow if scope warrants
+> NOTES: Photo of ceiling stain requested via SMS. Rain still active at dispatch time per local radar. Storm context = no NOAA event ID yet — could be local microburst, confirm on arrival.
+> NEXT: Marcus calls dispatch on tarp completion. Route to roof-inspection-report skill on inspection completion. Route to insurance-supplement-writer if claim opens.
+> CAPACITY-DIAGNOSTIC: 3-concurrent-calls block at 14:43 = repeat of the Tuesday afternoon pattern (3rd in-shift miss this week between 2-3 PM). Recommend adding a second front-desk seat or extending AI receptionist primary-pickup threshold from 22 sec to 35 sec during the 14:00-15:00 CT window.
+> ```
+>
+> **Capacity-diagnostic note (auto-routed to office@acmeroofs.com, daily summary):**
+> "In-shift call-miss recovery #3 this week, all between 14:00-15:00 CT (Tue/Wed). Pattern: front desk on 3+ concurrent calls when 4th inbound rings. Estimated value of recovered leads this week: ~$48k (3 × $16k avg residential ticket). Recommend Tier 1 fix: extend AI receptionist primary-pickup threshold from 22 sec to 35 sec during the 14:00-15:00 CT window (config: response.business_hours[].peak_window_pickup_threshold_seconds). Tier 2 fix: stagger front-desk lunch coverage to keep ≥2 humans on the desk through 14:00-15:00."
+
+### Assumptions footer for the v1.4 in-shift recovery example
+
+- `response.in_shift_missed_call_recovery_window_seconds` = 60 — new named binding introduced in v1.4. Default fires the AI callback within 60 sec of voicemail save, separate from the original call drop time. This binding is the single config knob that determines how aggressively the in-shift recovery layer competes with the human front desk
+- `response.business_hours = Mon-Fri 08:00-18:00 CT` resolved from config; in-shift branch selected because 14:43 CT is inside the window
+- `company.calendar_integration = google_workspace` — voice-AI layer is the same that transcribed and scored the voicemail; calendar reads Marcus's real availability for the slot offer
+- ZIP 75070 routed Marcus (Tier A) primary, Andrea (Tier B) secondary — both have 75070 in `service_zips[]`. Marcus picked first because 🔴 Emergency routes to Tier A by default
+- Photo-request via SMS uses the same workflow as the v1.2 🔴 storm-night example for continuity — Marcus arrives knowing which slope is leaking
+- Capacity-diagnostic note fires when ≥3 in-shift call-misses cluster in the same hour-of-day window over a 7-day rolling period; counter maintained alongside `response.source_quality_log_path` (the ⚪ tier source-quality counter from v1.3) — same logging path, different counter name
+- In-shift recovery does NOT enter `predictive-lead-scorer` batch (real-time path, not batch path) but DOES enter `follow-up-sequence` Hot tier after the inspection completes, just like any other 🔴 lead
+- New named binding documented in the diagnostic note for future config schema bump: `response.business_hours[].peak_window_pickup_threshold_seconds` — allows per-window override of the AI receptionist's primary-pickup threshold (default 22 sec; commonly extended to 30-35 sec during predictable peak windows like 2-3 PM in residential markets)

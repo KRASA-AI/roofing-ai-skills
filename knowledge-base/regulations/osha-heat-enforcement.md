@@ -1,18 +1,25 @@
-# OSHA Heat Enforcement for Roofers (April 2026)
+# OSHA Heat Enforcement for Roofers (April–June 2026)
 
-*Inspiration: April 10, 2026 OSHA announcement replacing the expired Heat National Emphasis Program with Directive CPL 03-00-024 — extracted as a compliance snapshot and contractor action framework. No source text copied.*
+*Inspiration: April 10, 2026 OSHA announcement replacing the expired Heat National Emphasis Program with Directive CPL 03-00-024 — extracted as a compliance snapshot and contractor action framework. Refreshed 2026-06-01 with operational specifics on Appendix J citation framework, co-inspection trigger (heat coded simultaneously with fall-protection or trenching cases), and the random-inspection authority on NWS heat-advisory days for listed industries. No source text copied.*
 
 ## Why This File Exists
 
 Roofing crews carry a disproportionate heat-exposure burden among construction trades — rooftop surface temperatures routinely exceed ambient by 30–60°F, shade is limited, and the work is continuous rather than intermittent. OSHA has signaled through 2026 enforcement posture that heat citations against roofing and other outdoor-trade employers will continue climbing, with fewer warnings and more penalties. This file consolidates the current enforcement landscape and the contractor-level controls needed to stay defensible.
 
-## Current Enforcement Status (as of April 23, 2026)
+## Current Enforcement Status (refreshed June 1, 2026)
 
 - The prior Heat National Emphasis Program expired April 8, 2026 and was immediately replaced on April 10, 2026 by a new directive (reference: CPL 03-00-024, "National Emphasis Program — Outdoor and Indoor Heat-Related Hazards")
 - The renewal continues the programmatic heat-inspection focus and formalizes inspection triggers (employee complaints, media-reported heat-illness events, forecasted heat above local thresholds, prior heat-related citations)
 - Since the original NEP launched in 2022, heat-specific inspections have averaged several thousand per year industry-wide — an order-of-magnitude increase over pre-NEP baseline — indicating the enforcement lever is firmly in place even without a final federal heat standard
 - No final federal heat-specific standard has been promulgated; citations are issued under the General Duty Clause (Section 5(a)(1) of the OSH Act), which requires employers to maintain a workplace "free from recognized hazards that are causing or are likely to cause death or serious physical harm"
 - Several states (CA, WA, OR, CO, NV, MD, MN) operate state-plan heat standards that are more prescriptive than the federal directive — crews working across state lines should treat the stricter standard as the operating floor
+
+### New operational specifics under the 2026 update (surfaced by mid-May reporting)
+
+- **Appendix J — citation framework.** The 2026 directive ships with an appendix that standardizes how field observations are translated into specific citation items by the compliance officer. The practical effect for roofers: two crews with similar gaps now generate similar citation lists across regions, narrowing the cross-district variance contractors used to lean on for less-strict enforcement geographies
+- **Co-inspection trigger — heat coded alongside the active case.** A compliance officer arriving for a fall-protection or trenching visit is now expected to evaluate heat-related gaps during the same site walk and to record those findings as additional citation items in the same case file. Practical implication for a roofing employer: any OSHA visit — for any reason — during the heat season effectively functions as a heat inspection too. The defensive posture is to keep the heat program continuously defensible, not just on the days a heat-specific case is most likely
+- **Random-inspection authority during NWS heat advisories.** On a day when the National Weather Service has an active heat advisory or warning out for the operating area, compliance officers carry standing authority to drop in unannounced on jobsites in listed high-exposure industries — roofing being one — without a prior complaint trigger. A roofing crew on a deck during an active heat advisory should plan around the possibility of a no-notice site visit
+- **Acclimatization gap is the primary citation trigger.** The 2026 framing elevates the absence of a documented gradual-introduction period for new or returning workers from a common citation item to the standard first item an inspector codes when an incident occurs inside a worker's opening week on the job. The evidentiary anchor for the General Duty citation is the CDC- and OSHA-referenced concentration of outdoor-heat fatalities (roughly half to seven-tenths of all such deaths) into the earliest days of exposure to warm or hot working conditions
 
 ## What OSHA Inspectors Look for on a Heat Visit
 
@@ -82,4 +89,4 @@ The `safety-toolbox-talk-generator` skill produces the daily signed sheet that d
 
 ---
 
-*Last updated: 2026-04-23 by landscape monitor*
+*Last updated: 2026-06-01 by landscape monitor*

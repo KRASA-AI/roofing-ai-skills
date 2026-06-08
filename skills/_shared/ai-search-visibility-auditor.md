@@ -4,9 +4,9 @@ category: _shared
 tools: [claude, chatgpt]
 difficulty: intermediate
 time_saved: "~3 hours/audit"
-version: 1.1
+version: 1.2
 last_eval_score: null
-inspiration: "2026 AI search landscape — homeowners increasingly ask Claude, ChatGPT, Gemini, and Perplexity for contractor recommendations, rewarding sites with transparent pricing, credentials, local specificity, and structured data over traditional keyword SEO. v1.1 (May 2026) adds a Mobile-AI lever covering Apple Business Connect (pre-WWDC 2026 / Siri-with-Gemini, June 8 keynote), Google's May 6 'Five Doors' update to AI Overviews and AI Mode (Community Perspectives pulling Reddit/forums, inline citations, Further Exploration deep-dive content), camera-search readiness (visual-index alignment between branded photos and GBP), and the AI-call attribution shift from website sessions to GBP-routed phone numbers."
+inspiration: "2026 AI search landscape — homeowners increasingly ask Claude, ChatGPT, Gemini, and Perplexity for contractor recommendations, rewarding sites with transparent pricing, credentials, local specificity, and structured data over traditional keyword SEO. v1.1 (May 2026) adds a Mobile-AI lever covering Apple Business Connect (pre-WWDC 2026 / Siri-with-Gemini, June 8 keynote), Google's May 6 'Five Doors' update to AI Overviews and AI Mode (Community Perspectives pulling Reddit/forums, inline citations, Further Exploration deep-dive content), camera-search readiness (visual-index alignment between branded photos and GBP), and the AI-call attribution shift from website sessions to GBP-routed phone numbers. v1.2 (June 8 2026) updates the Mobile-AI lever from anticipated to confirmed after the WWDC keynote shipped the rebuilt Gemini-backed Siri inside the Dynamic Island, formally deprecated the older SiriKit intent framework, and made the App Intents framework the only path by which a third-party app can expose actions Siri can call and chain — concept extraction from keynote-day reporting only, no source text reused."
 ---
 
 # 🔎 AI Search Visibility Auditor
@@ -44,7 +44,7 @@ You are running an AI-search-visibility audit. Your output is a diagnostic repor
 - Reference `knowledge-base/terminology/` to calibrate technical depth for each service category
 - Cross-reference `knowledge-base/tools-ecosystem/ai-tools-landscape.md` for the current tool set that contractors should be tracking
 
-**Audit framework — five levers (v1.1):**
+**Audit framework — five levers (v1.2):**
 
 ### Lever 1: Authority & Trust Consistency
 Check these items across the website, Google Business Profile, Facebook page, Yelp, and any directory listings:
@@ -84,7 +84,7 @@ AI assistants pull 150–300 word answer-shaped blocks. Audit whether content is
 - Surfaced through hover-preview-friendly title tags and meta descriptions (specific phrasing like "Same-week tear-off and re-roof in [city]" beats generic taglines like "Quality roofing since 1998" in the new desktop hover-preview popup)
 
 ### Lever 5: Mobile-AI Readiness (Apple Business Connect, AI Overviews, Camera Search)
-The mobile-AI surface is a separate channel from the desktop-web SEO channel, with its own ranking signals and its own data sources. The May 6, 2026 Google AI Overviews "Five Doors" update plus the June 8, 2026 WWDC keynote launching Siri-with-Gemini make this lever decisive through the rest of the 2026 storm season. Audit the following:
+The mobile-AI surface is a separate channel from the desktop-web SEO channel, with its own ranking signals and its own data sources. The May 6, 2026 Google AI Overviews "Five Doors" update plus the **now-shipped** June 8, 2026 WWDC keynote — which confirmed the rebuilt, Gemini-backed Siri living in the Dynamic Island, the formal deprecation of the older SiriKit intent framework, and App Intents as the sole framework through which a third-party app can expose actions Siri can call and chain across apps — make this lever decisive through the rest of the 2026 storm season. Two practical consequences for a roofer reading this after the keynote: (1) the assistant a homeowner now talks to on the lock screen reasons over the same local-business data feeds (Apple Business Connect, Google Business Profile, the visual index) rather than a keyword index, so the items below are the levers that decide whether the shop is one of the names Siri reads aloud; (2) any roofing app or booking tool the shop relies on will surface inside Siri only if its developer has migrated to App Intents — worth asking the shop's CRM/booking vendor where they stand on that migration, since a vendor still on the deprecated framework will quietly drop out of Siri's reach over the 2–3 year deprecation window. Audit the following:
 
 - **Apple Business Connect listing claimed and complete.** Hours, services, photos, place card, social/web links. As of mid-May 2026 industry reporting cites 86% of contractors as not having claimed their Apple Business Connect listing — the single largest mobile-AI visibility gap in the trades. Claiming is free and takes about 10 minutes; for shops in iPhone-heavy markets (most of the U.S. coastal metros and many suburban storm-belt zips) this is the single highest-leverage move on the lever
 - **Google Business Profile depth and freshness.** Every service category populated, every Q&A answered, 20+ fresh photos added in the last 90 days, response to every review (positive and negative), special-hours updates seasonally, posts within 7 days for storm-response messaging
@@ -110,7 +110,7 @@ The mobile-AI surface is a separate channel from the desktop-web SEO channel, wi
 | Pricing Transparency | | | |
 | Local & Climate Specificity | | | |
 | Structured Content | | | |
-| Mobile-AI Readiness (v1.1) | | | |
+| Mobile-AI Readiness (v1.2) | | | |
 
 ### 3. Findings by Lever
 For each lever, produce:
@@ -120,7 +120,7 @@ For each lever, produce:
 - Concrete fix recommendation
 
 ### 4. Prompt Battery for Ongoing Monitoring
-Deliver a set of 10–15 test prompts the contractor can run monthly against ChatGPT, Claude, Gemini, Perplexity, Google AI Mode, and (after June 8, 2026) Siri-with-Gemini on an iPhone running iOS 27. Examples to draft:
+Deliver a set of 10–15 test prompts the contractor can run monthly against ChatGPT, Claude, Gemini, Perplexity, Google AI Mode, and the now-live Siri-with-Gemini on an iPhone running iOS 27 (rebuilt Siri shipped at the June 8, 2026 WWDC keynote). Examples to draft:
 - "Best roofing contractor in [city] for hail damage"
 - "Who repairs [material type] in [region]"
 - "[Carrier name] insurance claim roofer [city]"

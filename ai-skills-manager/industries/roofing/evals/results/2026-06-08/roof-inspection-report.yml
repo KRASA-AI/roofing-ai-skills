@@ -1,0 +1,20 @@
+skill: roof-inspection-report
+file: skills/operations/roof-inspection-report.md
+date: 2026-06-08
+improvement_candidate: true
+version_before: "1.2"
+version_after: "1.3"
+baseline_score_this_cycle: 7.8   # graded before improvement
+previous_score: 7.9              # last cycle (from frontmatter)
+scores_after_improvement:
+  clarity: 8
+  specificity: 8
+  industry_fit: 8
+  output_quality: 9
+  personalization: 8
+  efficiency: 9
+overall: 8.3
+delta_vs_baseline: 0.5
+delta_vs_previous: 0.4
+weakest_dimensions_targeted: [output_quality]
+outcome: improved-and-replaced

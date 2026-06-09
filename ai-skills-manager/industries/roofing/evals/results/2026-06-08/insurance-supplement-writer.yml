@@ -1,0 +1,16 @@
+skill: insurance-supplement-writer
+file: skills/admin/insurance-supplement-writer.md
+date: 2026-06-08
+version_evaluated: "2.1"
+scores:
+  clarity: 9
+  specificity: 9
+  industry_fit: 9
+  output_quality: 9
+  personalization: 8
+  efficiency: 9
+overall: 8.9
+previous_score: 8.9
+delta_vs_previous: 0.0
+improvement_candidate: false
+weakest_dimensions: [personalization]

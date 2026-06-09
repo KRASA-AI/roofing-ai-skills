@@ -1,0 +1,20 @@
+skill: commercial-prospect-researcher
+file: skills/sales/commercial-prospect-researcher.md
+date: 2026-06-08
+improvement_candidate: true
+version_before: "1.1"
+version_after: "1.2"
+baseline_score_this_cycle: 8.0   # graded before improvement
+previous_score: 8.1              # last cycle (from frontmatter)
+scores_after_improvement:
+  clarity: 8
+  specificity: 8
+  industry_fit: 9
+  output_quality: 9
+  personalization: 8
+  efficiency: 8
+overall: 8.4
+delta_vs_baseline: 0.4
+delta_vs_previous: 0.3
+weakest_dimensions_targeted: [output_quality]
+outcome: improved-and-replaced

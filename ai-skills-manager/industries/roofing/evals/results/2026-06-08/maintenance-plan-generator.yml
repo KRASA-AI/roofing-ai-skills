@@ -1,0 +1,16 @@
+skill: maintenance-plan-generator
+file: skills/sales/maintenance-plan-generator.md
+date: 2026-06-08
+version_evaluated: "1.5"
+scores:
+  clarity: 9
+  specificity: 9
+  industry_fit: 9
+  output_quality: 9
+  personalization: 8
+  efficiency: 8
+overall: 8.8
+previous_score: 8.8
+delta_vs_previous: 0.0
+improvement_candidate: false
+weakest_dimensions: [personalization, efficiency]

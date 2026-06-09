@@ -4,9 +4,9 @@ category: operations
 tools: [claude, chatgpt]
 difficulty: beginner
 time_saved: "~30 min/report"
-version: 1.2
-last_eval_score: 7.9
-inspiration: "v1.2 rewritten 2026-04-25 from eval improvement cycle — named config-field binding (inspector.*, certifications.*, branding.*, rates.* for cost-range hints), explicit hail-claim threshold rule (8 strikes per square per FM Global / HAAG industry guidance), commercial property-manager output variant, and an example 28-square hail-damage report skeleton. v1.1 enhanced with structured inspection categories, condition rating scale, photo reference system, and insurance-grade documentation."
+version: 1.3
+last_eval_score: 8.3
+inspiration: "v1.3 (2026-06-08) eval improvement cycle targeting output_quality (lowest-scoring skill in the repo at 7.8) — the residential Example Output defined a Photo Log and Disclaimer/Certification section in the structure but never showed them; both are now demonstrated end-to-end (23-photo log, full disclaimer + signature/cert footer). Added a second fully-worked Example Output for the Commercial Property-Manager variant (38,000 sf TPO retail strip, 14 yr, Plano TX) exercising the capital-planning table, IBC 1503 / ASCE 7 reserve-study compliance items, tenant-coordination notes, and commercial.cap_planning_horizon_years — the variant was described but unexemplified for two cycles. v1.2 rewritten 2026-04-25 from eval improvement cycle — named config-field binding (inspector.*, certifications.*, branding.*, rates.* for cost-range hints), explicit hail-claim threshold rule (8 strikes per square per FM Global / HAAG industry guidance), commercial property-manager output variant, and an example 28-square hail-damage report skeleton. v1.1 enhanced with structured inspection categories, condition rating scale, photo reference system, and insurance-grade documentation."
 ---
 
 # 🏠 Roof Inspection Report
@@ -199,8 +199,68 @@ Near-term    File claim within carrier's typical 60-day notice window.
              pending carrier scope).
 Monitoring   Re-inspect S + E slopes in 12 mo for delayed granule loss.
 
-— Marcus Patel, Senior Inspector — Acme Roofing, LLC
-  HAAG #H-2019-4421 — License #TX-RC-0481234
+PHOTO LOG (23 photos)
+#1   N slope, mid: 12 functional strikes in 10×10 test square, granule
+     displacement + exposed mat.
+#2–8 N slope detail: individual bruises, chalk-circled, coin for scale.
+#9   W slope, upper: 9 strikes incl. 2 large (>1.25") with mat fracture.
+#10–14 W slope detail + 1 wind-creased shingle (8' S of test square).
+#15  N ridge: two cracked hip caps.
+#16  Open metal valley, light debris, no separation.
+#17  Chimney step flashing intact, sealed.
+#18–19 Gutter face: hail dents confirm directional event.
+#20  Ridge vent intact; NFA adequate for 1,850 sf attic.
+#21–22 Pipe boots, collars within useful life.
+#23  Attic interior: insulation dry, no daylight, no staining.
+
+DISCLAIMER / CERTIFICATION
+This is a visual inspection only and does not constitute a warranty or a
+guarantee of insurability. Findings reflect conditions observed on the
+inspection date. Hail-strike counts follow HAAG-aligned functional-damage
+criteria (granule displacement + mat exposure within a 10×10 test square).
+
+— Marcus Patel, Senior Inspector (14 yrs) — Acme Roofing, LLC
+  HAAG Certified #H-2019-4421 — GAF Master Elite — License #TX-RC-0481234
+  469-555-0142 — mpatel@acmeroofing.example
+  License + certifications printed on every page footer.
 ```
 
 (Run with your own field data to replace these illustrative values.)
+
+## Example Output (commercial PM variant — 60-sq TPO retail strip, capital planning)
+
+```
+ACME ROOFING, LLC — Commercial Property-Condition Assessment      License #TX-RC-0481234
+Property:  Parkside Commons, 1820 Preston Rd, Plano TX 75093 (retail strip, 38,000 sf)
+Prepared for: Lincoln Property Co. (3rd-party PM) — Asset Manager file
+Inspected: 2026-06-04 — Inspector: Marcus Patel, HAAG #H-2019-4421
+
+EXECUTIVE SUMMARY
+60-mil mechanically-attached TPO, ~14 yrs old, past mid-life. Overall condition
+3 (Fair). Localized ponding at two interior drains and seam-fastener backout in
+the NE field. No active interior leaks reported. Capital-planning verdict:
+REPAIR-AND-MONITOR now; budget partial-to-full recover within the 10-yr horizon
+(commercial.cap_planning_horizon_years = 10).
+
+CAPITAL-PLANNING TABLE (per 38,000 sf)
+Option              Scope                              Yr-1      5-yr total  10-yr total
+Defer               No work; monitor                   $0        $0          $0 (risk: leak)
+Repair-only         Reseam NE field, drain retrofit    $11,200   $24,000     $41,000
+Partial replacement Recover NE 12,000 sf               $96,000   $108,000    $128,000
+Full replacement    Tear-off + new 60-mil TPO          $0        $0          $323,000
+
+COMPLIANCE / RESERVE-STUDY ITEMS
+- IBC 1503 secondary (overflow) drainage — verify scuppers at recover.
+- ASCE 7 wind uplift — 75093 in Zone II; confirm fastening pattern on recover.
+- Energy code: white TPO meets CRRC reflectance; maintain on replacement.
+
+TENANT COORDINATION NOTES
+- Roof access via rear of Suites 110–118; business-hours work windows only.
+- Common-area walkway protection required over storefront entries.
+
+DISCLAIMER / CERTIFICATION
+Visual inspection only; not a warranty or guarantee of insurability.
+— Marcus Patel, Senior Inspector — Acme Roofing, LLC — HAAG #H-2019-4421
+```
+
+(Run with your own field data + config to replace these illustrative values.)

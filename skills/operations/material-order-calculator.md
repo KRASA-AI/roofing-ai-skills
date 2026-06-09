@@ -4,9 +4,9 @@ category: operations
 tools: [claude, chatgpt]
 difficulty: beginner
 time_saved: "~15 min/order"
-version: 1.2
-last_eval_score: 8.1
-inspiration: "v1.2 rewritten 2026-04-25 from eval improvement cycle — named config-field binding (suppliers.preferred[], suppliers.account_numbers[], material_brands.*, dump.bundles_per_yard), paste-ready supplier quote-request block (ABC Supply / Beacon Building Products / SRS Distribution formats), tariff-aware price column, and an example 28-square architectural shingle order. v1.1 enhanced with material categories, waste factor tables, supplier-ready formatting, bundle/unit conversion."
+version: 1.3
+last_eval_score: 8.8
+inspiration: "v1.3 (2026-06-08) eval improvement cycle targeting output_quality + industry_fit — fixed an internal inconsistency in the worked Example Output (was labeled 'simple gable' while applying a 15% cut-up waste factor with 4 valleys/2 dormers; now correctly labeled cut-up hip-and-valley), corrected the ridge-cap coverage constant to be product-dependent (~31 lf/bundle cut 3-tab vs ~20 lf/bundle pre-formed TimberTex/TimberCrest/Z-Ridge), and added a Coverage-Constants Quick-Reference table plus an explicit waste-factor-must-match-geometry guard. v1.2 rewritten 2026-04-25 from eval improvement cycle — named config-field binding (suppliers.preferred[], suppliers.account_numbers[], material_brands.*, dump.bundles_per_yard), paste-ready supplier quote-request block (ABC Supply / Beacon Building Products / SRS Distribution formats), tariff-aware price column, and an example 28-square architectural shingle order. v1.1 enhanced with material categories, waste factor tables, supplier-ready formatting, bundle/unit conversion."
 ---
 
 # 📦 Material Order Calculator
@@ -64,7 +64,7 @@ You are a roofing operations manager's AI assistant. Your job is to produce an a
 
 2. **Starter strip** — Calculate from total eave + rake linear footage. Standard coverage: ~105 lin ft per bundle (varies by brand — note actual when `material_brands.starter_default` differs).
 
-3. **Ridge cap** — Calculate from total ridge + hip linear footage. Standard coverage: ~31 lin ft per bundle for most architectural ridge cap (~20 lin ft for Z-Ridge / TimberCrest).
+3. **Ridge cap** — Calculate from total ridge + hip linear footage. Coverage depends on the product: ~31 lin ft per bundle for cut-from-field 3-tab cap, but ~20 lin ft per bundle for premium pre-formed cap (GAF TimberTex / TimberCrest, OC DecoRidge, Z-Ridge). Match the constant to `material_brands.ridge_cap_default` and state which you used.
 
 4. **Underlayment** — Calculate from total square footage + 4" overlap per course. Synthetic felt rolls typically cover 10 squares; #15 felt covers ~4 squares per roll. Round up.
 
@@ -79,6 +79,24 @@ You are a roofing operations manager's AI assistant. Your job is to produce an a
 9. **Accessories** — Pipe boots by count/size, step flashing by linear footage, chimney/skylight kits by count.
 
 10. **Tear-off debris** — If scope is tear-off, compute estimated debris yards = (squares × `dump.bundles_per_yard`) and recommend dumpster size from `dump.dumpster_sizes_yd[]`.
+
+**Coverage-constants quick reference** (use these unless `material_brands.*` specifies a product with a different published coverage — then use the product's actual number and note it):
+
+| Material | Conversion / Coverage | Round to |
+|----------|-----------------------|----------|
+| Architectural shingle | 3 bundles / square | whole bundle |
+| Designer / luxury shingle | 4 bundles / square | whole bundle |
+| Starter strip | ~105 lin ft / bundle | whole bundle |
+| Ridge cap — 3-tab cut | ~31 lin ft / bundle | whole bundle |
+| Ridge cap — pre-formed (TimberTex / TimberCrest / Z-Ridge) | ~20 lin ft / bundle | whole bundle |
+| Synthetic underlayment | ~10 squares / roll | whole roll |
+| #15 felt | ~4 squares / roll | whole roll |
+| Ice & water shield (36" wide) | ~195 sq ft (~65 lin ft) / roll | whole roll |
+| Drip edge | 10 ft / piece | whole piece |
+| Ridge vent (rolled/strip) | ~7 ft / piece (varies) | whole piece |
+| Coil roofing nails | ~80 shingles/sq × nails-per-shingle ÷ ~7,200 nails/box | whole box |
+
+Waste factors: simple gable 10% · cut-up (multiple hips/valleys) 15% · complex/steep (>8:12 or many dormers) 18–20%. **The waste factor stated in the Assumptions footer must match the roof geometry described** — never apply a cut-up waste factor to a roof you've labeled simple gable (and vice versa).
 
 **Process:**
 
@@ -162,14 +180,14 @@ Contact: {account_manager_name} — {phone}
 - If two suppliers are in `suppliers.preferred[]`, produce both blocks so the user can drop simultaneous RFQs
 - Cross-reference sibling skills: `estimate-builder` (the takeoff drives the cost basis), `tariff-price-adjuster` (when pricing_mode = tariff_aware, annotations come from this skill's market_conditions block), `crew-schedule-optimizer` (delivery window must align with crew start)
 
-## Example Output (28-sq architectural tear-off, simple gable, ABC Supply)
+## Example Output (28-sq architectural tear-off, cut-up hip-and-valley roof, ABC Supply)
 
 ```
 ORDER SUMMARY
 # Material            Brand / Spec               Basis             Qty   Waste  Order   Unit       Notes
 1 Shingles            GAF Timberline HDZ (Charcoal) 28 sq × 3      84    15%    97      bundles    Tariff-aware: +4% vs Q1 2026
 2 Starter strip       GAF Pro-Start              184 lf eave+rake  184   round  2       bundles    @ 105 lf/bundle
-3 Ridge cap           GAF TimberTex              42 lf ridge       42    round  3       bundles    @ ~20 lf/bundle
+3 Ridge cap           GAF TimberTex (pre-formed) 42 lf ridge+hip   42    round  3       bundles    @ ~20 lf/bundle (pre-formed)
 4 Synthetic underlay. GAF Tiger Paw              28 sq             28    10%    4       rolls      @ 10 sq/roll
 5 Ice & water shield  GAF StormGuard             36 lf eave + 24 lf valley × 3 ft  180 sf  10%   2  rolls   @ 195 sf/roll
 6 Drip edge           Aluminum, brown, 10 ft     184 lf            184   round  19      pieces     —

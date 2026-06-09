@@ -1,0 +1,16 @@
+skill: predictive-lead-scorer
+file: skills/sales/predictive-lead-scorer.md
+date: 2026-06-08
+version_evaluated: "2.1"
+scores:
+  clarity: 9
+  specificity: 9
+  industry_fit: 9
+  output_quality: 9
+  personalization: 9
+  efficiency: 9
+overall: 9.0
+previous_score: 9.0
+delta_vs_previous: 0.0
+improvement_candidate: false
+weakest_dimensions: []

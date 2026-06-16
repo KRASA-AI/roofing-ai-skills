@@ -1,0 +1,34 @@
+skill: jobsite-content-repurposer
+file: skills/sales/jobsite-content-repurposer.md
+date: 2026-06-15
+improvement_candidate: true
+version_before: "1.0"
+version_after: "1.1"
+file_changed_since_last_eval: true
+first_evaluation: true            # new skill (added 2026-06-15), no prior cycle score
+baseline_score_this_cycle: 7.1    # graded before improvement (placeholder Example Output)
+scores_baseline_this_cycle:
+  clarity: 8
+  specificity: 8
+  industry_fit: 8
+  output_quality: 4               # Example Output was an empty "[will be populated]" placeholder
+  personalization: 7
+  efficiency: 8
+scores_after_improvement:
+  clarity: 9
+  specificity: 9
+  industry_fit: 8
+  output_quality: 9               # complete 6-channel worked batch + photo plan + confirm checklist
+  personalization: 8
+  efficiency: 9
+overall: 8.7
+delta_vs_baseline: 1.6
+previous_score: null
+weakest_dimensions_targeted: [output_quality, personalization]
+outcome: improved-and-replaced
+notes: >
+  Replaced the placeholder Example Output with a paste-ready batch (Frisco TX
+  GAF Timberline HDZ storm restoration) across all six channels, plus a photo
+  plan and a [confirm] checklist. Bound named config fields (company.*, voice.social,
+  service_area.*, channels.*, manufacturers/certifications, financing) with
+  defaults and a missing-field flag rule.

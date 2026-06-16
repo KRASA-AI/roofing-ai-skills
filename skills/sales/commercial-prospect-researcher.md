@@ -4,9 +4,9 @@ category: sales
 tools: [claude, chatgpt]
 difficulty: intermediate
 time_saved: "~2 hours/prospect list"
-version: 1.2
-last_eval_score: 8.4
-inspiration: "v1.2 (2026-06-08) eval improvement cycle targeting output_quality — the skill's primary deliverable is a prospect LIST, but prior versions only demonstrated a single building brief and left the prospect-list table as an empty header row. Added a fully populated 5-building Example Output (Plano/Allen warehouse + retail + MOB mix, with 🔥/🟡/🟢 priority tiers, estimated-value flagging, and decision-maker titles from the vertical lookup) plus a worked Campaign-Level Recommendations block (send order, geo cluster, shared-PM batching, vertical gaps, and a crew_capacity_sf_per_week saturation check). v1.1 rewritten 2026-04-25 from eval improvement cycle — named config-field binding (commercial.case_studies[].vertical/zip/system, commercial.certifications[], commercial.target_verticals[], voice.commercial), example outreach brief showing voice-tuned opening, and explicit decision-maker-by-vertical lookup table. v1.0 concept from 2026 commercial-roofing B2B AI outreach tools that aggregate facility-manager and building-owner data from public sources to seed cold outreach."
+version: 1.3
+last_eval_score: 8.6
+inspiration: "v1.3 (2026-06-15) eval improvement cycle targeting output_quality — prior versions' frontmatter and output rules referenced 'estimated-value flagging' but the prospect-list table had no value column, so reps had no way to sort the biggest qualified jobs to the top. Added an Est. Project Value column (Est. SF × a labeled recover/tear-off $/sf assumption, always flagged estimated) to both the spec table and the 5-building worked example, with an explicit basis note; wired it into the priority sort (intra-tier ties broken by value) and the capacity check (🔥 tier now reports ~$790K combined). v1.2 (2026-06-08) eval improvement cycle targeting output_quality — the skill's primary deliverable is a prospect LIST, but prior versions only demonstrated a single building brief and left the prospect-list table as an empty header row. Added a fully populated 5-building Example Output (Plano/Allen warehouse + retail + MOB mix, with 🔥/🟡/🟢 priority tiers, estimated-value flagging, and decision-maker titles from the vertical lookup) plus a worked Campaign-Level Recommendations block (send order, geo cluster, shared-PM batching, vertical gaps, and a crew_capacity_sf_per_week saturation check). v1.1 rewritten 2026-04-25 from eval improvement cycle — named config-field binding (commercial.case_studies[].vertical/zip/system, commercial.certifications[], commercial.target_verticals[], voice.commercial), example outreach brief showing voice-tuned opening, and explicit decision-maker-by-vertical lookup table. v1.0 concept from 2026 commercial-roofing B2B AI outreach tools that aggregate facility-manager and building-owner data from public sources to seed cold outreach."
 ---
 
 # 🏢 Commercial Prospect Researcher
@@ -102,9 +102,11 @@ Pull publicly available data:
 
 ### 1. Prospect List (tabular)
 
-| # | Building | Address | Roof Est. Age | Est. SF | Industry | Decision-Maker Title | Decision-Maker Name (if known) | Trigger | Vertical-Matched Case Study | Priority |
-|---|----------|---------|---------------|---------|----------|----------------------|---------------------------------|---------|------------------------------|----------|
-| 1 | | | | | | | | | | 🔥/🟡/🟢 |
+| # | Building | Address | Roof Est. Age | Est. SF | Est. Project Value | Industry | Decision-Maker Title | Decision-Maker Name (if known) | Trigger | Vertical-Matched Case Study | Priority |
+|---|----------|---------|---------------|---------|--------------------|----------|----------------------|---------------------------------|---------|------------------------------|----------|
+| 1 | | | | | | | | | | | 🔥/🟡/🟢 |
+
+**Est. Project Value column:** rough planning figure = Est. SF × a per-sf assumption (recover/coating ~$4–6/sf, full tear-off + new membrane ~$8–12/sf); pick recover vs replace from the roof's estimated age/condition and label the basis (e.g., `~$430K (recover)`). Always flag as estimated. Use it to (a) sort within a priority tier so reps work the largest qualified jobs first, and (b) feed the capacity check below.
 
 Priority legend:
 - 🔥 Hot — documented trigger + identified contact + in `service_area.commercial_zip_codes[]` + matches `commercial.target_verticals[]`
@@ -147,23 +149,23 @@ For each priority prospect, produce a 150–220 word brief:
 
 ### 1. Prospect List — Plano/Allen TX 75074/75013, warehouse + retail verticals, 2026-06
 
-| # | Building | Address | Roof Est. Age | Est. SF | Industry | Decision-Maker Title | DM Name (if known) | Trigger | Vertical-Matched Case Study | Priority |
-|---|----------|---------|--------------:|--------:|----------|----------------------|--------------------|---------|------------------------------|----------|
-| 1 | Riverside Logistics Center | 4400 Industrial Pkwy, Plano 75074 | ~17 (est.) | 62,000 | Warehouse/distribution | VP Real Estate / Dir. Facilities | — (Lincoln Property Co. PM) | 4/18 hail 1.25"; 9 nearby HVAC permits 12 mo | Frisco Logistics Hub 78k TPO 2024 | 🔥 Hot |
-| 2 | Parkside Commons retail strip | 1820 Preston Rd, Plano 75093 | ~14 (est.) | 38,000 | Retail strip | Property Manager (3rd-party) | — | 4/18 hail footprint edge; visible ponding (aerial) | none — log as first 75093 retail ref | 🟡 Warm |
-| 3 | Allen Tech Business Park (Bldg C) | 700 Central Expy, Allen 75013 | ~12 (est.) | 51,000 | Light industrial | Corporate Dir. of Facilities | Dana W. (LinkedIn) | Solar permit filed 2026-03 (penetration risk) | Plano flex-space EPDM 2023 | 🔥 Hot |
-| 4 | Cedarbrook Medical Office | 1100 W McDermott, Allen 75013 | ~19 (est.) | 28,000 | Medical office (MOB) | Property Manager (3rd-party) | — | Roof past mfr. warranty window (est.) | none — MOB vertical gap | 🟢 Nurture |
-| 5 | Greenline Distribution | 3900 Mapleshade Ln, Plano 75075 | ~9 (est.) | 84,000 | Warehouse/distribution | Regional FM | — | None current; large SF, monitor | Frisco Logistics Hub 78k TPO 2024 | 🟢 Nurture |
+| # | Building | Address | Roof Est. Age | Est. SF | Est. Project Value | Industry | Decision-Maker Title | DM Name (if known) | Trigger | Vertical-Matched Case Study | Priority |
+|---|----------|---------|--------------:|--------:|-------------------:|----------|----------------------|--------------------|---------|------------------------------|----------|
+| 1 | Riverside Logistics Center | 4400 Industrial Pkwy, Plano 75074 | ~17 (est.) | 62,000 | ~$430K (recover) | Warehouse/distribution | VP Real Estate / Dir. Facilities | — (Lincoln Property Co. PM) | 4/18 hail 1.25"; 9 nearby HVAC permits 12 mo | Frisco Logistics Hub 78k TPO 2024 | 🔥 Hot |
+| 2 | Parkside Commons retail strip | 1820 Preston Rd, Plano 75093 | ~14 (est.) | 38,000 | ~$300K (recover) | Retail strip | Property Manager (3rd-party) | — | 4/18 hail footprint edge; visible ponding (aerial) | none — log as first 75093 retail ref | 🟡 Warm |
+| 3 | Allen Tech Business Park (Bldg C) | 700 Central Expy, Allen 75013 | ~12 (est.) | 51,000 | ~$360K (recover) | Light industrial | Corporate Dir. of Facilities | Dana W. (LinkedIn) | Solar permit filed 2026-03 (penetration risk) | Plano flex-space EPDM 2023 | 🔥 Hot |
+| 4 | Cedarbrook Medical Office | 1100 W McDermott, Allen 75013 | ~19 (est.) | 28,000 | ~$280K (tear-off) | Medical office (MOB) | Property Manager (3rd-party) | — | Roof past mfr. warranty window (est.) | none — MOB vertical gap | 🟢 Nurture |
+| 5 | Greenline Distribution | 3900 Mapleshade Ln, Plano 75075 | ~9 (est.) | 84,000 | ~$420K (recover) | Warehouse/distribution | Regional FM | — | None current; large SF, monitor | Frisco Logistics Hub 78k TPO 2024 | 🟢 Nurture |
 
-*All age/SF/system values flagged estimated (assessor + aerial). No personal contact info included beyond publicly listed PM switchboards.*
+*All age/SF/value/system figures flagged estimated (assessor + aerial; value = Est. SF × $/sf assumption, recover ~$5–7/sf or tear-off ~$10/sf per estimated condition). No personal contact info included beyond publicly listed PM switchboards.*
 
 ### 2. Campaign-Level Recommendations
 
-- **Send order this week:** #3 Allen Tech (Dana W. is name-level + fresh solar-permit trigger) → #1 Riverside (route through Lincoln Property switchboard) → #2 Parkside (PM hunt first).
+- **Send order this week:** #3 Allen Tech (Dana W. is name-level + fresh solar-permit trigger) → #1 Riverside (largest 🔥 at ~$430K, route through Lincoln Property switchboard) → #2 Parkside (PM hunt first). Within the 🔥 tier, ties broken by Est. Project Value so reps work the biggest qualified jobs first.
 - **Geo cluster:** #3 and #4 are both Allen 75013, 0.6 mi apart — one drive-by photo run covers both.
 - **Shared contact:** #2 and #4 are both 3rd-party-managed retail/MOB; identify the PM firm and batch one intro covering both buildings.
 - **Vertical gaps:** no MOB (#4) or 75093 retail (#2) case study on file — pitch #4 as a reference-project candidate and flag for `commercial.case_studies[]` logging on win.
-- **Capacity check:** 🔥 list = 113,000 sf. At `commercial.crew_capacity_sf_per_week` (assume 25,000 sf), simultaneous conversion of #1+#3 would stall ~4.5 weeks — stagger walk-throughs.
+- **Capacity check:** 🔥 list = 113,000 sf / ~$790K combined est. value (#1 ~$430K + #3 ~$360K). At `commercial.crew_capacity_sf_per_week` (assume 25,000 sf), simultaneous conversion of #1+#3 would stall ~4.5 weeks — stagger walk-throughs so the larger #1 leads.
 
 ### 3. Worked Outreach Brief (🔥 #1, voice-tuned, vertical-matched)
 

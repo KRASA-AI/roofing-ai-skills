@@ -20,6 +20,7 @@ This repo is a complete AI toolkit for roofing. Every skill is a standalone prom
 | Commercial Prospect Researcher | Build a qualified commercial-roofing prospect list by gathering public data about target buildings (age, size, industry, ownership), identifying the actual decision-maker (facility manager, property manager, or building owner), and producing a personalized outreach brief the sales rep can turn into email, LinkedIn, or phone outreach. | ~2 hours/prospect list |
 | Estimate Builder | Convert measurements and material choices into a formatted, customer-ready estimate — with built-in pricing sanity checks, Good/Better/Best option tiers with explicit price deltas, lifecycle cost-per-year framing, and clear scope documentation that reduces change orders. | ~25 min/estimate |
 | Follow-Up Sequence | Generate a multi-touch follow-up cadence for open roofing estimates and cold leads — with channel-specific messages (text, email, phone scripts, door-knock talking points) pre-filled with customer, property, estimate, and config details — plus roofing-specific urgency hooks and a complete objection-response matrix. | ~10 min/lead |
+| Jobsite Content Repurposer | Turn the photos a crew already takes on every job — the ones sitting in CompanyCam, the camera roll, or a shared drive — into a batch of ready-to-publish marketing content: social posts, short-form video scripts and storyboards, before/after captions, and a Google Business Profile update. | ~45 min/post batch |
 | Maintenance Plan Generator | Build a customized preventive maintenance plan and tiered subscription proposal for a roof — grounded in the material type, climate exposure, roof age, and repair history — with defensible pricing, ROI math the homeowner can verify, and subscription terms ready for recurring billing. | ~25 min/plan |
 | Predictive Lead Scorer | Rank a batch of leads or prospects by likelihood-to-close and expected ticket size — using a transparent, weighted composite that a sales rep can audit — so the call-list, door-knock list, and mailer list all start with the homeowners most likely to need (and buy) roof work right now. | ~30 min/batch |
 | Storm Canvassing Prioritizer | After a hail or wind event, turn the storm footprint into a prioritized canvassing plan in under an hour. | ~3 hours/storm event |
@@ -33,7 +34,7 @@ This repo is a complete AI toolkit for roofing. Every skill is a standalone prom
 | Review Responder | Craft public, professional responses to online reviews on Google, Nextdoor, BBB, Angi, Yelp, Facebook, and manufacturer / contractor directories — with tailored tone based on star rating and the roofing-specific concern raised, plus an escalation path for legitimate complaints or inaccurate claims. | ~10 min/review |
 | Visual Proposal Generator | Turn a completed estimate, inspection report, or prospect brief into a polished, brand-consistent visual deliverable a homeowner or commercial decision-maker can read in under three minutes. | ~90 min/deliverable |
 
-**Total time saved per use: ~470+ minutes across all skills.**
+**Total time saved per use: ~515+ minutes across all skills.**
 
 ## Quick Start
 

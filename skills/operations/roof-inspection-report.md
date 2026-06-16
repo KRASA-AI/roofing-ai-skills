@@ -4,9 +4,9 @@ category: operations
 tools: [claude, chatgpt]
 difficulty: beginner
 time_saved: "~30 min/report"
-version: 1.3
+version: 1.4
 last_eval_score: 8.3
-inspiration: "v1.3 (2026-06-08) eval improvement cycle targeting output_quality (lowest-scoring skill in the repo at 7.8) — the residential Example Output defined a Photo Log and Disclaimer/Certification section in the structure but never showed them; both are now demonstrated end-to-end (23-photo log, full disclaimer + signature/cert footer). Added a second fully-worked Example Output for the Commercial Property-Manager variant (38,000 sf TPO retail strip, 14 yr, Plano TX) exercising the capital-planning table, IBC 1503 / ASCE 7 reserve-study compliance items, tenant-coordination notes, and commercial.cap_planning_horizon_years — the variant was described but unexemplified for two cycles. v1.2 rewritten 2026-04-25 from eval improvement cycle — named config-field binding (inspector.*, certifications.*, branding.*, rates.* for cost-range hints), explicit hail-claim threshold rule (8 strikes per square per FM Global / HAAG industry guidance), commercial property-manager output variant, and an example 28-square hail-damage report skeleton. v1.1 enhanced with structured inspection categories, condition rating scale, photo reference system, and insurance-grade documentation."
+inspiration: "v1.4 (2026-06-15) eval improvement cycle targeting output_quality — fixed an internal inconsistency in the commercial PM Example Output header, which labeled the building '60-sq TPO retail strip' while the body (and the capital-planning table, priced per 38,000 sf) described a 38,000 sf roof; 38,000 sf is ~380 squares, not 60, so the header now reads '38,000 sf / 380-sq' to match the worked numbers an adjuster or asset manager would cross-check. v1.3 (2026-06-08) eval improvement cycle targeting output_quality (lowest-scoring skill in the repo at 7.8) — the residential Example Output defined a Photo Log and Disclaimer/Certification section in the structure but never showed them; both are now demonstrated end-to-end (23-photo log, full disclaimer + signature/cert footer). Added a second fully-worked Example Output for the Commercial Property-Manager variant (38,000 sf TPO retail strip, 14 yr, Plano TX) exercising the capital-planning table, IBC 1503 / ASCE 7 reserve-study compliance items, tenant-coordination notes, and commercial.cap_planning_horizon_years — the variant was described but unexemplified for two cycles. v1.2 rewritten 2026-04-25 from eval improvement cycle — named config-field binding (inspector.*, certifications.*, branding.*, rates.* for cost-range hints), explicit hail-claim threshold rule (8 strikes per square per FM Global / HAAG industry guidance), commercial property-manager output variant, and an example 28-square hail-damage report skeleton. v1.1 enhanced with structured inspection categories, condition rating scale, photo reference system, and insurance-grade documentation."
 ---
 
 # 🏠 Roof Inspection Report
@@ -227,7 +227,7 @@ criteria (granule displacement + mat exposure within a 10×10 test square).
 
 (Run with your own field data to replace these illustrative values.)
 
-## Example Output (commercial PM variant — 60-sq TPO retail strip, capital planning)
+## Example Output (commercial PM variant — 38,000 sf / 380-sq TPO retail strip, capital planning)
 
 ```
 ACME ROOFING, LLC — Commercial Property-Condition Assessment      License #TX-RC-0481234

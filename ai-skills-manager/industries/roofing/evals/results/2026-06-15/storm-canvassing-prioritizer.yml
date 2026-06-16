@@ -1,0 +1,17 @@
+skill: storm-canvassing-prioritizer
+file: skills/sales/storm-canvassing-prioritizer.md
+date: 2026-06-15
+version_evaluated: "1.2"
+file_changed_since_last_eval: false
+scores:
+  clarity: 9
+  specificity: 9
+  industry_fit: 9
+  output_quality: 8
+  personalization: 8
+  efficiency: 8
+overall: 8.6
+previous_score: 8.7
+delta_vs_previous: -0.1
+improvement_candidate: false
+weakest_dimensions: [output_quality (2 of 3 top-tier per-cluster briefs stubbed as 'follows same structure')]

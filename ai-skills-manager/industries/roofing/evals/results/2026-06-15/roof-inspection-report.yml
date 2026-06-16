@@ -1,0 +1,32 @@
+skill: roof-inspection-report
+file: skills/operations/roof-inspection-report.md
+date: 2026-06-15
+improvement_candidate: true
+version_before: "1.3"
+version_after: "1.4"
+file_changed_since_last_eval: true
+baseline_score_this_cycle: 8.1   # graded before improvement; output_quality docked for sq/sf header inconsistency
+previous_score: 8.3              # last cycle (2026-06-08)
+scores_baseline_this_cycle:
+  clarity: 8
+  specificity: 8
+  industry_fit: 8
+  output_quality: 8              # commercial example header "60-sq" vs body 38,000 sf (~380 sq)
+  personalization: 8
+  efficiency: 9
+scores_after_improvement:
+  clarity: 8
+  specificity: 8
+  industry_fit: 8
+  output_quality: 9              # header now "38,000 sf / 380-sq", consistent with the priced table
+  personalization: 8
+  efficiency: 9
+overall: 8.3
+delta_vs_baseline: 0.2
+delta_vs_previous: 0.0
+weakest_dimensions_targeted: [output_quality]
+outcome: improved-and-replaced
+notes: >
+  Fixed the commercial PM Example Output header inconsistency (38,000 sf is ~380
+  squares, not 60). No regression vs the 8.3 prior; the new strict-grading baseline
+  caught the blemish the previous cycle missed.

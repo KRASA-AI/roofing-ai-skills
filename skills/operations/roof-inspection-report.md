@@ -4,9 +4,9 @@ category: operations
 tools: [claude, chatgpt]
 difficulty: beginner
 time_saved: "~30 min/report"
-version: 1.4
+version: 1.5
 last_eval_score: 8.3
-inspiration: "v1.4 (2026-06-15) eval improvement cycle targeting output_quality — fixed an internal inconsistency in the commercial PM Example Output header, which labeled the building '60-sq TPO retail strip' while the body (and the capital-planning table, priced per 38,000 sf) described a 38,000 sf roof; 38,000 sf is ~380 squares, not 60, so the header now reads '38,000 sf / 380-sq' to match the worked numbers an adjuster or asset manager would cross-check. v1.3 (2026-06-08) eval improvement cycle targeting output_quality (lowest-scoring skill in the repo at 7.8) — the residential Example Output defined a Photo Log and Disclaimer/Certification section in the structure but never showed them; both are now demonstrated end-to-end (23-photo log, full disclaimer + signature/cert footer). Added a second fully-worked Example Output for the Commercial Property-Manager variant (38,000 sf TPO retail strip, 14 yr, Plano TX) exercising the capital-planning table, IBC 1503 / ASCE 7 reserve-study compliance items, tenant-coordination notes, and commercial.cap_planning_horizon_years — the variant was described but unexemplified for two cycles. v1.2 rewritten 2026-04-25 from eval improvement cycle — named config-field binding (inspector.*, certifications.*, branding.*, rates.* for cost-range hints), explicit hail-claim threshold rule (8 strikes per square per FM Global / HAAG industry guidance), commercial property-manager output variant, and an example 28-square hail-damage report skeleton. v1.1 enhanced with structured inspection categories, condition rating scale, photo reference system, and insurance-grade documentation."
+inspiration: "v1.5 (2026-06-22) landscape-monitor concept extraction — added a 'Documentation Completeness Check' step that audits the photos/notes provided against the standard documentation set an insurer (and an insurer's automated claim-review system) expects, names exactly which categories are missing, and flags when a gap would invite a coverage denial or force a return trip to the roof. Concept extracted from the 2026 contractor-side observation that carriers increasingly run automated review on the adjuster side to find documentation gaps and use those gaps to deny or underpay claims, and from field-capture tools that verify on-site that every required documentation angle was taken before the crew leaves (e.g., HomePro AI's field-capture/return-trip-prevention positioning surfaced in the May–June 2026 scans). Operationalized vendor-neutrally: it works from whatever photos a shop already takes (CompanyCam, camera roll, drive folder), requires no specific app, and produces a pre-submission gap list rather than a real-time on-roof prompt. All wording, the category taxonomy, and the worked example are original; no source checklist text, product copy, or numeric claims were copied, and no vendor's proprietary 'required-angle' list was reproduced. v1.4 (2026-06-15) eval improvement cycle targeting output_quality — fixed an internal inconsistency in the commercial PM Example Output header, which labeled the building '60-sq TPO retail strip' while the body (and the capital-planning table, priced per 38,000 sf) described a 38,000 sf roof; 38,000 sf is ~380 squares, not 60, so the header now reads '38,000 sf / 380-sq' to match the worked numbers an adjuster or asset manager would cross-check. v1.3 (2026-06-08) eval improvement cycle targeting output_quality (lowest-scoring skill in the repo at 7.8) — the residential Example Output defined a Photo Log and Disclaimer/Certification section in the structure but never showed them; both are now demonstrated end-to-end (23-photo log, full disclaimer + signature/cert footer). Added a second fully-worked Example Output for the Commercial Property-Manager variant (38,000 sf TPO retail strip, 14 yr, Plano TX) exercising the capital-planning table, IBC 1503 / ASCE 7 reserve-study compliance items, tenant-coordination notes, and commercial.cap_planning_horizon_years — the variant was described but unexemplified for two cycles. v1.2 rewritten 2026-04-25 from eval improvement cycle — named config-field binding (inspector.*, certifications.*, branding.*, rates.* for cost-range hints), explicit hail-claim threshold rule (8 strikes per square per FM Global / HAAG industry guidance), commercial property-manager output variant, and an example 28-square hail-damage report skeleton. v1.1 enhanced with structured inspection categories, condition rating scale, photo reference system, and insurance-grade documentation."
 ---
 
 # 🏠 Roof Inspection Report
@@ -111,14 +111,42 @@ State the rule applied and the per-slope count clearly so an adjuster can verify
 - Numbered list of all photos with location description and what the photo documents
 - Format: "Photo #1 — North slope, mid-section: 6 functional hail strikes within 10×10 test square, granule displacement and exposed mat visible"
 
-### 6. Recommendations (Prioritized)
+### 6. Documentation Completeness Check (storm / insurance work)
+
+Before the report is treated as submission-ready, audit the photos and notes provided against the documentation set an insurer — and an insurer's automated claim-review process — expects to see. The goal is to surface every gap *now*, while a recapture is still cheap, instead of after an adjuster (or the carrier's review software) flags missing evidence and uses the gap as grounds to deny, delay, or underpay. A missing-evidence gap is the single most avoidable reason a well-founded claim stalls.
+
+Run the provided documentation against these categories and mark each **Present**, **Partial**, or **Missing**:
+
+- **Address / identity proof** — at least one shot that ties the photos to the property (street number, or a wide shot showing the house in context)
+- **Full-roof orientation** — an establishing/overview shot of each slope or elevation so the detail shots can be located on the roof
+- **Per-slope test square** — for every slope claimed, a wide shot of the 10×10 test-square location plus close-ups of the strikes/damage inside it, with a scale reference (coin, chalk circle, gauge)
+- **Damage detail with scale** — individual functional-damage close-ups (granule displacement + mat exposure for hail; lift/crease for wind) clear enough for an adjuster to count
+- **Collateral / soft-metal corroboration** — gutters, downspouts, vents, flashing, fascia, AC condenser fins, window screens, or other soft metals that independently confirm the event happened and its direction
+- **Penetrations & flashing** — pipe boots, chimney/skylight flashing, valleys (often the source of disputes)
+- **Pre-existing vs. event** — any shots that distinguish storm damage from prior wear, so the carrier cannot reattribute the whole claim to age
+- **Interior / attic** (if accessed) — moisture, staining, or daylight that supports an active-leak or decking finding
+- **Date / event context** — confirmation the documentation is tied to the reported event date and storm data (NOAA event ID, hail size, gust)
+
+Output a short completeness table and a one-line verdict:
+
+| Category | Status | Return-trip risk if claim proceeds |
+|----------|--------|------------------------------------|
+
+Then state one of:
+
+- ✅ **Submission-ready** — all categories Present; no documentation gap an automated carrier review would flag.
+- ⚠️ **Gaps before submission** — list each Missing/Partial category and the specific shot to recapture (e.g., "West slope: no scale reference in the strike close-ups — recapture #10–12 with a coin or chalk circle"). Recommend recapturing *before* the report is sent, not after a denial.
+
+Only run this section for storm/insurance work; skip it for routine maintenance or real-estate certifications unless the user asks for it. Never invent photos to fill a gap — flag the gap honestly so the shop can decide to recapture or submit with a documented limitation.
+
+### 7. Recommendations (Prioritized)
 
 - **Immediate** (safety or active leaks): Action + urgency
 - **Near-term** (within 6 months): Repairs to prevent escalation
 - **Monitoring**: Items to watch at next inspection
 - Cost ranges populated from `rates.repair_minimum` and `rates.per_square_<material>` when present; "estimate-on-request" otherwise
 
-### 7. Disclaimer / Certification
+### 8. Disclaimer / Certification
 - Standard inspection disclaimer (visual inspection only, not a warranty, not a guarantee of insurability)
 - Inspector signature block from `inspector.name` / `inspector.title` / `inspector.years_experience` / certifications
 - Company license + cert footer on every page
@@ -144,6 +172,7 @@ When `customer_type` is commercial / multi-family / HOA, also produce:
 
 - Generate from field notes + photo descriptions without excessive clarification
 - For storm work, infer the test-square count from the photo descriptions if not explicitly tabulated, then state the inference in the Assumptions footer
+- For storm/insurance work, always run the Documentation Completeness Check (Section 6) before treating the report as submission-ready — a flagged gap caught here is cheaper than a carrier denial later
 - Cross-reference sibling skills: `insurance-supplement-writer` (if claim is recommended), `insurance-appeal-inspection-report` (if the carrier disputes findings), `maintenance-plan-generator` (if condition warrants ongoing service), `estimate-builder` (if a replacement scope is recommended)
 
 ## Example Output (28-square asphalt, post-hail, residential)
@@ -212,6 +241,26 @@ PHOTO LOG (23 photos)
 #20  Ridge vent intact; NFA adequate for 1,850 sf attic.
 #21–22 Pipe boots, collars within useful life.
 #23  Attic interior: insulation dry, no daylight, no staining.
+
+DOCUMENTATION COMPLETENESS CHECK (insurance submission)
+Category                     Status    Return-trip risk if claim proceeds
+Address / identity proof     Present   —
+Full-roof orientation        Present   N + W overview shots on file
+Per-slope test square        Present   N + W have wide + close-ups w/ scale
+Damage detail with scale     Present   coin/chalk in #2–8, #9–14
+Collateral / soft-metal      Present   gutter dents (#18–19) confirm event
+Penetrations & flashing      Present   #17, #21–22
+Pre-existing vs. event       Partial   S + E marginal slopes lack a clear
+                                       age-vs-event close-up — recapture if
+                                       carrier reattributes to wear
+Interior / attic             Present   #23
+Date / event context         Present   NOAA 20260418-DFW-HAIL-117 cited
+
+VERDICT: ⚠️ One gap before submission — add 1–2 close-ups on the S and E
+slopes distinguishing storm strikes from prior granule wear, so the carrier
+cannot reattribute the marginal slopes to age. N + W claim documentation is
+submission-ready as-is. Recapture on the next pass through the area; do not
+hold the N + W claim for it.
 
 DISCLAIMER / CERTIFICATION
 This is a visual inspection only and does not constitute a warranty or a

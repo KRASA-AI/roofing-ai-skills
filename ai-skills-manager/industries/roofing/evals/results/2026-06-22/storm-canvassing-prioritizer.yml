@@ -1,0 +1,40 @@
+skill: storm-canvassing-prioritizer
+file: skills/sales/storm-canvassing-prioritizer.md
+date: 2026-06-22
+improvement_candidate: true
+version_before: "1.2"
+version_after: "1.3"
+file_changed_since_last_eval: false   # file was identical to 06-15 at eval time, then improved this cycle
+baseline_score_this_cycle: 8.6
+previous_score: 8.6                    # last cycle (2026-06-15)
+scores_baseline_this_cycle:
+  clarity: 9
+  specificity: 9
+  industry_fit: 9
+  output_quality: 8     # 2 of 3 top-tier per-cluster 🔥 briefs stubbed "[follows same structure]"; canvasser roster truncated "..."
+  personalization: 8
+  efficiency: 8
+scores_after_improvement:
+  clarity: 9
+  specificity: 9
+  industry_fit: 9
+  output_quality: 9     # all three 🔥 briefs fully worked; roster completed; Assumptions bilingual count reconciled
+  personalization: 8
+  efficiency: 8
+overall: 8.8
+delta_vs_baseline: 0.2
+delta_vs_previous: 0.2
+weakest_dimensions_targeted: [output_quality]
+weakest_dimensions_remaining: [personalization (8 — no config.yml fixture), efficiency (8)]
+outcome: improved-and-replaced
+notes: >
+  Closed the standing #1 improvement target from 2026-06-15. Section 3 requires a brief
+  for every top-tier 🔥 cluster; v1.2 fully wrote only #1 Maple Ridge and stubbed #2 Sunset
+  Grove and #3 Riverside. v1.3 writes both in full — each with a cluster-specific opening
+  line in canvassing.script_personality voice, a distinct drive-in damage tell (AC-fin
+  spatter for Sunset Grove's architectural stock, full-slope 3-tab granule loss for
+  Riverside's mixed stock), a tailored objection/response, the phone-bank hand-off, the TX
+  cooling-off compliance line, and adjacency social-proof. Also completed the previously
+  truncated 8-knocker + 3-phone canvasser roster (one bilingual knocker per 🔥 cluster) and
+  fixed the Assumptions-footer bilingual count (was "2", now correctly "3") for internal
+  consistency. No content removed or weakened.

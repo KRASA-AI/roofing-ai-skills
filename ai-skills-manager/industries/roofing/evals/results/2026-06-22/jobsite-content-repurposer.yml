@@ -1,0 +1,37 @@
+skill: jobsite-content-repurposer
+file: skills/sales/jobsite-content-repurposer.md
+date: 2026-06-22
+improvement_candidate: true
+version_before: "1.1"
+version_after: "1.2"
+file_changed_since_last_eval: false   # identical to 06-15 at eval time, then improved this cycle
+baseline_score_this_cycle: 8.5        # strict re-grade: output_quality docked for missing spec-promised content calendar
+previous_score: 8.7                   # last cycle recorded (2026-06-15)
+scores_baseline_this_cycle:
+  clarity: 9
+  specificity: 9
+  industry_fit: 8
+  output_quality: 8   # strict: Batching rules promise a "small content calendar"; v1.1 example shows 6 drafts but never sequences them
+  personalization: 8
+  efficiency: 9
+scores_after_improvement:
+  clarity: 9
+  specificity: 9
+  industry_fit: 8
+  output_quality: 9   # Suggested posting-calendar block added (Mon IG/FB -> Tue GBP -> Wed Nextdoor -> Thu video -> Fri LinkedIn -> evergreen gallery) + "if only two" fallback
+  personalization: 8
+  efficiency: 9
+overall: 8.7
+delta_vs_baseline: 0.2
+delta_vs_previous: 0.0
+weakest_dimensions_targeted: [output_quality]
+weakest_dimensions_remaining: [industry_fit (8), personalization (8)]
+outcome: improved-and-replaced
+notes: >
+  Strict re-grade this cycle caught a spec-to-example gap the 06-15 grader missed: the
+  Batching-behavior rules promise a "small content calendar so a single job yields a week
+  of material," but the v1.1 example ended at six channel drafts + a photo plan and never
+  sequenced them. v1.2 adds a posting-calendar table with a per-slot timing rationale and a
+  two-post fallback (Mon IG/FB + Tue GBP). Purely additive — no existing draft altered —
+  so no degradation; net overall unchanged at 8.7 (strict baseline 8.5 -> 8.7). Remaining
+  headroom is industry_fit and personalization, both at 8.

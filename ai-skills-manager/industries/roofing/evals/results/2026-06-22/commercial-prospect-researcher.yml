@@ -1,0 +1,40 @@
+skill: commercial-prospect-researcher
+file: skills/sales/commercial-prospect-researcher.md
+date: 2026-06-22
+improvement_candidate: true
+version_before: "1.3"
+version_after: "1.4"
+file_changed_since_last_eval: false   # identical to 06-15 at eval time, then improved this cycle
+baseline_score_this_cycle: 8.6
+previous_score: 8.6                    # last cycle (2026-06-15)
+scores_baseline_this_cycle:
+  clarity: 8     # deliverable scope (which prospects get briefs) under-demonstrated
+  specificity: 9
+  industry_fit: 9
+  output_quality: 9   # value column present, but only 1 of 3 required 🔥/🟡 briefs worked ("one worked brief")
+  personalization: 8
+  efficiency: 8
+scores_after_improvement:
+  clarity: 9     # section relabeled "one per 🔥 and 🟡"; explicit 🟢-get-no-brief rule clarifies scope
+  specificity: 9
+  industry_fit: 9
+  output_quality: 9
+  personalization: 8
+  efficiency: 8
+overall: 8.8
+delta_vs_baseline: 0.2
+delta_vs_previous: 0.2
+weakest_dimensions_targeted: [output_quality, clarity]
+weakest_dimensions_remaining: [personalization (8), efficiency (8)]
+outcome: improved-and-replaced
+notes: >
+  Section 2 requires an outreach brief for every 🔥 and 🟡 prospect; v1.3 demonstrated only
+  the 🔥 #1 brief (header read "one worked brief"). v1.4 adds the two missing briefs and
+  relabels the section. The 🔥 #3 Allen Tech brief exercises the name-level-contact +
+  fresh-solar-permit-trigger path (vertical-matched EPDM case study, pre-solar-readiness
+  angle, EHS backup buyer). The 🟡 #2 Parkside brief exercises the harder
+  contact-not-yet-identified path: explicit find-the-PM steps, ponding/aerial trigger,
+  first-75093-reference-project framing, and a batch-with-#4 note that ties back to the
+  campaign plan. All three briefs sort by the Est. Project Value/trigger logic the campaign
+  plan describes — example is now internally consistent end-to-end. Side benefit: clarity 8->9
+  as the deliverable scope is now unambiguous.

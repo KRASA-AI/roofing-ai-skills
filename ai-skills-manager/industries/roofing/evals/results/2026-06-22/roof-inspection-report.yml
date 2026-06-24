@@ -1,0 +1,29 @@
+skill: roof-inspection-report
+file: skills/operations/roof-inspection-report.md
+date: 2026-06-22
+version_evaluated: "1.5"
+file_changed_since_last_eval: true
+changed_by: "landscape-monitor (commit 2e008c6, 2026-06-22) — not an eval-improvement edit; re-graded fresh this cycle"
+improvement_candidate: false
+scores:
+  clarity: 9
+  specificity: 9
+  industry_fit: 9
+  output_quality: 9
+  personalization: 8
+  efficiency: 9
+overall: 8.9
+previous_score: 8.3
+delta_vs_previous: 0.6
+weakest_dimensions: [personalization (8 — plateau; no committed config.yml fixture to bind against)]
+notes: >
+  v1.4 -> v1.5 added a "Documentation Completeness Check" (Section 6) that audits the
+  photos/notes provided against the documentation set an insurer's (increasingly automated)
+  claim review expects, marks each category Present/Partial/Missing, and emits a
+  Submission-ready vs Gaps-before-submission verdict to prevent carrier-denial and
+  return-trip risk. The new section is fully and consistently worked into the residential
+  example (N+W slopes submission-ready; S+E flagged for a pre-existing-vs-event recapture)
+  and is correctly scoped to storm/insurance work only. Lifts the repo's longest-standing
+  bottom skill out of the bottom tier: clarity, specificity, industry_fit, output_quality
+  all 9; efficiency 9 (infers test-square counts, conditional section). personalization
+  holds at 8 — the only sub-9 dimension — because no config.yml fixture is committed repo-wide.

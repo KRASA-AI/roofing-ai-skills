@@ -4,9 +4,9 @@ category: sales
 tools: [claude, chatgpt]
 difficulty: beginner
 time_saved: "~45 min/post batch"
-version: 1.1
+version: 1.2
 last_eval_score: 8.7
-inspiration: "v1.1 (2026-06-15) eval improvement cycle targeting output_quality + personalization — v1.0 shipped with the Example Output section as an empty `[will be populated]` placeholder (output_quality 4, the lowest single dimension in the repo) and only generic config references. This version (a) replaces the placeholder with a complete, paste-ready worked batch from one Frisco TX architectural-shingle storm-restoration photo set, demonstrating all six channels (Instagram/Facebook, short-form video script with shot list, GBP, Nextdoor, LinkedIn, website gallery blurb) plus the photo plan and the [confirm] checklist; and (b) tightens personalization to named config fields with defaults (company.*, voice.*, service_area.*, channels.*, manufacturers/certifications, financing) and a graceful missing-field rule. v1.0 — concept extracted from the June 2026 landscape scan of a roofing-AI vendor's V2 launch (RoofClaw / Roofing Business Partner), which paired a jobsite-photo platform (CompanyCam) with AI content generation to solve the 'crews are on roofs, not filming' marketing gap, and from the 'separate machine per function' design pattern that same launch described. All wording, structure, and roofing examples here are original; no source prompt text, product copy, or workflow steps were copied."
+inspiration: "v1.2 (2026-06-22) eval improvement cycle targeting output_quality + efficiency — the Batching-behavior rules promise the skill will 'propose a small content calendar … so a single job yields a week of material,' but the v1.1 worked Example Output stopped at six channel drafts plus a photo plan and never sequenced them into the calendar the spec describes. This version adds a Suggested posting-calendar block to the example (Mon IG/FB → Tue GBP → Wed Nextdoor → Thu short-form video → Fri LinkedIn → evergreen gallery), each slot justified by audience/timing, with a 'if you only have time for two' fallback (Mon + Tue) — closing the one remaining spec-to-example gap and making the deliverable hand-off-ready without an operator having to decide the cadence. Purely additive; no existing draft was altered. v1.1 (2026-06-15) eval improvement cycle targeting output_quality + personalization — v1.0 shipped with the Example Output section as an empty `[will be populated]` placeholder (output_quality 4, the lowest single dimension in the repo) and only generic config references. This version (a) replaces the placeholder with a complete, paste-ready worked batch from one Frisco TX architectural-shingle storm-restoration photo set, demonstrating all six channels (Instagram/Facebook, short-form video script with shot list, GBP, Nextdoor, LinkedIn, website gallery blurb) plus the photo plan and the [confirm] checklist; and (b) tightens personalization to named config fields with defaults (company.*, voice.*, service_area.*, channels.*, manufacturers/certifications, financing) and a graceful missing-field rule. v1.0 — concept extracted from the June 2026 landscape scan of a roofing-AI vendor's V2 launch (RoofClaw / Roofing Business Partner), which paired a jobsite-photo platform (CompanyCam) with AI content generation to solve the 'crews are on roofs, not filming' marketing gap, and from the 'separate machine per function' design pattern that same launch described. All wording, structure, and roofing examples here are original; no source prompt text, product copy, or workflow steps were copied."
 ---
 
 # 📸 Jobsite Content Repurposer
@@ -143,6 +143,21 @@ You are a roofing company's content-marketing assistant. Your job is to convert 
 
 ### 🖼️ Website project-gallery blurb
 > **Maple Ridge, Frisco TX — Storm restoration, GAF Timberline HDZ (Weathered Wood).** Full tear-off and replacement of a hail-damaged 3-tab roof with a complete GAF Master Elite architectural-shingle system, including synthetic underlayment, ice-and-water shield at the eaves, new valleys, and upgraded ridge ventilation. Completed in 4 days, April 2026. The weathered-wood color was the homeowner's choice and pairs cleanly with the brick elevation.
+
+### 🗓️ Suggested posting calendar (one job → one week of material)
+
+Don't post all six at once — stagger them so a single photo set carries the week and each channel lands when its audience is watching:
+
+| Day | Channel | Asset | Why this slot |
+|-----|---------|-------|---------------|
+| Mon | Instagram / Facebook | before/after carousel (lead pair) | Strongest visual first, start-of-week reach |
+| Tue | Google Business Profile | finished-roof drone shot | Feeds local-AI + map results mid-week when buyers search |
+| Wed | Nextdoor | before #1 + after #1 | Neighborly, midweek, while the storm is still local talk |
+| Thu | Short-form video (Reel / Short) | 6-still script above | Video gets its own day so it doesn't cannibalize the carousel |
+| Fri | LinkedIn (commercial cross-post) | drone + underlayment detail | B2B audience reads Fri AM; risk-reduction angle |
+| Anytime | Website gallery | drone + warranty wrapper | Evergreen portfolio entry; no time pressure |
+
+Lead with the flagged before/after pair on every channel. If you only have time for two posts this week, run Monday (IG/FB) and Tuesday (GBP) — the highest-reach + highest-local-intent pair.
 
 ### ✅ Confirm before posting
 - [confirm: exact completion date for the gallery entry — used "April 2026" as placeholder]

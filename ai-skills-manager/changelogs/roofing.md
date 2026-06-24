@@ -4,6 +4,46 @@ Maintained by the Skill Evaluator scheduled task. Most recent entry first.
 
 ---
 
+## 2026-06-22 14:00 (automated eval cycle)
+
+**Evaluated:** all 15 skills in `skills/` (excluding `_shared/`) against rubric v1.0. Since 2026-06-15, exactly one skill file changed via other automation — `roof-inspection-report.md` (v1.4→v1.5, landscape-monitor commit `2e008c6`); the other 14 were byte-identical and carried forward. Results persisted to `evals/results/2026-06-22/`.
+
+**Averages:** prior cycle 8.81 (15 skills) → this-cycle baseline 8.79 → **after improvements 8.88**. No skill degraded.
+
+**Scores (after improvements):**
+
+| Skill | Score | Prior (06-15) | Δ |
+|-------|------:|------:|---:|
+| Crew Schedule Optimizer | 9.2 | 9.2 | 0.0 |
+| Estimate Builder | 9.1 | 9.1 | 0.0 |
+| Follow-Up Sequence | 9.0 | 9.0 | 0.0 |
+| Predictive Lead Scorer | 9.0 | 9.0 | 0.0 |
+| Insurance Supplement Writer | 8.9 | 8.9 | 0.0 |
+| Roof Inspection Report | 8.9 | 8.3 | **+0.6** |
+| Insurance Appeal Inspection Report | 8.8 | 8.8 | 0.0 |
+| Maintenance Plan Generator | 8.8 | 8.8 | 0.0 |
+| Safety Toolbox Talk Generator | 8.8 | 8.8 | 0.0 |
+| Material Order Calculator | 8.8 | 8.8 | 0.0 |
+| Tariff & Price Adjustment Communicator | 8.8 | 8.8 | 0.0 |
+| Lead Response Automator | 8.8 | 8.8 | 0.0 |
+| Storm Canvassing Prioritizer | 8.8 | 8.6 | **+0.2** |
+| Commercial Prospect Researcher | 8.8 | 8.6 | **+0.2** |
+| Jobsite Content Repurposer | 8.7 | 8.7 | 0.0 |
+
+**Improvements made (bottom 3 by pre-improvement score, all targeting output_quality):**
+
+- **Storm Canvassing Prioritizer** v1.2 → v1.3. Resolved last cycle's standing #1 target: the two top-tier 🔥 briefs (#2 Sunset Grove, #3 Riverside) stubbed `[follows same structure]` are now fully written — each with a cluster-specific opening line in `canvassing.script_personality` voice, a distinct drive-in damage tell (AC-fin spatter for architectural Sunset Grove; full-slope 3-tab granule loss for mixed Riverside), a tailored objection/response, phone-bank hand-off, TX cooling-off line, and adjacency social-proof. Completed the truncated 8-knocker + 3-phone roster (one bilingual knocker per 🔥 cluster) and reconciled the Assumptions-footer bilingual count (2→3). output_quality 8→9. Re-eval 8.6 → **8.8**, replaced.
+- **Commercial Prospect Researcher** v1.3 → v1.4. The spec requires a brief per 🔥 and 🟡 prospect; v1.3 worked only #1 (header said "one worked brief"). Added the 🔥 #3 Allen Tech brief (name-level contact + solar-permit trigger + vertical-matched EPDM case study) and the 🟡 #2 Parkside brief (contact-not-yet-identified path: find-the-PM steps, ponding/aerial trigger, first-reference-project framing, batch-with-#4 note). Relabeled the section; example now internally consistent end-to-end. output_quality solidified at 9, clarity 8→9. Re-eval 8.6 → **8.8**, replaced.
+- **Jobsite Content Repurposer** v1.1 → v1.2. Strict re-grade caught a spec-to-example gap (Batching rules promise a "content calendar" the example never sequenced; strict baseline output_quality 8). Added a posting-calendar block (Mon IG/FB → Tue GBP → Wed Nextdoor → Thu video → Fri LinkedIn → evergreen gallery) with per-slot timing rationale and a two-post fallback. Purely additive — no draft altered. output_quality 8→9 on the strict baseline; net overall unchanged at **8.7**, replaced (no degradation).
+
+**Notable (not an eval-improvement):** **Roof Inspection Report** v1.4→v1.5 was changed by landscape-monitor before this run — it added a "Documentation Completeness Check" (audits photos/notes against an insurer's increasingly-automated claim-review documentation set; marks Present/Partial/Missing; emits a submission-ready vs gaps verdict), fully worked into the residential example. Re-graded fresh: 8.3 → **8.9** (clarity/specificity/industry_fit/output_quality all 9). This lifts the repo's longest-standing bottom skill out of the bottom tier.
+
+**Persistent weaknesses:** With output_quality gaps now mostly closed, **personalization (8) is the binding constraint** — it is the sole sub-9 dimension on 8 skills, all gated by the still-uncommitted `config.yml` fixture. Tariff remains the last skill with a stubbed-template output_quality gap (B/C/E). `test-cases/` is still empty. efficiency sits at 8 on four operations/admin skills.
+
+**Recommendations for next cycle:** (1) commit a sample `config.yml` fixture — now the single dominant ceiling, would lift ~9 skills' personalization; (2) populate Tariff templates B/C/E (last stubbed-output skill); (3) lift Jobsite's industry_fit + personalization (now the lone lowest skill at 8.7); (4) seed `test-cases/` for regression grading.
+
+---
+
 ## 2026-06-15 (automated eval cycle)
 
 **Evaluated:** all 15 skills in `skills/` (excluding `_shared/`) against rubric v1.0. Library grew from 14 → 15 with the new **Jobsite Content Repurposer** (v1.0, added 2026-06-08 via landscape-monitor commit `fb0bf7a`). 10 skills are byte-identical to their 2026-06-08 versions and carry prior scores; results persisted to `evals/results/2026-06-15/`.

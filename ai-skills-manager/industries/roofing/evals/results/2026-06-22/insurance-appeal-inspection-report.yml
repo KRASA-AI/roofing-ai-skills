@@ -1,0 +1,17 @@
+skill: insurance-appeal-inspection-report
+file: skills/admin/insurance-appeal-inspection-report.md
+date: 2026-06-22
+version_evaluated: "1.1"
+file_changed_since_last_eval: false
+scores:
+  clarity: 9
+  specificity: 9
+  industry_fit: 9
+  output_quality: 9
+  personalization: 8
+  efficiency: 8
+overall: 8.8
+previous_score: 8.8
+delta_vs_previous: 0.0
+improvement_candidate: false
+note: "File byte-identical to 2026-06-15 evaluated version; scores carried forward."

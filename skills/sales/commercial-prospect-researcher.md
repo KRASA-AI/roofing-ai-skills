@@ -4,9 +4,9 @@ category: sales
 tools: [claude, chatgpt]
 difficulty: intermediate
 time_saved: "~2 hours/prospect list"
-version: 1.3
-last_eval_score: 8.6
-inspiration: "v1.3 (2026-06-15) eval improvement cycle targeting output_quality — prior versions' frontmatter and output rules referenced 'estimated-value flagging' but the prospect-list table had no value column, so reps had no way to sort the biggest qualified jobs to the top. Added an Est. Project Value column (Est. SF × a labeled recover/tear-off $/sf assumption, always flagged estimated) to both the spec table and the 5-building worked example, with an explicit basis note; wired it into the priority sort (intra-tier ties broken by value) and the capacity check (🔥 tier now reports ~$790K combined). v1.2 (2026-06-08) eval improvement cycle targeting output_quality — the skill's primary deliverable is a prospect LIST, but prior versions only demonstrated a single building brief and left the prospect-list table as an empty header row. Added a fully populated 5-building Example Output (Plano/Allen warehouse + retail + MOB mix, with 🔥/🟡/🟢 priority tiers, estimated-value flagging, and decision-maker titles from the vertical lookup) plus a worked Campaign-Level Recommendations block (send order, geo cluster, shared-PM batching, vertical gaps, and a crew_capacity_sf_per_week saturation check). v1.1 rewritten 2026-04-25 from eval improvement cycle — named config-field binding (commercial.case_studies[].vertical/zip/system, commercial.certifications[], commercial.target_verticals[], voice.commercial), example outreach brief showing voice-tuned opening, and explicit decision-maker-by-vertical lookup table. v1.0 concept from 2026 commercial-roofing B2B AI outreach tools that aggregate facility-manager and building-owner data from public sources to seed cold outreach."
+version: 1.4
+last_eval_score: 8.8
+inspiration: "v1.4 (2026-06-22) eval improvement cycle targeting output_quality — Section 2 of the output spec requires an outreach brief for *every* 🔥 and 🟡 prospect, but the worked Example Output demonstrated only the single 🔥 #1 brief (the header literally read 'one worked brief'), leaving the second 🔥 (#3 Allen Tech, the name-level contact the campaign plan says to lead the week with) and the 🟡 (#2 Parkside) undemonstrated. This version writes both missing briefs in full and relabels the section: the 🔥 #3 brief exercises the name-level-contact + fresh-solar-permit-trigger path with the vertical-matched EPDM case study and a pre-solar-readiness angle; the 🟡 #2 brief exercises the harder contact-not-yet-identified path (explicit find-the-PM steps, ponding/aerial trigger, first-reference-project framing, and a batch-with-#4 note that ties back to the campaign plan). All three briefs now sort by the Est. Project Value/trigger logic the campaign plan describes, so the example is internally consistent end-to-end. v1.3 (2026-06-15) eval improvement cycle targeting output_quality — prior versions' frontmatter and output rules referenced 'estimated-value flagging' but the prospect-list table had no value column, so reps had no way to sort the biggest qualified jobs to the top. Added an Est. Project Value column (Est. SF × a labeled recover/tear-off $/sf assumption, always flagged estimated) to both the spec table and the 5-building worked example, with an explicit basis note; wired it into the priority sort (intra-tier ties broken by value) and the capacity check (🔥 tier now reports ~$790K combined). v1.2 (2026-06-08) eval improvement cycle targeting output_quality — the skill's primary deliverable is a prospect LIST, but prior versions only demonstrated a single building brief and left the prospect-list table as an empty header row. Added a fully populated 5-building Example Output (Plano/Allen warehouse + retail + MOB mix, with 🔥/🟡/🟢 priority tiers, estimated-value flagging, and decision-maker titles from the vertical lookup) plus a worked Campaign-Level Recommendations block (send order, geo cluster, shared-PM batching, vertical gaps, and a crew_capacity_sf_per_week saturation check). v1.1 rewritten 2026-04-25 from eval improvement cycle — named config-field binding (commercial.case_studies[].vertical/zip/system, commercial.certifications[], commercial.target_verticals[], voice.commercial), example outreach brief showing voice-tuned opening, and explicit decision-maker-by-vertical lookup table. v1.0 concept from 2026 commercial-roofing B2B AI outreach tools that aggregate facility-manager and building-owner data from public sources to seed cold outreach."
 ---
 
 # 🏢 Commercial Prospect Researcher
@@ -145,7 +145,7 @@ For each priority prospect, produce a 150–220 word brief:
 - Source-list mode: enrich rather than re-discover
 - Cross-reference sibling skills: `lead-response-automator` (once outreach lands responses), `estimate-builder` (once a walkthrough is booked), `follow-up-sequence` (for the post-first-touch cadence), `roof-inspection-report` commercial variant (for the capital-planning deliverable after on-roof visit)
 
-## Example Output (full run: list + campaign plan + one worked brief)
+## Example Output (full run: list + campaign plan + a brief for every 🔥 and 🟡 prospect)
 
 ### 1. Prospect List — Plano/Allen TX 75074/75013, warehouse + retail verticals, 2026-06
 
@@ -167,7 +167,11 @@ For each priority prospect, produce a 150–220 word brief:
 - **Vertical gaps:** no MOB (#4) or 75093 retail (#2) case study on file — pitch #4 as a reference-project candidate and flag for `commercial.case_studies[]` logging on win.
 - **Capacity check:** 🔥 list = 113,000 sf / ~$790K combined est. value (#1 ~$430K + #3 ~$360K). At `commercial.crew_capacity_sf_per_week` (assume 25,000 sf), simultaneous conversion of #1+#3 would stall ~4.5 weeks — stagger walk-throughs so the larger #1 leads.
 
-### 3. Worked Outreach Brief (🔥 #1, voice-tuned, vertical-matched)
+### 3. Outreach Briefs — one per 🔥 and 🟡 prospect
+
+Per the output rules, every 🔥 and 🟡 row gets its own brief (the two 🔥 first, sorted by Est. Project Value, then the 🟡). The 🟢 Nurture rows (#4, #5) get no brief this cycle — they re-enter when a trigger appears.
+
+#### 🔥 #1 — Riverside Logistics Center (largest 🔥, ~$430K)
 
 ```
 PROSPECT — Riverside Logistics Center
@@ -204,6 +208,92 @@ GHOSTING FALLBACK (10 days):
 DIFFERENTIATION LINE (from commercial.certifications):
   As a Carlisle CCM Authorized Applicator we can extend SureWeld warranty terms
   on a TPO restoration — most regional contractors can't.
+
+— {company.name} | {company.commercial_phone} | {company.commercial_email_from}
+```
+
+#### 🔥 #3 — Allen Tech Business Park, Bldg C (name-level contact + fresh trigger → lead the week)
+
+```
+PROSPECT — Allen Tech Business Park (Bldg C)
+Address: 700 Central Expy, Allen TX 75013
+Type:    Light-industrial flex building, ~51,000 sf low-slope roof (EPDM est.)
+Roof age: ~12 years (assessor permit 2014; aerial shows ballasted-EPDM field)
+Owner:   Allen Tech Park Holdings LLC (self-managed; facilities run corporately)
+Decision-maker: Dana W. — Corporate Director of Facilities (name-level via LinkedIn;
+  vertical lookup confirms the ≥50k-sf light-industrial buyer is Corporate Dir. of
+  Facilities, backup EHS Manager given the new penetration)
+Trigger: Solar permit filed 2026-03 — a rooftop PV install drives dozens of new
+  penetrations and attachment points into a 12-yr EPDM field; the seam and flashing
+  review window is *now*, before panels go down and cover the membrane
+Vertical-matched case study (from commercial.case_studies[]):
+  "Plano flex-space EPDM, 2023 — re-flashed and coated ahead of a tenant solar
+  install; zero leak callbacks through two summers."
+
+OPENING LINE (voice.commercial = consultative):
+  "Dana — quick note from {company.name}. We saw Bldg C pulled a rooftop-solar
+  permit this spring. On a 12-year EPDM field, the moment to settle seams and
+  flashing details is before the array goes down and you can't get to the membrane
+  under it. We did exactly this on a Plano flex building in 2023 — re-flashed and
+  coated ahead of the tenant's panels, no callbacks since. Worth a 15-minute look
+  at the imagery before your installer mobilizes?"
+
+CTAs:
+  Low:  15-min satellite + permit-overlay walkthrough — no roof access
+  High: free pre-solar roof + flashing condition survey (infrared moisture scan
+        on the EPDM field before panel layout is finalized)
+
+GHOSTING FALLBACK (10 days):
+  Send a 1-page "pre-solar roof readiness" checklist referencing the Plano EPDM
+  project; route into follow-up-sequence Warm cadence. Re-time the next touch to
+  the installer's likely mobilization date.
+
+DIFFERENTIATION LINE (from commercial.certifications):
+  As a Carlisle CCM Authorized Applicator we can coordinate the membrane warranty
+  around a third-party PV attachment — most contractors leave that gap unaddressed.
+
+— {company.name} | {company.commercial_phone} | {company.commercial_email_from}
+```
+
+#### 🟡 #2 — Parkside Commons retail strip (strong trigger, contact not yet identified)
+
+```
+PROSPECT — Parkside Commons retail strip
+Address: 1820 Preston Rd, Plano TX 75093
+Type:    Multi-tenant retail strip, ~38,000 sf low-slope roof (TPO est.)
+Roof age: ~14 years (assessor + aerial; past mid-life for mechanically-attached TPO)
+Owner:   Held in a 75093 retail LLC; 3rd-party property-managed (PM not yet named)
+Decision-maker (per vertical lookup): Property Manager (3rd-party) for <50k sf retail;
+  backup Lease Admin. *Contact hunt is the gating step — this is 🟡, not 🔥, only
+  because the human isn't identified yet.* Find-the-PM path: tenant signage / the
+  leasing sign on the pad → CRE listing broker → county "care-of" mailing address.
+Trigger: On the edge of the 4/18 hail footprint AND visible ponding at two interior
+  drains in current aerial imagery — a documented standing-water pattern an asset
+  manager can't unsee once it's shown to them.
+Vertical-matched case study: none on file for 75093 retail — pitch this as the
+  shop's first 75093 retail reference project and flag for commercial.case_studies[]
+  logging on win (also note for the #4 MOB vertical gap).
+
+OPENING LINE (voice.commercial = consultative, PM-agnostic until named):
+  "Hi — I'm trying to reach whoever manages the roof at Parkside Commons on Preston.
+  We're a {company.name} commercial crew; current aerial imagery shows standing
+  water at two of the interior drains, which on a 14-year TPO usually means the
+  fasteners are starting to back out under the membrane. No charge to put a drone
+  over it and send you a one-page condition snapshot — then you decide if it's
+  worth a closer look."
+
+CTAs:
+  Low:  emailed 1-page drone + ponding-overlay snapshot (no roof access, no cost)
+  High: free on-roof drain + seam-fastener survey with infrared moisture scan
+
+GHOSTING FALLBACK (10 days):
+  Mail the snapshot to the county "care-of" address with a note inviting the PM to
+  call; route into follow-up-sequence Cold→Warm cadence once a human responds.
+  Batch with #4 Cedarbrook MOB if the same PM firm manages both (see campaign plan).
+
+DIFFERENTIATION LINE (from commercial.certifications):
+  As a Carlisle CCM Authorized Applicator a TPO recover here can carry a renewed
+  manufacturer warranty rather than a contractor-only patch.
 
 — {company.name} | {company.commercial_phone} | {company.commercial_email_from}
 ```

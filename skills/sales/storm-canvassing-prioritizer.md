@@ -4,9 +4,9 @@ category: sales
 tools: [claude, chatgpt]
 difficulty: intermediate
 time_saved: "~3 hours/storm event"
-version: 1.2
-last_eval_score: 8.7
-inspiration: "v1.2 (2026-06-01) added the Pre-Storm Orchestration Layer — a forecast-triggered multi-role staging sequence (intake / outbound / dispatch) that runs before storm arrival rather than after, inspired by the multi-agent pre-staging pattern surfaced in the May 19 2026 Zuper Sense announcement (architectural concept only, no source text reused). v1.1 rewritten 2026-04-27 from eval improvement cycle — named config-field binding (canvassing.territories[].name / .zips / .streets / .priority_streets, canvassing.script_personality, team.canvasser_roster[].name / .languages / .vehicle / .shift_window, weather_rules.hail_size_threshold_in / .wind_threshold_mph, service_area.licensed_counties[]), populated 4/18 DFW hail Example Output (1.5 inch peak, 75070/75071/75074, 3 named clusters, agentic-platform tool-call pattern), and per-state cooling-off compliance lookup. v1.0 five-layer framework + agentic Eagleview Horizon orchestration preserved."
+version: 1.3
+last_eval_score: 8.8
+inspiration: "v1.3 (2026-06-22) eval improvement cycle targeting output_quality — Section 3 asks for a per-cluster brief for every top-tier 🔥 cluster, but the worked Example Output fully wrote only the #1 Maple Ridge brief and stubbed #2 Sunset Grove and #3 Riverside as '[follows same structure]', so two-thirds of the skill's signature deliverable was never demonstrated (output_quality was the skill's lowest dimension at 8 and the standing #1 improvement target from the 2026-06-15 cycle). This version writes both missing 🔥 briefs in full — each with a cluster-specific opening line in canvassing.script_personality voice, a distinct drive-in damage identifier (AC-fin spatter for the architectural Sunset Grove stock, full-slope 3-tab granule loss for the mixed Riverside stock), a cluster-appropriate objection/response, the phone-bank hand-off, the TX cooling-off compliance line, and adjacency social-proof — and completes the previously truncated canvasser-assignment roster (8 named door knockers + 3 phone canvassers, one bilingual knocker per 🔥 cluster), fixing the Assumptions-footer bilingual count to match. v1.2 (2026-06-01) added the Pre-Storm Orchestration Layer — a forecast-triggered multi-role staging sequence (intake / outbound / dispatch) that runs before storm arrival rather than after, inspired by the multi-agent pre-staging pattern surfaced in the May 19 2026 Zuper Sense announcement (architectural concept only, no source text reused). v1.1 rewritten 2026-04-27 from eval improvement cycle — named config-field binding (canvassing.territories[].name / .zips / .streets / .priority_streets, canvassing.script_personality, team.canvasser_roster[].name / .languages / .vehicle / .shift_window, weather_rules.hail_size_threshold_in / .wind_threshold_mph, service_area.licensed_counties[]), populated 4/18 DFW hail Example Output (1.5 inch peak, 75070/75071/75074, 3 named clusters, agentic-platform tool-call pattern), and per-state cooling-off compliance lookup. v1.0 five-layer framework + agentic Eagleview Horizon orchestration preserved."
 ---
 
 # 🌩️ Storm Canvassing Prioritizer
@@ -219,9 +219,63 @@ Adjacent social-proof (from past_jobs.completed_addresses[]):
   "We installed at 1318 Oak Ridge Dr (Tom Maddox, GAF Timberline UHDZ) in March 2025
   — happy to point you to that roof on the way in if you'd like to see the work."
 
-PER-CLUSTER BRIEF — 🔥 #2 SUNSET GROVE (75070) — [follows same structure]
+PER-CLUSTER BRIEF — 🔥 #2 SUNSET GROVE (75070)
 
-PER-CLUSTER BRIEF — 🔥 #3 RIVERSIDE (75074) — [follows same structure]
+Opening line (script_personality = consultative_neighbor):
+  "Hi, I'm Jamie with Acme Roofing — we've been walking roofs all morning over in
+  Maple Ridge, one subdivision north. Sunset Grove sits right under the same 4/18
+  hail core, and on the 12-to-18-year architectural roofs out here that's exactly
+  the age where 1.5-inch stones bruise the mat. No charge to walk yours and leave
+  you a written report — you decide what to do with it."
+
+Drive-in identifier: spatter marks on the painted ridge vent, granule wash at the
+  downspout splash blocks, soft metal dents on the AC condenser fins (a clean tell
+  on these rear-yard units even when the shingles look fine from the ground).
+
+Likely objection: "We re-roofed maybe ten years ago, we're probably fine."
+Response: "Ten-to-fifteen years is actually the sweet spot for functional hail
+  bruising — the mat's lost enough flexibility to fracture but the roof still looks
+  good from the driveway. That's the case the camera and the strike count settle,
+  not the eyeball."
+
+Hand-off moment: "I'll text you our scheduling link right now — a 45-minute walk
+  in the next day or two, and you get the written report either way."
+
+Compliance line (TX is in canvassing.cooling_off_states[]):
+  "TX gives you a 3-day right of rescission on anything signed at the door — and
+  there's nothing to sign today. This is just booking a free inspection."
+
+Adjacent social-proof (from past_jobs.completed_addresses[]):
+  "We finished 942 Sunset Grove Ln (the Alvarez home, GAF Timberline HDZ) last
+  spring — two streets over, same build era. Glad to point you to it on the way in."
+
+PER-CLUSTER BRIEF — 🔥 #3 RIVERSIDE (75074)
+
+Opening line (script_personality = consultative_neighbor):
+  "Hi, I'm Jamie with Acme Roofing — we're working the Riverside pocket today after
+  the 4/18 storm. This neighborhood's a mix of 3-tab and architectural roofs, and the
+  older 3-tab takes hail harder than almost anything out there. Free roof walk and a
+  written report, no obligation — homeowner decides the next step."
+
+Drive-in identifier: full-slope granule loss on the south-facing 3-tab (shows as a
+  lightened, mottled patch from the street), lifted and creased tabs along the eave
+  course, dented gutter aprons at the corners.
+
+Likely objection: "I want to get a couple of opinions before anyone's on my roof."
+Response: "Smart — get more than one. All we're doing today is documenting what's
+  actually up there with photos and a per-slope strike count, so whoever you compare
+  is comparing against the same evidence instead of a guess."
+
+Hand-off moment: "Riverside is our phone-hybrid cluster — if now's not good, our call
+  bank can lock a window that fits your schedule. I'll text the link so you've got it."
+
+Compliance line (TX is in canvassing.cooling_off_states[]):
+  "TX requires a 3-day right of rescission on any door-signed contract — you sign
+  nothing today, this is only scheduling a free inspection."
+
+Adjacent social-proof (from past_jobs.completed_addresses[]):
+  "We replaced 3104 Riverside Dr (the Nguyen home, architectural, fast insurance
+  turnaround) in 2025 — same streets, same storm exposure. Happy to show you that roof."
 
 DAY-BY-DAY SCHEDULE
 
@@ -238,7 +292,13 @@ CANVASSER ASSIGNMENTS (from team.canvasser_roster[])
 |-------------|------------|---------|-------------|--------------------|-------|
 | Jamie Reed  | en         | truck   | 10:00–18:00 | Maple Ridge        | 50    |
 | Luis Mora   | en, es     | van     | 10:00–18:00 | Maple Ridge (es)   | 50    |
-| ...                                                                          |
+| Dee Carter  | en         | truck   | 10:00–18:00 | Maple Ridge        | 50    |
+| Priya Shah  | en, es     | on-foot | 12:00–19:00 | Sunset Grove (es)  | 40    |
+| Marcus Hill | en         | truck   | 10:00–18:00 | Sunset Grove       | 50    |
+| Sam Boone   | en         | van     | 10:00–18:00 | Riverside          | 50    |
+| Tyler Voss  | en         | truck   | 10:00–18:00 | Riverside          | 50    |
+| Ana Reyes   | en, es     | on-foot | 12:00–19:00 | Riverside (es)     | 40    |
+| Phone bank (3): Kim O., Raj P., Chloe D. — 75071/75075 phone-first, 60–90 calls/shift |
 
 MEASUREMENT TARGETS
 - Day 1 doors knocked: 240 (90 + 70 + 80)
@@ -250,7 +310,7 @@ ASSUMPTIONS
 - canvassing.territories[] confirmed for Maple Ridge / Sunset Grove / Riverside / Willow Creek / Stonebridge
 - canvassing.cooling_off_states[] = ["TX", "MI", "OK", "CO", "GA"] — TX matched
 - weather_rules.hail_size_threshold_in defaulted to 1.0; .wind_threshold_mph to 60
-- team.canvasser_roster[] resolved 8 door knockers + 3 phone canvassers; bilingual coverage on 2
+- team.canvasser_roster[] resolved 8 door knockers + 3 phone canvassers; bilingual (en/es) coverage on 3 (Luis, Priya, Ana), one assigned to each top-tier 🔥 cluster
 - past_jobs.completed_addresses[] yielded 14 nearby completed jobs across the 5 territories
 ```
 

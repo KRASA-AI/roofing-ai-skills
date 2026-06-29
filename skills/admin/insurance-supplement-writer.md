@@ -4,9 +4,9 @@ category: admin
 tools: [claude, chatgpt]
 difficulty: intermediate
 time_saved: "~45 min/supplement"
-version: 2.1
+version: 2.2
 last_eval_score: 8.9
-inspiration: "v2.1 rewritten 2026-04-28 from eval improvement cycle — named config-field binding (supplement.standard_op_rate / .typical_recovery_per_claim / .standard_attachments[], inspector.haag_id / .haag_certifications[] / .years_inspecting, appeals.recent_wins[], service_area.licensed_states[], pricing.supplement_filing_flat) and a populated canonical $7,400 hail Example Output (carrier $14,820 → revised $22,220 with 24-line supplement covering O&P + IWS + drip edge + decking discovery + detach/reset). v2.0 Xactimate line-item structure, state-bulletin escalation, and ten-category framework preserved."
+inspiration: "v2.2 (2026-06-29) landscape-monitor concept extraction — added a 'Carrier Scope Diagnostic' front-end step that reads the carrier's Scope of Loss / Xactimate line items and systematically derives the gap list (missing line items, $0 or withheld entries, underscoped quantities, below-market unit prices, omitted code-required items, missing O&P trigger, and depreciation handling) instead of requiring the user to hand-identify every gap before drafting — turning the gaps from a required input into a generated output that feeds the supplement. Also added an optional plain-language homeowner scope summary that restates RCV / ACV / depreciation / deductible / net-payable and the supplemented items in everyday terms so the rep can walk the homeowner through where the claim stands. Concept extracted from a June 2026 cluster of carrier-scope-reading tools observed in the scan: a homeowner-facing tool that turns a complex insurance scope/estimate into a plain-English explanation (Inspector Roofing's ScopeReader, launched June 9, 2026), a contractor-facing tool that flags missing line items, underscoped quantities, $0 entries, and code omissions against standard Xactimate codes (the AiScopeSCANNER pattern), and the broader Roofr x Verisk ESX-file integration (April 15, 2026) that lowers the cost of producing the field-verified scope the diagnostic compares against. Operationalized vendor-neutrally: it works from a pasted or referenced carrier estimate plus the shop's own field scope, requires no specific app or subscription, and produces a pre-draft gap table plus an optional homeowner summary rather than a real-time product. All wording, the diagnostic category taxonomy, the table format, and the worked example are original; no source product copy, checklist text, prompt wording, or numeric vendor claims were copied, and no proprietary scope-analysis ruleset was reproduced. v2.1 rewritten 2026-04-28 from eval improvement cycle — named config-field binding (supplement.standard_op_rate / .typical_recovery_per_claim / .standard_attachments[], inspector.haag_id / .haag_certifications[] / .years_inspecting, appeals.recent_wins[], service_area.licensed_states[], pricing.supplement_filing_flat) and a populated canonical $7,400 hail Example Output (carrier $14,820 → revised $22,220 with 24-line supplement covering O&P + IWS + drip edge + decking discovery + detach/reset). v2.0 Xactimate line-item structure, state-bulletin escalation, and ten-category framework preserved."
 ---
 
 # 🛡️ Insurance Supplement Writer
@@ -18,6 +18,7 @@ Draft supplement requests to insurance carriers that recover underpaid line item
 ## When to Use
 
 - After comparing the carrier's scope to your field-verified scope and finding gaps
+- When you have the carrier's Scope of Loss / Xactimate estimate but have **not** yet itemized the gaps — run the **Carrier Scope Diagnostic** (Step 0 below) first and let it derive the gap list for you, then draft the supplement from it
 - When the adjuster's Xactimate estimate omits code-required items (drip edge, ice & water shield to code, ridge vent)
 - To recover O&P on claims with three or more trades
 - When depreciation is withheld and you need to justify recoverable depreciation release
@@ -31,7 +32,7 @@ Provide the following:
 1. **Claim basics** — Carrier name, claim number, date of loss, adjuster name and email, loss type (hail, wind, fire, wind-driven rain), insured name, property address, policy number (last 4 only)
 2. **Carrier's current estimate** — The adjuster's Xactimate (or equivalent) estimate total, RCV, ACV, depreciation held, deductible, and net payable. Paste or reference line items by category if possible
 3. **Your field-verified scope** — Measurements (squares, eave/rake/ridge/valley linear footage), photos taken, damage pattern notes, code items required in your jurisdiction (IRC/IBC/state amendments)
-4. **Gaps to supplement** — For each item: Xactimate code if known (e.g., RFG 240, RFG IWS, RFG RIDGC), quantity variance, price variance, and reason (missing item, wrong quantity, wrong price, code upgrade, discovered condition)
+4. **Gaps to supplement** *(optional — auto-derived if omitted)* — For each item: Xactimate code if known (e.g., RFG 240, RFG IWS, RFG RIDGC), quantity variance, price variance, and reason (missing item, wrong quantity, wrong price, code upgrade, discovered condition). **If you do not provide this list, run the Carrier Scope Diagnostic (Step 0) and the assistant will generate it from the carrier estimate and your field-verified scope before drafting.**
 5. **Supporting documents** — Inspection report reference, photo log numbers, manufacturer specs, local code section citations, NOAA/storm data report if weather-dependent
 
 ## Instructions
@@ -54,6 +55,25 @@ You are an insurance-supplement specialist's AI assistant. Your job is to produc
 - Reference `knowledge-base/terminology/` for damage terms and Xactimate code mapping
 - Reference `knowledge-base/regulations/` for code citations (IRC R905, local wind/hail amendments). When a supplement appears to be contesting a machine-generated denial pattern — short turnaround, templated denial language, no per-line response — consult `knowledge-base/regulations/insurance-ai-landscape.md` for the applicable state explainability hook (NAIC Model Bulletin adoption state, NY DFS Circular Letter 2024-7, C.R.S. §10-3-1104.9, etc.) and add a supplement-justification paragraph requesting the carrier's AI governance documentation for the denial decision. If the property is in **Tennessee** or **Kentucky** and the carrier's denial referenced or appears to have been driven by aerial imagery, additionally cite Tennessee Bulletin 25-03 (TN) or Kentucky Bulletin 2026-01 (KY) and demand the imagery copies, the capture date (Kentucky requires within twelve months), and the carrier's written summary of what the imagery shows. These two state bulletins give the supplement writer a direct, narrowly-scoped consumer-protection demand that does not depend on the broader AI-governance framework
 
+**Step 0 — Carrier Scope Diagnostic (run when the gap list isn't pre-supplied):**
+
+If the user hands you the carrier's Scope of Loss / Xactimate line items but has not already itemized the gaps, derive the gap list yourself before drafting. Read the carrier estimate line by line and cross-check it against the user's field-verified scope and the code items required in the jurisdiction. For each of the ten supplement categories below, classify the carrier's treatment as one of:
+
+- **OK** — present and correctly quantified/priced; nothing to supplement
+- **Missing** — required by the field scope or code but absent from the carrier estimate
+- **$0 / withheld** — line exists but is zeroed, marked "not covered," or has depreciation withheld that should be addressed
+- **Under-qty** — present but quantified below the field measurement (compute the variance; don't ask the user to)
+- **Under-price** — present but priced below current market (flag for a supplier-quote / `tariff-price-adjuster` cross-check)
+- **N/A** — category genuinely doesn't apply on this job (document it as not applicable so the adjuster sees it was considered)
+
+Output the result as a **Scope Diagnostic table** (see Output structure §0). Total the estimated dollar impact of the flagged rows so the user sees the supplement's expected size before a single justification paragraph is written. Anything flagged Missing / $0 / Under-qty / Under-price becomes a row in the Supplement Summary Table; OK and N/A rows are dropped from the draft (except a representative N/A line, which can be carried as a $0 documented row the way Line 23 is in the example). If a code item's applicability depends on the jurisdiction, consult `knowledge-base/regulations/` before flagging it, and state the code section in the diagnostic row.
+
+When the diagnostic surfaces a denial/underpayment pattern that looks machine-generated (templated language, no per-line rationale, sub-24-hour turnaround), follow the AI-governance / state-bulletin escalation guidance in the "Before you start" block as part of the diagnostic notes.
+
+**Optional — Plain-Language Homeowner Scope Summary:**
+
+When the rep needs to walk the homeowner through the claim (not the adjuster), produce a short, jargon-free summary alongside the supplement: what the carrier is paying now (RCV, then ACV after depreciation, then net-payable after the deductible), what the deductible means in dollars out of pocket, which items are being supplemented and the one-line reason for each in everyday terms, and what happens next (adjuster review, recoverable-depreciation release on completion). Keep it to plain sentences a homeowner can read in under two minutes; never overstate the likelihood a supplement is approved, and label estimated figures as estimates. This summary is for the homeowner only — it never replaces the adjuster-facing cover letter and line-item justifications.
+
 **Supplement categories to cover (only include categories with actual gaps):**
 
 1. **Missing Line Items** — Items the carrier omitted that your scope requires (starter strip, ridge cap shingles, ice & water shield to code, step flashing replacement, detach & reset of accessories)
@@ -68,6 +88,21 @@ You are an insurance-supplement specialist's AI assistant. Your job is to produc
 10. **Permits & Inspections** — Municipal permit, final inspection fee, HOA review fees when applicable
 
 **Output structure:**
+
+### 0. Carrier Scope Diagnostic (only when the gap list was auto-derived)
+
+A pre-draft table that shows the cross-check before the supplement is written. Drop this section if the user supplied a finished gap list.
+
+| Category | Carrier treatment | Field / code requires | Flag | Est. $ impact |
+|---|---|---|---|---|
+| Ice & water shield (code) | 0 SF | 820 SF to warm wall (IRC R905.1.2) | Missing | +$1,517 |
+| Architectural shingle qty | 28.0 SQ | 32.8 SQ (28.5 + 15% waste) | Under-qty | +$1,738 |
+| Drip edge — rakes (code) | 0 LF | 142 LF (IRC R905.2.8.5) | Missing | +$348 |
+| Detach & reset gutters | 0 LF | 162 LF (needed for IWS install) | Missing | +$462 |
+| O&P (3-trade trigger) | not applied | roofing + gutter + paint | Missing | +$1,930 |
+| Solar attic fan R&R | none on roof | none present | N/A | $0 |
+
+**Diagnostic total (flagged rows): ~$X,XXX** → carried into the Supplement Summary Table below.
 
 ### 1. Cover Letter (1 page)
 - Company header from config (name, license #, certifications, contact)
@@ -274,3 +309,31 @@ For each supplement item, produce a short paragraph:
 > - `service_area.licensed_states[]` contains TX ✓
 > - `pricing.supplement_filing_flat` not surfaced (homeowner did not ask; service is bundled into the contractor's job recovery)
 > - State explainability hook (Line 24) not triggered — the carrier's denial pattern was not machine-generated. Tennessee Bulletin 25-03 / Kentucky Bulletin 2026-01 not applicable (TX property)
+
+### Diagnostic-first path — same 75070 claim, gaps NOT pre-itemized
+
+> **Inbound (no gap list provided):**
+> "Here's State Farm's estimate on the Maple Ridge hail claim — $14,820 RCV / $11,238 ACV / $3,582 dep held / $1,500 deductible. Their lines: 28.0 SQ shingle, 162 LF drip edge eaves, ridge cap 86 LF, 2 pipe boots, dump fee, permit. No IWS, no rake drip edge, no ridge vent, no gutter R&R, no O&P. My field scope: 28.5 sq + 15% waste = 32.8 sq, 162 lf eaves / 142 lf rakes / 86 lf ridge, IWS to wall required, ridge-vent NFA, gutters need detach for the eave work, 3 trades. What am I missing?"
+>
+> **Step 0 — Carrier Scope Diagnostic (auto-derived):**
+>
+> | Category | Carrier treatment | Field / code requires | Flag | Est. $ impact |
+> |---|---|---|---|---|
+> | Ice & water shield (code) | 0 SF | 820 SF to warm wall (IRC R905.1.2) | Missing | +$1,517 |
+> | Architectural shingle qty | 28.0 SQ | 32.8 SQ (28.5 + 15% waste) | Under-qty | +$1,738 |
+> | Drip edge — rakes (code) | 0 LF | 142 LF (IRC R905.2.8.5) | Missing | +$348 |
+> | Starter strip | partial (eaves) | 304 LF (eaves + rakes) | Under-qty | +$234 |
+> | Ridge vent (code) | 0 LF | 38 LF (Frisco NFA 1:150) | Missing | +$323 |
+> | Detach & reset gutters | 0 LF | 162 LF (needed for IWS install) | Missing | +$462 |
+> | Pipe boots | 2 EA @ $35 | 4 EA @ $42 (field count + price) | Under-qty + under-price | +$98 |
+> | O&P (3-trade trigger) | not applied | roofing + gutter + paint | Missing | +$1,930 |
+> | Recoverable depreciation | $3,582 withheld | release on completion | $0 / withheld | (release) |
+> | Solar attic fan R&R | none on roof | none present | N/A | $0 |
+>
+> **Diagnostic total (flagged rows): ~$6,650 of the ~$7,400 supplement before discovery items.** Decking/fascia found at tear-off (+$174) and the remaining accessory/permit lines bring it to the full $7,400. → These rows now feed the Supplement Summary Table; the skill proceeds to the cover letter exactly as in the canonical example above.
+>
+> **Optional — Plain-Language Homeowner Scope Summary (for Janelle, not the adjuster):**
+>
+> > Here's where your hail claim stands today. State Farm has approved **$14,820** to replace your roof (that's the full "replacement cost"). They hold back **$3,582** in depreciation until the work is finished, and your policy deductible is **$1,500** — so the first check is about **$9,738**, and the held-back $3,582 is released to you once we complete the job and send photos and the final invoice.
+> >
+> > Reviewing their estimate against what your roof actually needs, we found several required items their first estimate left out — the waterproof membrane your local code requires, rake-edge metal, the ridge vent, and the labor to take your gutters off and reset them so the membrane can go in correctly — plus a quantity correction (your roof measured larger than they allowed for). We're sending the insurer a **supplement of about $7,400** to add these. *This is a request, not a guarantee* — the adjuster reviews each line — but every item is backed by a photo, a code section, or a current supplier price, which is what tends to get them approved. If they approve it, your out-of-pocket stays your $1,500 deductible; the supplement is paid by insurance, not by you. We'll keep you posted at each step.

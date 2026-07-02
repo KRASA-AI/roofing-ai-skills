@@ -1,0 +1,17 @@
+skill: roof-inspection-report
+file: skills/operations/roof-inspection-report.md
+date: 2026-06-29
+version_evaluated: "1.5"
+file_changed_since_last_eval: false
+scores:
+  clarity: 9
+  specificity: 9
+  industry_fit: 9
+  output_quality: 9
+  personalization: 8
+  efficiency: 9
+overall: 8.9
+previous_score: 8.9
+delta_vs_previous: 0.0
+improvement_candidate: false
+note: "Byte-identical to 2026-06-22 evaluated version (v1.5 landscape-monitor Documentation Completeness Check). Scores carried forward. personalization 8 is the only sub-9 dimension (config-fixture ceiling)."

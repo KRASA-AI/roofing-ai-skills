@@ -4,9 +4,9 @@ category: sales
 tools: [claude, chatgpt]
 difficulty: intermediate
 time_saved: "~15 min/estimate"
-version: 2.2
-last_eval_score: 8.8
-inspiration: "v2.2 (2026-06-01) populates Template D (Objection-Handling Script) end-to-end with the canonical five-objection set ('it's too expensive' / 'I'll wait for prices to drop' / 'the other guy is cheaper' / 'can you match the old price?' / 'my insurance won't cover the increase'), each resolved against the same 28-sq Frisco TX scenario as Template A so the two outputs compose. Each objection block carries trigger language, underlying concern, voice-matched 2–3 sentence response, a supporting data point pulled from config.market_conditions, and a bridge-to-close question. Closes the three-of-five unpopulated-templates gap on the highest-frequency template (every estimate during a volatile window triggers an objection script). v2.1 adds canonical Template A price-adjustment letter Example Output (GAF Timberline HDZ 7% tariff pass-through on $16,800 estimate for 28-sq residential in Frisco TX, 3 options — deposit lock / tier downgrade / finance the delta) and a populated 3-line Addendum variant, closing the zero-worked-examples ceiling across five templates. v2.0 five-template structure, named config fields, lifecycle-cost schema, and one-question triage preserved."
+version: 2.3
+last_eval_score: 9.0
+inspiration: "v2.3 (2026-06-29) eval improvement cycle targeting output_quality — the last two unworked templates (C Website Pricing Page and E Lifecycle Cost Comparison) were skeleton-only, the single remaining output_quality ceiling flagged across three eval cycles. This version adds a fully-worked Template C (a 'What Roofing Costs in Frisco Right Now — May 2026' page with populated replacement ranges, cost-breakdown percentages, and four homeowner Q&As, plus the required plain-HTML CMS-paste variant) and a fully-worked Template E (a 28-sq Frisco three-material lifecycle table — GAF Timberline HDZ architectural vs GAF Grand Sequoia designer vs Drexel 24-ga standing-seam metal — with every cost-per-year cell computed from the stated formula and the math shown so a homeowner can verify). All five templates now carry a complete worked example; the tariff/market bindings stay consistent with the Template A and D scenario. Purely additive; no existing example altered. v2.2 (2026-06-01) populates Template D (Objection-Handling Script) end-to-end with the canonical five-objection set ('it's too expensive' / 'I'll wait for prices to drop' / 'the other guy is cheaper' / 'can you match the old price?' / 'my insurance won't cover the increase'), each resolved against the same 28-sq Frisco TX scenario as Template A so the two outputs compose. Each objection block carries trigger language, underlying concern, voice-matched 2–3 sentence response, a supporting data point pulled from config.market_conditions, and a bridge-to-close question. Closes the three-of-five unpopulated-templates gap on the highest-frequency template (every estimate during a volatile window triggers an objection script). v2.1 adds canonical Template A price-adjustment letter Example Output (GAF Timberline HDZ 7% tariff pass-through on $16,800 estimate for 28-sq residential in Frisco TX, 3 options — deposit lock / tier downgrade / finance the delta) and a populated 3-line Addendum variant, closing the zero-worked-examples ceiling across five templates. v2.0 five-template structure, named config fields, lifecycle-cost schema, and one-question triage preserved."
 ---
 
 # 💲 Tariff & Price Adjustment Communicator
@@ -510,3 +510,185 @@ USAGE NOTES (for Marcus, not for Nathan)
 - `supplement.typical_recovery_per_claim` + `appeals.recent_wins[]` + `inspector.haag_id` — exercised in Objection 5 cross-skill handoff to `insurance-supplement-writer`
 - Cross-skill bindings introduced via the worked example: `sales/follow-up-sequence` objection-thread branch on T+3 / T+7 (new named touchpoint that follow-up-sequence v2.2+ should consume); `admin/insurance-supplement-writer` for the Objection 5 supplement filing
 - `commercial.case_studies[]` and `.preferred_systems[]` NOT exercised in Template D (residential scenario only); a commercial Template D variant remains the next lift target
+
+## Example Output — Template C: Website Pricing Page (Frisco TX, May 2026)
+
+**Scenario:** Same company and market as Templates A/D — Acme Roofing LLC, Frisco TX (`service_area.primary_city = Frisco`), refreshed for the May 2026 tariff window. Output type = `website`. Ranges are illustrative-but-grounded for a typical 20-sq architectural job in this metro; the company confirms each band against its current rate card before publishing. Per the output requirements, both a Markdown version (for review) and a plain-HTML CMS-paste version (same path, `.html`) are emitted.
+
+---
+
+```markdown
+## What Roofing Costs in Frisco Right Now (May 2026)
+
+Straight answer, updated this month. Roofing prices moved again in May, and we'd
+rather you see why than wonder if you're being marked up. These are real ranges for
+a typical single-story, 20-square architectural roof in Frisco and the surrounding
+North Texas suburbs.
+
+### Typical replacement ranges (20-sq architectural home)
+- **Architectural shingle (30-yr):** $11,500 – $16,000
+- **Designer shingle (lifetime):** $17,000 – $24,000
+- **Standing-seam metal:** $28,000 – $42,000
+
+Where you land in a range depends on roof pitch, number of valleys and penetrations,
+tear-off layers, and code items your home needs (ice-and-water shield, drip edge,
+ventilation).
+
+### Why prices moved this year
+- The **USTR tariff exclusion on asphalt roofing materials (HTS 6807.10) expired in
+  May 2026**, adding about **7.5%** at the import level on asphalt-based products.
+- **GAF raised architectural shingle pricing ~7%** effective May 1, 2026 (manufacturer
+  increase letter GAF-2026-05-01-ARCH).
+- **Coil-steel freight surcharges** continue to push standing-seam metal pricing on
+  longer lead times.
+
+None of this is an Acme markup — every licensed roofer in North Texas re-priced this
+month. We pass material changes through at cost and show you the line items.
+
+### What you're actually paying for (typical 20-sq job)
+- **Materials:** ~40%
+- **Labor** (tear-off, install, cleanup): ~38%
+- **Permits, dumpster, and overhead:** ~22%
+
+### Common homeowner questions
+
+**Q: Why is roofing more expensive than it was 24 months ago?**
+A: Two stacked forces — federal tariffs on asphalt materials (HTS 6807.10) and repeated
+manufacturer price increases (GAF has raised architectural pricing multiple times since
+2024). The labor and disposal side rose with general inflation on top of that.
+
+**Q: Will prices come down?**
+A: Honestly, rarely. Asphalt shingle pricing has stair-stepped *up* in 22 of the last
+25 years and effectively never drops. Metal tracks commodity steel cycles, so it can dip
+— but the tariff driving this year's move is unlikely to reverse inside 18–24 months.
+
+**Q: Can I lock today's price?**
+A: Yes. A **10% deposit locks your quoted pricing for 30 days**, protecting you from any
+further manufacturer increase during that window.
+
+**Q: Does insurance cover a price increase on an open hail or wind claim?**
+A: Usually, yes. Carriers are expected to update an approved scope for documented,
+market-wide cost shifts. We file a supplement with the tariff docket and the manufacturer
+letter as backup — our recovery rate on tariff-driven supplement items is over 90%.
+
+_Pricing reflects the Frisco / North Texas market as of May 2026 and is updated when
+manufacturer or tariff conditions change. Call 469-555-0140 for a free, fixed-scope quote._
+```
+
+**Plain-HTML CMS-paste variant** (saved alongside at `outputs/pricing/2026-05-11-frisco-website.html`):
+
+```html
+<section class="roof-pricing">
+  <h2>What Roofing Costs in Frisco Right Now (May 2026)</h2>
+  <p>Straight answer, updated this month. These are real ranges for a typical single-story, 20-square architectural roof in Frisco and the surrounding North Texas suburbs.</p>
+
+  <h3>Typical replacement ranges (20-sq architectural home)</h3>
+  <ul>
+    <li><strong>Architectural shingle (30-yr):</strong> $11,500 &ndash; $16,000</li>
+    <li><strong>Designer shingle (lifetime):</strong> $17,000 &ndash; $24,000</li>
+    <li><strong>Standing-seam metal:</strong> $28,000 &ndash; $42,000</li>
+  </ul>
+
+  <h3>Why prices moved this year</h3>
+  <ul>
+    <li>USTR tariff exclusion on asphalt roofing materials (HTS 6807.10) expired May 2026 &mdash; about 7.5% at the import level.</li>
+    <li>GAF raised architectural shingle pricing ~7% effective May 1, 2026.</li>
+    <li>Coil-steel freight surcharges continue to push standing-seam metal pricing.</li>
+  </ul>
+
+  <h3>What you&rsquo;re actually paying for (typical 20-sq job)</h3>
+  <ul>
+    <li>Materials: ~40%</li>
+    <li>Labor (tear-off, install, cleanup): ~38%</li>
+    <li>Permits, dumpster, and overhead: ~22%</li>
+  </ul>
+
+  <h3>Common homeowner questions</h3>
+  <dl>
+    <dt>Why is roofing more expensive than it was 24 months ago?</dt>
+    <dd>Federal tariffs on asphalt materials (HTS 6807.10) plus repeated manufacturer increases, on top of higher labor and disposal costs.</dd>
+    <dt>Will prices come down?</dt>
+    <dd>Rarely. Asphalt has risen in 22 of the last 25 years; metal tracks steel cycles. The current tariff is unlikely to reverse within 18&ndash;24 months.</dd>
+    <dt>Can I lock today&rsquo;s price?</dt>
+    <dd>Yes &mdash; a 10% deposit locks your quoted pricing for 30 days.</dd>
+    <dt>Does insurance cover a price increase on an open claim?</dt>
+    <dd>Usually. We file a supplement with the tariff docket and manufacturer letter as backup; recovery on tariff-driven items exceeds 90%.</dd>
+  </dl>
+
+  <p><em>Pricing reflects the Frisco / North Texas market as of May 2026. Call 469-555-0140 for a free, fixed-scope quote.</em></p>
+</section>
+```
+
+**Assumptions footer for the Template C run**
+- `service_area.primary_city` = Frisco; `{month_year}` = May 2026 resolved from run date
+- Replacement ranges flagged "illustrative — confirm against current supplier quote" per output requirements; bands reflect 20-sq architectural typical for North Texas and should be reconciled to `rates.per_square_*` before publishing
+- `market_conditions.active_tariffs[]` (USTR HTS 6807.10, 7.5%, May 2026) and `.manufacturer_increases[]` (GAF +7%, 2026-05-01) carried forward from Template A — same bindings
+- Cost-breakdown split (40/38/22) is industry-typical for a 20-sq tear-off-and-replace; flag for confirmation against the company's own job-costing
+- Deposit (10%) / validity window (30 days, `rates.validity_window_days`) consistent with Template A
+- Plain-HTML variant emitted at the same path with `.html` extension per the website-content output rule
+
+## Example Output — Template E: Lifecycle Cost Comparison (28-sq Frisco TX, three materials)
+
+**Scenario:** Same 28-sq Frisco home as Template A (Nathan Webb, 1412 Birchwood Ln). Output type = `lifecycle_comparison`. Buyer is price-sensitive and weighing "cheapest now" against "cheapest to own." Three tiers compared: **GAF Timberline HDZ** (30-yr architectural, the Template A system) vs **GAF Grand Sequoia** (designer/luxury) vs **Drexel 24-ga standing-seam metal**. Every cost-per-year cell is computed from the stated formula and the math is shown so Nathan can verify each number.
+
+Cost-per-year formula (from the template): `(initial + lifespan × (maintenance − energy_savings − insurance_savings)) / lifespan`
+
+---
+
+```
+LIFECYCLE COST COMPARISON — 1412 Birchwood Ln, Frisco TX 75070
+Prepared for: Nathan Webb  |  Acme Roofing LLC, License TX-RC-0481234  |  2026-05-11
+
+| Metric                                   | GAF Timberline HDZ | GAF Grand Sequoia | Drexel Standing-Seam |
+|------------------------------------------|-------------------:|------------------:|---------------------:|
+| Initial installed cost                   |            $17,600 |           $24,500 |              $41,000 |
+| Expected lifespan (years)                |                 25 |                30 |                   50 |
+| Workmanship warranty (Acme)              |              10 yr |             10 yr |                10 yr |
+| Manufacturer warranty                    | Ltd lifetime /     | Ltd lifetime /    | 30-yr Kynar (PVDF)   |
+|                                          | 15-yr non-prorated | 15-yr non-prorated | finish               |
+| Annual maintenance cost                  |              $180  |             $180  |                 $90  |
+| Energy-efficiency impact (annual saving) |              $40   |             $50   |                $130  |
+| Insurance premium adjustment (annual)    |              $0    |             $0    |    $120 saving (TX   |
+|                                          |                    |                   |    Class 4 IR credit)|
+| **Total cost of ownership (TCO)**        |        **$21,100** |       **$28,400** |          **$33,000** |
+| **Cost per year**                        |          **$844**  |         **$947**  |            **$660**  |
+
+SHOW-THE-MATH (so you can verify each cost-per-year)
+
+GAF Timberline HDZ (architectural)
+  net annual = maintenance − energy − insurance = $180 − $40 − $0 = $140/yr
+  TCO        = $17,600 + 25 yr × $140 = $17,600 + $3,500 = $21,100
+  Cost/yr    = $21,100 ÷ 25 = $844/yr
+
+GAF Grand Sequoia (designer)
+  net annual = $180 − $50 − $0 = $130/yr
+  TCO        = $24,500 + 30 yr × $130 = $24,500 + $3,900 = $28,400
+  Cost/yr    = $28,400 ÷ 30 = $947/yr
+
+Drexel Standing-Seam Metal (24-ga)
+  net annual = $90 − $130 − $120 = −$160/yr (the roof SAVES you money each year)
+  TCO        = $41,000 + 50 yr × (−$160) = $41,000 − $8,000 = $33,000
+  Cost/yr    = $33,000 ÷ 50 = $660/yr
+
+HOW TO READ THIS
+- Cheapest to install is the Timberline HDZ at $17,600. Cheapest to OWN, per year, is the
+  standing-seam metal at $660/yr — because it lasts 50 years, costs less to maintain, and in
+  Texas earns a Class 4 impact-resistant insurance credit plus real summer cooling savings.
+- The designer Grand Sequoia is the highest cost-per-year here: you pay a curb-appeal premium
+  up front without a lifespan or efficiency advantage over the metal.
+- If you plan to stay in the home 12+ years, the metal's per-year math wins. If this is a
+  shorter hold or the upfront number is the constraint, the Timberline HDZ is the value pick
+  and the one your Template A estimate is built on.
+
+Every figure above is an illustrative estimate. Maintenance, energy, and insurance numbers
+should be confirmed against your actual utility bills and a quote from your insurer; lifespan
+bands are industry-typical for the North Texas climate, not a guarantee.
+```
+
+**Assumptions footer for the Template E run**
+- Initial costs: Timberline HDZ uses the Template A revised total band ($17,600); Grand Sequoia and Drexel metal are illustrative North-Texas installed prices for a 28-sq home — flag "illustrative — confirm against current supplier quote"
+- Lifespan bands (25 / 30 / 50 yr) are industry-typical service life, not warranty terms; stated as estimates
+- `warranty.workmanship_years` = 10 bound to all three rows; `warranty.manufacturer_tiers[]` surfaces the GAF non-prorated window and the Drexel Kynar finish warranty
+- Insurance credit: Texas allows a hail/wind premium credit for Class 4 impact-resistant roofing — applied only to the metal column; resi shingle credit left at $0 unless the homeowner confirms an IR-shingle product
+- Energy savings reflect reflective standing-seam vs standard asphalt in climate zone 3A; confirm against the homeowner's utility history
+- Cost-per-year computed strictly from the template formula `(initial + lifespan × (maintenance − energy_savings − insurance_savings)) / lifespan`; negative net-annual on the metal column is intentional (annual savings exceed maintenance)

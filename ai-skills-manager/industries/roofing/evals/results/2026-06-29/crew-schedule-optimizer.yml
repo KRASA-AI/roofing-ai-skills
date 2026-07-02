@@ -1,0 +1,17 @@
+skill: crew-schedule-optimizer
+file: skills/operations/crew-schedule-optimizer.md
+date: 2026-06-29
+version_evaluated: "1.5"
+file_changed_since_last_eval: false
+scores:
+  clarity: 9
+  specificity: 10
+  industry_fit: 9
+  output_quality: 9
+  personalization: 9
+  efficiency: 9
+overall: 9.2
+previous_score: 9.2
+delta_vs_previous: 0.0
+improvement_candidate: false
+note: "Byte-identical to 2026-06-22 evaluated version; scores carried forward. Remains the repo's top skill."

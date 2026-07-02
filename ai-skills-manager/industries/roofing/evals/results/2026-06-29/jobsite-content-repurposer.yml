@@ -1,0 +1,36 @@
+skill: jobsite-content-repurposer
+file: skills/sales/jobsite-content-repurposer.md
+date: 2026-06-29
+version_evaluated: "1.3"
+file_changed_since_last_eval: true
+prior_version_evaluated: "1.2"
+improvement_candidate: true
+scores_before:
+  clarity: 9
+  specificity: 9
+  industry_fit: 8
+  output_quality: 9
+  personalization: 8
+  efficiency: 9
+overall_before: 8.7
+scores:
+  clarity: 9
+  specificity: 9
+  industry_fit: 9
+  output_quality: 9
+  personalization: 8
+  efficiency: 9
+overall: 8.9
+previous_score: 8.7
+delta_vs_previous: 0.2
+target_dimensions: [industry_fit]
+result: improved-replaced
+note: >
+  The repo's single lowest skill (8.7). output_quality was already 9 after v1.2; the remaining headroom was
+  industry_fit 8 ('mostly correct but shallow on trade specifics') — appropriate to target because consumer-facing
+  captions are plain by design, but the skill gave no guardrail against the trade-term errors marketing copy makes.
+  v1.3 adds a 'Trade-accuracy guardrails' block pinning hip-and-ridge vs ridge cap, starter strip vs first course,
+  synthetic underlayment vs felt, step/counter/apron flashing distinctions, ice-and-water vs drip edge vs underlayment,
+  ventilation/NFA honesty, and system-vs-enhanced-warranty integrity (no warranty misrepresentation for non-certified
+  installs). The website-gallery example draft now models the full correct assembly sequence end to end. industry_fit
+  8 -> 9, overall 8.7 -> 8.9. personalization remains 8 (config-fixture ceiling). No degradation.

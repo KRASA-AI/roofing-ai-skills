@@ -1,0 +1,22 @@
+skill: maintenance-plan-generator
+file: skills/sales/maintenance-plan-generator.md
+date: 2026-06-29
+version_evaluated: "1.5"
+file_changed_since_last_eval: false
+scores:
+  clarity: 9
+  specificity: 9
+  industry_fit: 9
+  output_quality: 9
+  personalization: 8
+  efficiency: 8
+overall: 8.8
+previous_score: 8.8
+delta_vs_previous: 0.0
+improvement_candidate: false
+note: >
+  Byte-identical to 2026-06-22 evaluated version; scores carried forward. Now carries both a residential and a
+  commercial (60k sf TPO) fully-worked example with deep named-field binding and graceful Assumptions footers.
+  Capped only by the two 0.1-weight dims: personalization (config-fixture ceiling) and efficiency (Required Input
+  asks for several items though triage defaults are good). Considered as an improvement candidate but Tariff
+  (0.2-weight output_quality gap) and Lead Response (more concrete efficiency headroom) were higher-leverage.

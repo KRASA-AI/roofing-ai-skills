@@ -1,0 +1,35 @@
+skill: lead-response-automator
+file: skills/customer-service/lead-response-automator.md
+date: 2026-06-29
+version_evaluated: "1.5"
+file_changed_since_last_eval: true
+prior_version_evaluated: "1.4"
+improvement_candidate: true
+scores_before:
+  clarity: 9
+  specificity: 9
+  industry_fit: 9
+  output_quality: 9
+  personalization: 8
+  efficiency: 8
+overall_before: 8.8
+scores:
+  clarity: 9
+  specificity: 9
+  industry_fit: 9
+  output_quality: 9
+  personalization: 8
+  efficiency: 9
+overall: 8.9
+previous_score: 8.8
+delta_vs_previous: 0.1
+target_dimensions: [efficiency]
+result: improved-replaced
+note: >
+  Improvement target for efficiency. Despite five strong worked examples, the seven-item Required Input list read
+  as front-loaded interrogation (rubric efficiency anchor 7-8 = 'single-question triage'; 9-10 = 'runs from defaults,
+  asks only for genuinely blocking inputs'). v1.5 adds a 'Fastest path — minimum viable input' block establishing
+  that the inbound lead message is the ONLY blocking input; every other field is read from config or inferred from
+  classification. Required Input is re-annotated [blocking]/[from config]/[inferred], and Efficiency notes are
+  tightened to 'runs from defaults; one question only when urgency can't be classified.' efficiency 8 -> 9, overall
+  8.8 -> 8.9. personalization remains 8 (config-fixture ceiling). No degradation.

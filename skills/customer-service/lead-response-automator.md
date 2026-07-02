@@ -4,9 +4,9 @@ category: customer-service
 tools: [claude, chatgpt]
 difficulty: intermediate
 time_saved: "~20 min/lead"
-version: 1.4
-last_eval_score: 8.8
-inspiration: "v1.4 (2026-06-01) adds the fifth Example Output covering the documented 'biggest capacity gain' use case from the When to Use section: a 🔴 in-shift call-miss recovery during business hours (separate from the v1.3 storm-night active leak). Scenario: 75070 inbound voice call at 2:43 PM Wed dropped to voicemail because the office was on three other calls and the AI receptionist's ring-time threshold expired without a human pickup. The skill demonstrates the 60-second AI-assisted callback pattern (transcript-from-VM auto-classify → callback-bot dials within 60 sec → live SMS with two real calendar slots → estimator handoff brief in JobNimbus). Exercises a new named binding (response.in_shift_missed_call_recovery_window_seconds, default 60) plus the existing response.business_hours and company.calendar_integration = google_workspace path. Closes the documented-but-unexemplified gap flagged as the 2026-05-25 recommended next-cycle improvement. v1.3 adds the fourth ⚪ Low-fit Example Output — a Tyler TX out-of-service-area lead with a polite-referral script, no-estimator-routed handoff, and a CRM note flagging the redirect for source-quality analytics. v1.2 SLA windows, named bindings, estimator-matching algorithm, and three existing tier examples preserved."
+version: 1.5
+last_eval_score: 8.9
+inspiration: "v1.5 (2026-06-29) eval improvement cycle targeting efficiency (held at 8 — the seven-item Required Input list read as front-loaded interrogation even though the skill can infer most of it from config + the inbound message itself). This version adds a 'Fastest path — minimum viable input' block clarifying that the ONLY blocking input is the pasted inbound lead message; lead source, capacity, channels, calendar mode, and fallback routing are all read from config or inferred from classification, and the skill asks a single triage question only when urgency is genuinely ambiguous. The Required Input list is re-annotated to mark each item [blocking] / [from config] / [inferred], and the Efficiency notes are tightened to 'runs from defaults; one question only when urgency can't be classified.' Purely additive; no example or routing logic changed. v1.4 (2026-06-01) adds the fifth Example Output covering the documented 'biggest capacity gain' use case from the When to Use section: a 🔴 in-shift call-miss recovery during business hours (separate from the v1.3 storm-night active leak). Scenario: 75070 inbound voice call at 2:43 PM Wed dropped to voicemail because the office was on three other calls and the AI receptionist's ring-time threshold expired without a human pickup. The skill demonstrates the 60-second AI-assisted callback pattern (transcript-from-VM auto-classify → callback-bot dials within 60 sec → live SMS with two real calendar slots → estimator handoff brief in JobNimbus). Exercises a new named binding (response.in_shift_missed_call_recovery_window_seconds, default 60) plus the existing response.business_hours and company.calendar_integration = google_workspace path. Closes the documented-but-unexemplified gap flagged as the 2026-05-25 recommended next-cycle improvement. v1.3 adds the fourth ⚪ Low-fit Example Output — a Tyler TX out-of-service-area lead with a polite-referral script, no-estimator-routed handoff, and a CRM note flagging the redirect for source-quality analytics. v1.2 SLA windows, named bindings, estimator-matching algorithm, and three existing tier examples preserved."
 ---
 
 # 🚀 Lead Response Automator
@@ -26,15 +26,17 @@ Generate instant, channel-appropriate responses to new roofing leads — qualify
 
 ## Required Input
 
-Provide the following:
+**Fastest path — minimum viable input:** paste the **inbound lead message** (item 2) and run. That is the only blocking input. Everything else is read from `config.yml` or inferred from the message itself: lead source from the channel/UTM, inquiry type and urgency from the triage classifier, capacity and calendar mode from `company.estimators[]` + `company.calendar_integration`, active channels from the populated `company.*` sender fields, and routing from `response.fallback_routing[]`. The skill asks **exactly one** triage question — and only when urgency genuinely can't be classified from the text (e.g., "need someone to look at my roof" with no leak/storm/timeline signal). Don't interrogate for fields config already holds.
 
-1. **Lead source** — Where the inquiry came from (Google ad, website form, referral, storm canvassing, social media, home advisor, etc.)
-2. **Initial lead info** — Whatever the lead provided: name, phone, email, address, description of need, photos if available
-3. **Inquiry type** — If known: storm damage, routine maintenance, new roof, commercial, emergency leak, gutter/siding, insurance claim
-4. **Current capacity** — Estimator availability for the next 5 business days, preferred inspection time blocks (or `live` if `company.calendar_integration` is configured for direct booking)
-5. **Response channels available** — Which channels are active: SMS, email, phone, chat widget
-6. **Calendar access** — Whether the AI layer can read the estimator calendar in real time and book directly (driven by `company.calendar_integration`), or whether it must offer two to three time blocks and hand off to a human to confirm
-7. **Fallback routing rules** — Resolved from `response.fallback_routing[]` if configured; otherwise ask once
+The full input list, annotated by how each is resolved:
+
+1. **Lead source** *(inferred / from channel)* — Where the inquiry came from (Google ad, website form, referral, storm canvassing, social media, home advisor). Read from the channel or UTM tag; only ask if the message arrives with no source context.
+2. **Initial lead info** *(blocking — the one input the skill can't run without)* — Whatever the lead provided: name, phone, email, address, description of need, photos if available.
+3. **Inquiry type** *(inferred)* — Storm damage, routine maintenance, new roof, commercial, emergency leak, gutter/siding, insurance claim. Derived by the triage classifier from the message; stated as a flagged assumption when ambiguous.
+4. **Current capacity** *(from config)* — Estimator availability for the next 5 business days, preferred inspection time blocks (or `live` if `company.calendar_integration` is configured for direct booking). Read from `company.estimators[]`; only needed manually if calendar integration is `none`.
+5. **Response channels available** *(from config)* — Which channels are active: SMS, email, phone, chat widget. Read from the populated `company.sms_from_number` / `email_from` / website fields.
+6. **Calendar access** *(from config)* — Real-time read-and-book vs offer-and-confirm, driven by `company.calendar_integration`. No question needed when the field is set.
+7. **Fallback routing rules** *(from config)* — Resolved from `response.fallback_routing[]` if configured; defaults applied (see Efficiency notes) if empty, rather than asking.
 
 ## Instructions
 
@@ -112,7 +114,7 @@ You are an AI-powered intake specialist for a roofing company. Your job is to pr
 
 **Efficiency notes:**
 
-- Single clarifying question max — typically only when the inbound message is ambiguous about urgency
+- **Runs from defaults; one question only when urgency can't be classified.** The inbound lead message is the only blocking input — never ask for source, capacity, channels, calendar mode, or routing when config holds them. Ask a single triage question solely when the text gives no urgency signal at all; otherwise classify, flag the assumption, and proceed.
 - If `response.fallback_routing[]` is empty and the matched estimator is unavailable, default to: secondary estimator → owner line → outside answering service for 🔴, and: secondary estimator → next-day callback for 🟡 / 🟢
 - Cross-reference: hands warm leads off to `follow-up-sequence` (Day-1 cadence resumes once intake completes), routes 🔴 storm-driven leads back into `predictive-lead-scorer` for batch upgrade if multiple come from the same ZIP, escalates commercial inquiries to `commercial-prospect-researcher` for company-level enrichment
 

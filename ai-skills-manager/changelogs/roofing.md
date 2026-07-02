@@ -4,6 +4,46 @@ Maintained by the Skill Evaluator scheduled task. Most recent entry first.
 
 ---
 
+## 2026-06-29 00:14 UTC (automated eval cycle)
+
+**Evaluated:** all 15 skills in `skills/` (excluding `_shared/`) against rubric v1.0. Since 2026-06-22, exactly one skill file changed via other automation — `insurance-supplement-writer.md` (v2.1→v2.2, landscape-monitor commit `3842c8b`); the other 14 were byte-identical and carried forward. Results persisted to `evals/results/2026-06-29/`.
+
+**Averages:** prior cycle 8.88 (15 skills) → this-cycle baseline 8.88 → **after improvements 8.91**. No skill degraded. Floor rose from 8.7 to 8.8; the whole library now sits in a 0.4-point band (8.8–9.2).
+
+**Scores (after improvements):**
+
+| Skill | Score | Prior (06-22) | Δ |
+|-------|------:|------:|---:|
+| Crew Schedule Optimizer | 9.2 | 9.2 | 0.0 |
+| Estimate Builder | 9.1 | 9.1 | 0.0 |
+| Tariff & Price Adjustment Communicator | 9.0 | 8.8 | **+0.2** |
+| Follow-Up Sequence | 9.0 | 9.0 | 0.0 |
+| Predictive Lead Scorer | 9.0 | 9.0 | 0.0 |
+| Insurance Supplement Writer | 8.9 | 8.9 | 0.0 |
+| Roof Inspection Report | 8.9 | 8.9 | 0.0 |
+| Lead Response Automator | 8.9 | 8.8 | **+0.1** |
+| Jobsite Content Repurposer | 8.9 | 8.7 | **+0.2** |
+| Insurance Appeal Inspection Report | 8.8 | 8.8 | 0.0 |
+| Maintenance Plan Generator | 8.8 | 8.8 | 0.0 |
+| Safety Toolbox Talk Generator | 8.8 | 8.8 | 0.0 |
+| Material Order Calculator | 8.8 | 8.8 | 0.0 |
+| Storm Canvassing Prioritizer | 8.8 | 8.8 | 0.0 |
+| Commercial Prospect Researcher | 8.8 | 8.8 | 0.0 |
+
+**Improvements made (bottom 3 by pre-improvement score):**
+
+- **Tariff & Price Adjustment Communicator** v2.2 → v2.3 (target: output_quality — the only 8.8 skill with a sub-9 0.2-weight dimension). Worked the last two skeleton-only templates: **Template C** (Frisco "What Roofing Costs Right Now — May 2026" page with populated ranges, 40/38/22 cost split, four homeowner Q&As, and the required plain-HTML CMS variant) and **Template E** (28-sq Frisco three-material lifecycle table — Timberline HDZ vs Grand Sequoia vs Drexel standing-seam — every cost-per-year cell computed from the stated formula with the math shown; arithmetic verified programmatically at $844 / $947 / $660 per year). All five templates now carry a complete worked example. output_quality 8→9. Re-eval 8.8 → **9.0**, replaced.
+- **Jobsite Content Repurposer** v1.2 → v1.3 (target: industry_fit — the repo's lone lowest skill, output_quality already 9). Added a **Trade-accuracy guardrails** block (hip-and-ridge vs ridge cap, starter strip vs first course, synthetic underlayment vs felt, step/counter/apron flashing, ice-and-water vs drip edge vs underlayment, ventilation/NFA honesty, system-vs-enhanced-warranty integrity) and deepened the website-gallery example to model the full correct assembly. industry_fit 8→9. Re-eval 8.7 → **8.9**, replaced.
+- **Lead Response Automator** v1.4 → v1.5 (target: efficiency). Added a **"Fastest path — minimum viable input"** block (inbound lead message is the only blocking input; all else read from config or inferred), re-annotated Required Input as [blocking]/[from config]/[inferred], and tightened Efficiency notes to "runs from defaults; one question only when urgency can't be classified." efficiency 8→9. Re-eval 8.8 → **8.9**, replaced.
+
+**Notable (not an eval-improvement):** **Insurance Supplement Writer** v2.1→v2.2 was changed by landscape-monitor before this run — it added a Step 0 "Carrier Scope Diagnostic" (derives the gap list from the carrier estimate + field scope instead of requiring hand-itemized gaps) and an optional plain-language homeowner scope summary, both fully worked into the example (diagnostic-first path reconciles to the same $7,400 / $22,220 canonical figures). Re-graded fresh: holds at **8.9** (reinforces efficiency + output value, but both were already 9).
+
+**Persistent weaknesses:** With output_quality gaps now fully closed and industry_fit largely closed, **personalization (8) is the sole binding constraint** — it is the only sub-9 dimension on every 8.8/8.9 skill, all gated by the still-uncommitted `config.yml` fixture. The remaining skills already bind named fields with defaults and Assumptions footers; they are blocked from 9 by eval design, not skill quality. efficiency still sits at 8 on four operations/admin skills. `test-cases/` is still empty.
+
+**Recommendations for next cycle:** (1) **commit a sample `config.yml` fixture** — now the dominant and essentially only ceiling left; with output_quality closed it is the only lever that moves the headline average; (2) apply the Lead-Response "minimum viable input + single-question triage" pattern to the four operations/admin skills still at efficiency 8 (Maintenance, Insurance Appeal, Safety, Material Order); (3) seed `test-cases/` for regression grading; (4) shift future content edits toward regression defense (strict spec-to-example consistency) rather than new headroom — the realistic per-skill ceiling without a config fixture is ~8.9–9.0.
+
+---
+
 ## 2026-06-22 14:00 (automated eval cycle)
 
 **Evaluated:** all 15 skills in `skills/` (excluding `_shared/`) against rubric v1.0. Since 2026-06-15, exactly one skill file changed via other automation — `roof-inspection-report.md` (v1.4→v1.5, landscape-monitor commit `2e008c6`); the other 14 were byte-identical and carried forward. Results persisted to `evals/results/2026-06-22/`.

@@ -1,0 +1,36 @@
+skill: tariff-price-adjuster
+file: skills/sales/tariff-price-adjuster.md
+date: 2026-06-29
+version_evaluated: "2.3"
+file_changed_since_last_eval: true
+prior_version_evaluated: "2.2"
+improvement_candidate: true
+scores_before:
+  clarity: 9
+  specificity: 9
+  industry_fit: 9
+  output_quality: 8
+  personalization: 9
+  efficiency: 9
+overall_before: 8.8
+scores:
+  clarity: 9
+  specificity: 9
+  industry_fit: 9
+  output_quality: 9
+  personalization: 9
+  efficiency: 9
+overall: 9.0
+previous_score: 8.8
+delta_vs_previous: 0.2
+target_dimensions: [output_quality]
+result: improved-replaced
+note: >
+  Improvement target this cycle. The standing output_quality 8 ceiling was the two skeleton-only templates
+  (C Website Pricing Page, E Lifecycle Cost Comparison) — the last unworked outputs in the skill, flagged
+  three cycles running. v2.3 adds a fully-worked Template C (Frisco 'What Roofing Costs Right Now — May 2026'
+  page with populated ranges, 40/38/22 cost split, four homeowner Q&As, plus the required plain-HTML CMS-paste
+  variant) and a fully-worked Template E (28-sq Frisco three-material lifecycle table with every cost-per-year
+  cell computed from the stated formula and the math shown). All five templates now carry a complete, internally
+  consistent worked example; Template E arithmetic verified programmatically ($844 / $947 / $660 per year).
+  output_quality 8 -> 9, overall 8.8 -> 9.0. No other dimension changed; no degradation.

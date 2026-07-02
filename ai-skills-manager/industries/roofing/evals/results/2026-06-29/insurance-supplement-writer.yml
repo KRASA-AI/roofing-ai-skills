@@ -1,0 +1,27 @@
+skill: insurance-supplement-writer
+file: skills/admin/insurance-supplement-writer.md
+date: 2026-06-29
+version_evaluated: "2.2"
+file_changed_since_last_eval: true
+prior_version_evaluated: "2.1"
+changed_commit: "3842c8b (Landscape Monitor 2026-06-29: Carrier Scope Diagnostic + plain-language homeowner summary)"
+scores:
+  clarity: 9
+  specificity: 9
+  industry_fit: 9
+  output_quality: 9
+  personalization: 8
+  efficiency: 9
+overall: 8.9
+previous_score: 8.9
+delta_vs_previous: 0.0
+improvement_candidate: false
+note: >
+  Re-graded fresh against v2.2. The landscape-monitor edit added (a) a Step 0 'Carrier Scope Diagnostic'
+  that derives the gap list from the carrier estimate + field scope instead of requiring the user to hand-itemize
+  gaps, and (b) an optional plain-language homeowner scope summary. Both are fully and consistently worked into
+  the example (diagnostic-first path reconciles to the same $7,400 / $22,220 canonical figures; homeowner summary
+  restates RCV/ACV/dep/deductible correctly and is appropriately hedged). The change reinforces efficiency (gaps
+  move from required input to generated output) and output value, but both dimensions were already at 9, so the
+  weighted overall is unchanged at 8.9. No degradation. personalization remains the only sub-9 dimension
+  (config-fixture grading ceiling); the diagnostic does not add new config binding.

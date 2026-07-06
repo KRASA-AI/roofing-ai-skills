@@ -1,4 +1,4 @@
-# AI Tools Landscape for Roofing (April–June 2026, refreshed 2026-06-15)
+# AI Tools Landscape for Roofing (April–July 2026, refreshed 2026-07-06)
 
 ## CRM & Operations Platforms
 - **ServiceTitan** — End-to-end field service management with built-in AI features for scheduling, dispatch, and reporting
@@ -44,8 +44,9 @@ The majority of missed inbound calls at a typical roofing shop happen during bus
 ## Claims Workflow Integrations
 Vertical integrations between measurement/estimating platforms and insurance-claims systems are accelerating:
 - **Roofr ↔ Verisk (Xactimate ESX)** — Direct ESX file generation from the estimating platform eliminates manual roof redrawing in Xactimate and shortens claims turnaround
+- **Verisk ↔ Claude (Model Context Protocol connectors, announced May 5, 2026)** — Verisk exposed two of its insurance datasets to Claude as MCP connectors. The first, Underwriting Intelligence (ISO loss-cost trends, experience insights, and filing signals), is aimed at carrier underwriters and actuaries and sits on the adversarial side of the table. The second, **Verisk XactRestore**, is the contractor-relevant one: it gives restoration and storm-roofing contractors conversational, natural-language access to Verisk's researched repair pricing and estimating intelligence — the same pricing spine that underlies Xactimate — from inside a Claude session, with a reported saving of roughly 30 minutes to two hours per estimate for experienced contractors. The significance for this repo is categorical: it is the first time the Xactimate pricing ecosystem is reachable as an *agent-callable tool* rather than only through the Xactimate desktop/web UI, which answers — from the pricing side — the long-standing watch item about whether the claims/estimating stack would ever get MCP-callable. Practical roofing angle: where a shop already carries a Verisk/Xactimate commercial relationship, current researched unit pricing can now be pulled conversationally into an estimate or supplement rather than hand-looked-up or carried statically — pair with the `sales/estimate-builder` and `admin/insurance-supplement-writer` skills, both of which produce line-item pricing that this connector could source live. Launch governance keeps a human reviewing every priced line, and access is gated behind an existing Verisk/Xactimate subscription, so it reads as a force multiplier for shops already in that ecosystem rather than a new free capability
 - **CompanyCam ↔ supplement workflows** — GPS-tagged photos flow from field documentation into supplement writing without manual export/import
-- **Pattern note:** Integration consolidation is turning the CRM + measurement + estimating + claims stack into a single data spine. Contractors evaluating tools should weight integration depth more heavily than feature count.
+- **Pattern note:** Integration consolidation is turning the CRM + measurement + estimating + claims stack into a single data spine, and — with the Verisk XactRestore connector — that spine is now beginning to expose itself as agent-callable tools rather than only as UI-bound software and one-way file exports. Contractors evaluating tools should weight integration depth (and, increasingly, whether a vendor exposes an MCP/agentic interface) more heavily than raw feature count.
 
 ## Agentic Property Intelligence (New — April 2026)
 A new category emerged in late April 2026: property-intelligence platforms that expose their data as callable tools for AI agents rather than only as static reports or dashboards. The distinguishing pattern is **Model Context Protocol (MCP) integration** and **agent-to-agent interfaces** — an external AI assistant (Claude, ChatGPT, a roofer's internal agent) can directly invoke filter-and-retrieve operations against the platform's property dataset in natural-language workflows.
@@ -193,4 +194,4 @@ Common integration patterns for roofing AI stacks:
 
 ---
 
-*Last updated: 2026-06-15 by landscape monitor*
+*Last updated: 2026-07-06 by landscape monitor. The 2026-07-06 refresh added the Verisk ↔ Claude MCP connectors (Underwriting Intelligence + XactRestore) to the Claims Workflow Integrations section — a previously-uncaptured May 5, 2026 development surfaced during this run's Verisk/Xactimate ecosystem scan. Anti-plagiarism: capabilities are summarized in original language for landscape awareness; no vendor copy, connector documentation, or pricing-methodology detail was reproduced, and the per-estimate time-saving figure is attributed as a vendor claim rather than presented as verified.*

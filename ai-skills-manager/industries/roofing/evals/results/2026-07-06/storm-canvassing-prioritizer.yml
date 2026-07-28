@@ -1,0 +1,38 @@
+skill: storm-canvassing-prioritizer
+file: skills/sales/storm-canvassing-prioritizer.md
+date: 2026-07-06
+version_evaluated: "1.4"
+file_changed_since_last_eval: true
+prior_version_evaluated: "1.3"
+improvement_candidate: true
+scores_before:
+  clarity: 9
+  specificity: 9
+  industry_fit: 9
+  output_quality: 9
+  personalization: 8
+  efficiency: 8
+overall_before: 8.8
+scores:
+  clarity: 9
+  specificity: 9
+  industry_fit: 9
+  output_quality: 9
+  personalization: 8
+  efficiency: 9
+overall: 8.9
+previous_score: 8.8
+delta_vs_previous: 0.1
+target_dimensions: [efficiency]
+result: improved-replaced
+note: >
+  Improvement target for efficiency (held at 8 — the six-item Required Input list read as front-loaded
+  interrogation even though five of the six are read from config or safely defaulted and the one blocking
+  input is the storm footprint). v1.4 adds a 'Fastest path — minimum viable input' block establishing the
+  storm footprint as the only blocking input; service area, roster, thresholds, and script tone come from
+  config, property-intelligence depth auto-degrades to the best available source, and a city-level headline
+  is accepted with a degraded-confidence tag rather than a blocking question. Required Input re-annotated
+  [blocking]/[from config]/[inferred]; new Efficiency-notes block tightens the ask to 'one question only when
+  no roster and no capacity numbers exist.' Purely additive — no five-layer framework, scoring, pre-storm
+  orchestration layer, worked example, or named binding changed. efficiency 8 -> 9, overall 8.8 -> 8.9.
+  personalization remains 8 (config-fixture ceiling). No degradation.

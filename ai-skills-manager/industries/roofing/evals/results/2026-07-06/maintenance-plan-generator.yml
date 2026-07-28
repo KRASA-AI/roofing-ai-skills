@@ -1,0 +1,38 @@
+skill: maintenance-plan-generator
+file: skills/sales/maintenance-plan-generator.md
+date: 2026-07-06
+version_evaluated: "1.6"
+file_changed_since_last_eval: true
+prior_version_evaluated: "1.5"
+improvement_candidate: true
+scores_before:
+  clarity: 9
+  specificity: 9
+  industry_fit: 9
+  output_quality: 9
+  personalization: 8
+  efficiency: 8
+overall_before: 8.8
+scores:
+  clarity: 9
+  specificity: 9
+  industry_fit: 9
+  output_quality: 9
+  personalization: 8
+  efficiency: 9
+overall: 8.9
+previous_score: 8.8
+delta_vs_previous: 0.1
+target_dimensions: [efficiency]
+result: improved-replaced
+note: >
+  Improvement target for efficiency (held at 8 — the six-item Required Input list read as front-loaded
+  interrogation, rubric anchor 7-8 = 'single-question triage'; 9-10 = 'runs from defaults, asks only for
+  genuinely blocking inputs'). v1.6 adds a 'Fastest path — minimum viable input' block establishing that
+  roof material + age + city are the only blocking inputs; geometry is sized from a market-typical footprint
+  when absent, climate hazards are inferred from ZIP + service_area.hail_zones[], customer type defaults to
+  Residential, and all rates/tiers/warranty/billing are read from config. Required Input re-annotated
+  [blocking]/[from config]/[inferred] with graceful defaults; Efficiency notes tightened to 'runs from
+  defaults; ask one question (target price range) only when config has no maintenance rates.' Purely additive —
+  no pricing formula, tier scope, residential/commercial worked example, or named binding changed.
+  efficiency 8 -> 9, overall 8.8 -> 8.9. personalization remains 8 (config-fixture ceiling). No degradation.

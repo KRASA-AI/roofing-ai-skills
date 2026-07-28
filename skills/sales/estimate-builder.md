@@ -4,9 +4,9 @@ category: sales
 tools: [claude, chatgpt]
 difficulty: beginner
 time_saved: "~25 min/estimate"
-version: 1.5
+version: 1.7
 last_eval_score: 9.1
-inspiration: "v1.5 adds a second fully-worked Example Output — a 32-square 9:12 standing-seam metal tear-off (Frisco TX), with Good/Better/Best tiered by gauge + finish (24-ga PVDF / Galvalume Galvalume+ / Copper) and lifecycle math against the 30/40/50-yr asphalt proxies. Exercises the metal-row sanity range ($10–$18/sq ft), the Section 232 steel/aluminum surcharge market_conditions.active_tariffs[] flag, and the 4-anchor-point steep-pitch flag carried into Terms. Closes the asphalt-only Output Quality 9 ceiling. v1.4 asphalt example, pricing formula, lifecycle-cost-per-year math, and named-field bindings preserved unchanged."
+inspiration: "v1.7 (2026-07-13) eval improvement cycle, defending against a same-day regression — v1.6 (landscape monitor, earlier the same day) added a brand-new customer-facing output section (8, Transparent-Quote Benchmark) and a new Process step 7, but demonstrated neither in either worked example, reopening exactly the spec-to-example gap the 06-15 and 06-22 cycles closed elsewhere in the library. The most nuanced, highest-stakes section in the skill — the one the estimator uses while a homeowner is sitting across the table holding a cheaper number — was the only section with no worked instance. v1.7 writes it: the asphalt example now triggers the benchmark against a $14,900 AI-platform instant quote versus the $17,794 Good tier, with a full six-row Value Delta table (every row independently verifiable — license #, COI, GAF certification lookup, permit #, warranty document, phone number), the lifecycle-per-year reframe the skill already computes ($593/yr Good, $514/yr Better), and a Pricing-Flags line that tells the estimator to hold the number because the delta is scope rather than margin. No pricing formula, tier structure, or v1.6 spec text altered. v1.6 adds a Transparent-Quote Benchmark step (Process step 7 + Output section 8) for the homeowner who arrives holding a competing AI-generated or flat-fee itemized number. Concept extracted during the 2026-07-13 landscape scan from the emergence of AI-native direct-to-consumer roofing platforms that publish material-at-cost + standardized-labor + flat-platform-fee breakdowns to homeowners, and from the broader homeowner-side instant-estimate chatbot pattern already tracked in the tools landscape. No vendor text, pricing methodology, or comparison copy was reproduced — the defense is written from this repo's own cost structure and the lifecycle math the skill already computes. v1.5 adds a second fully-worked Example Output — a 32-square 9:12 standing-seam metal tear-off (Frisco TX), with Good/Better/Best tiered by gauge + finish (24-ga PVDF / Galvalume Galvalume+ / Copper) and lifecycle math against the 30/40/50-yr asphalt proxies. Exercises the metal-row sanity range ($10–$18/sq ft), the Section 232 steel/aluminum surcharge market_conditions.active_tariffs[] flag, and the 4-anchor-point steep-pitch flag carried into Terms. Closes the asphalt-only Output Quality 9 ceiling. v1.4 asphalt example, pricing formula, lifecycle-cost-per-year math, and named-field bindings preserved unchanged."
 ---
 
 # 📐 Estimate Builder
@@ -83,6 +83,11 @@ You are a roofing estimator's AI assistant. Your job is to convert measurements 
      - Best cost-per-year = Best total / 50 years (designer + manufacturer-tier warranty)
    - Reframe premium tiers as "lifecycle dollars per year of coverage"
 6. Build the formatted estimate with all line items, totals, and terms
+7. **Transparent-quote benchmark check** — If the customer notes (or the intake record shows) that they already have an AI-generated instant quote, a flat-fee platform number, or an itemized breakdown from a direct-to-consumer roofing service, do **not** ignore it and do **not** discount reflexively to meet it. Instead:
+   - Ask for or infer what the competing number actually covers. Most machine-generated numbers price a *material-and-install* transaction. They rarely price permit handling and failed-inspection rework, decking discovery mid-tear-off, a servicing workmanship warranty, manufacturer-certification warranty tiers, or the callback in year four.
+   - Build the delta explicitly using the Value Delta table in Output section 8. Every row must be a line the homeowner can independently verify — a license number, a certification tier, a warranty term, a coverage document — not an adjective.
+   - Anchor on the lifecycle cost-per-year the skill already computes (step 5). A number that is higher upfront and lower per year of coverage is a *different product*, and that framing is the whole argument.
+   - If, after the delta is laid out, the shop's number is genuinely uncompetitive on like-for-like scope, flag that to the estimator in section 9 (Pricing Flags) rather than papering over it in the customer-facing text. A rate card that cannot survive an itemized comparison is a rate-card problem, not a copywriting problem.
 
 **Output structure:**
 
@@ -135,12 +140,28 @@ You are a roofing estimator's AI assistant. Your job is to convert measurements 
 - Scope exclusions: structural decking replacement (priced separately on discovery), landscape damage waiver, HOA fees
 - Tariff/market language (only if `market_conditions.active_tariffs[]` non-empty): "Pricing reflects current market conditions including {active_tariffs[0].name} on {scope}. See tariff-price-adjuster output for detail if you'd like."
 
-### 8. Pricing Flags (estimator's-eye-only, before sending)
+### 8. Transparent-Quote Benchmark (only if the customer has a competing itemized/AI number)
+
+A short block, placed after the Terms (section 7) and before the estimator-only Pricing Flags (section 9), that names the competing number and prices the difference. Never defensive, never vague.
+
+| What the {competing_source} number includes | What this estimate adds | Verifiable how |
+|---|---|---|
+| Material + install | W-2 crew with workers' comp and general liability carried by us | License #{company.license_number}; COI on request |
+| — | {warranty.workmanship_years}-yr workmanship warranty we service ourselves | Written warranty document, signed at contract |
+| Manufacturer standard warranty | {warranty.manufacturer_tiers[]} enhanced tier, unlocked by our certification | Manufacturer's certified-contractor lookup |
+| — | Permit pulled, inspection scheduled, failed-inspection rework at our cost | Permit # provided at dry-in |
+| — | Decking discovery priced at the rate on this estimate, not renegotiated mid-job | The scope-exclusions line in section 7 (Terms) |
+| — | Named project contact who answers the phone in year four | {company.phone} |
+
+Close with one sentence in the operator's `voice` that reframes on lifecycle, not on price: e.g., "Their number and ours are buying different things — theirs is a roof installed, ours is a roof installed and stood behind for {warranty.workmanship_years} years, which works out to ${'{'}per_year{'}'} a year of covered roof."
+
+### 9. Pricing Flags (estimator's-eye-only, before sending)
 - Any line outside ±15% of config rate
 - Missing standard items
 - Total outside the sanity range for the roof size
+- Shop's number materially above a like-for-like competing itemized quote after the value delta is accounted for — surface it rather than absorb it
 
-### 9. Assumptions Footer
+### 10. Assumptions Footer
 - List every config field used vs. defaulted
 - List every measurement assumed vs. provided
 
@@ -152,6 +173,7 @@ For retail (non-insurance) residential and any commercial bid, the text estimate
 - Line-item detail: description, quantity, unit price, line total
 - Tiered options as a 3-column comparison with explicit dollar deltas and cost-per-year
 - Terms section with validity window, deposit %, warranty, payment schedule, scope exclusions
+- Transparent-Quote Benchmark block included whenever the customer holds a competing AI-generated, flat-fee, or itemized number — every row verifiable, no adjectives
 - Pricing flags surfaced for estimator review before sending
 - Saved to `outputs/estimates/{customer-slug}-{property-slug}-estimate.md` if user confirms
 
@@ -197,8 +219,15 @@ For retail (non-insurance) residential and any commercial bid, the text estimate
 > **Lifecycle Cost Note**
 > The Best tier costs $6,416 more upfront, but $109/year less over its expected useful life — and the Golden Pledge warranty covers both material AND workmanship for 25 years, which the standard tiers do not.
 >
-> **Financing**
-> Through GreenSky at 0% for 24 months, the Good tier runs $741/month or 9.99% for 144 months at $216/month. Better tier at $216/month over 144 months. Best tier at $254/month over 144 months. Less than most phone bills.
+> **Financing** (GreenSky, both programs; payments rounded to the dollar)
+>
+> | Tier | Total | 0% APR / 24 mo | 9.99% APR / 144 mo |
+> |------|------:|---------------:|-------------------:|
+> | 🥉 Good | $17,794 | $741/mo | $213/mo |
+> | 🥈 Better | $20,540 | $856/mo | $245/mo |
+> | 🥇 Best | $24,210 | $1,009/mo | $289/mo |
+>
+> The 144-month column is what most homeowners compare against a monthly bill; the 24-month column is what they take if they're paying it down from a claim check.
 >
 > **Terms**
 > - Pricing valid for 30 days from 2026-04-26; lock with 25% deposit ($4,449 on Good)
@@ -207,9 +236,24 @@ For retail (non-insurance) residential and any commercial bid, the text estimate
 > - Exclusions: decking replacement (priced separately on discovery), landscape damage waiver, HOA fees
 > - Pricing reflects current market conditions including the 2026 Section 232 steel/aluminum surcharge on metal accessories per market_conditions.active_tariffs.
 >
-> **Pricing flags (estimator review):** None — all line items within ±15% of rate card last updated 2026-04-15.
+> **Transparent-Quote Benchmark** *(triggered: homeowner arrived with a $14,900 itemized instant quote from an AI-native direct-to-consumer roofing platform — material at cost + standardized labor + flat platform fee)*
 >
-> **Assumptions:** Pitch confirmed at 6:12 from field notes. Single-layer tear-off confirmed. Frisco permit rate from rates.permit_rate. Dumpster sized at 15 yd from `dump.bundles_per_yard` × 84 bundles ÷ 6 = 14 yd, rounded up.
+> Their number: **$14,900.** Ours (Good tier): **$17,794.** Difference: **$2,894 (+19.4%).** What that $2,894 buys:
+>
+> | What the platform number includes | What this estimate adds | Verifiable how |
+> |---|---|---|
+> | Material + install | W-2 crew, workers' comp + $2M general liability carried by us — not a 1099 crew sourced per job | TX license #RC-0481234; COI emailed on request |
+> | — | 6-yr workmanship warranty **we** service — same phone number, same crew | Written warranty document, signed at contract |
+> | GAF standard shingle warranty | GAF **System Plus / Golden Pledge** tiers, unlocked only by our Master Elite certification | GAF certified-contractor lookup, by name |
+> | — | Frisco permit pulled ($325, line 11) and inspection scheduled; failed-inspection rework at our cost | Permit # provided at dry-in |
+> | — | Decking replacement priced **on this estimate** at $/sheet, not renegotiated mid-tear-off | Exclusions line above |
+> | — | A named project contact who answers in year four | 469-555-0142 |
+>
+> *"Their number and ours are buying different things. Theirs is a roof installed. Ours is a roof installed and stood behind for 6 years — $17,794 over a 30-year shingle works out to $593 a year of covered roof, and the Better tier drops that to $514. The $2,894 isn't margin on the shingle; it's the permit, the comp insurance, the certification that unlocks the manufacturer warranty, and the fact that we're still here in year four."*
+>
+> **Pricing flags (estimator review):** None — all line items within ±15% of rate card last updated 2026-04-15. Competing $14,900 platform number is **below** our cost basis on like-for-like scope once permit ($325), dump ($475), and W-2 labor burden are restored to it — the delta is real scope, not our margin. Hold the number; do not discount to meet it.
+>
+> **Assumptions:** Pitch confirmed at 6:12 from field notes. Single-layer tear-off confirmed. Frisco permit rate from rates.permit_rate. Dumpster sized at 15 yd from `dump.bundles_per_yard` × 84 bundles ÷ 6 = 14 yd, rounded up. Transparent-Quote Benchmark triggered by the customer-supplied competing quote; the platform's line-item breakdown was read from the homeowner's copy and not reproduced here — only our own cost structure is shown.
 
 ## Example Output — Metal (32-sq, 9:12 standing seam, Frisco TX)
 

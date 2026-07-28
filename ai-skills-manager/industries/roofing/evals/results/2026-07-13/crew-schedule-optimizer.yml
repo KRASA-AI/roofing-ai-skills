@@ -1,0 +1,17 @@
+skill: crew-schedule-optimizer
+file: skills/operations/crew-schedule-optimizer.md
+date: 2026-07-13
+version_evaluated: "1.3"
+file_changed_since_last_eval: false
+scores:
+  clarity: 9
+  specificity: 10
+  industry_fit: 9
+  output_quality: 9
+  personalization: 9
+  efficiency: 9
+overall: 9.2
+previous_score: 9.2
+delta_vs_previous: 0.0
+improvement_candidate: false
+note: "Unchanged since 2026-07-06 (byte-identical); dimension scores carried forward. Remains the library benchmark: fully-specified scheduling constraints and the only skill scoring 10 on specificity."

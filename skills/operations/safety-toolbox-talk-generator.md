@@ -4,9 +4,9 @@ category: operations
 tools: [claude, chatgpt]
 difficulty: beginner
 time_saved: "~25 min/talk"
-version: 1.3
-last_eval_score: 8.8
-inspiration: "v1.3 (2026-06-01) surfaces the three 2026-06-01 KB refresh items on osha-heat-enforcement.md inside the skill itself — Appendix J citation framework, co-inspection trigger (any active-case visit becomes a de facto heat inspection during heat season), and NWS heat-advisory random-inspection authority on listed industries including roofing. The heat-day Example Output assumptions footer now carries the Appendix J reference, the co-inspection-posture flag, and a 'random-inspection-eligible today' line gated on an active NWS advisory; a new Instructions-side bullet teaches foremen to treat every site visit as a heat-program visit during heat season. v1.2 rewritten 2026-04-28 from eval improvement cycle — named config-field binding (safety.muster_points[] / .nearest_hospitals[] / .jha_path / .standdown_in_progress / .heat_index_data_source / .stop_work_authority_statement, crew_leads[].name / .language_preference, company.osha_jurisdiction), populated Example Output (105°F heat-illness talk on a mixed-language crew with one new hire on Day-3 acclimatization, plus the Construction Safety Week May 4–8 three-pillar fall-protection variant), and date-window auto-default for the Stand-Down. v1.1 Heat NEP / CPL 03-00-024 logic preserved."
+version: 1.4
+last_eval_score: 8.9
+inspiration: "v1.4 (2026-07-06) eval improvement cycle targeting efficiency (held at 8 — the five-item Required Input list read as front-loaded interrogation even though the talk can run from near-defaults: topic auto-picks from weather + the Stand-Down/Heat-NEP calendar, crew lead + language come from crew_leads[], weather is pulled for the location, muster point + hospital come from config). Adds a 'Fastest path — minimum viable input' block establishing job-site type as the only blocking input; Required Input re-annotated [blocking]/[from config]/[inferred] with graceful defaults (residential-reroof hazard baseline, 'confirm on-site' weather provenance), and a new Efficiency-notes block tightening the ask to 'one question only when no topic and no weather/site signal exist.' Purely additive; no talk structure, Heat-NEP logic, Stand-Down default, worked example, or named binding changed. efficiency 8 -> 9, overall 8.8 -> 8.9. v1.3 (2026-06-01) surfaces the three 2026-06-01 KB refresh items on osha-heat-enforcement.md inside the skill itself — Appendix J citation framework, co-inspection trigger (any active-case visit becomes a de facto heat inspection during heat season), and NWS heat-advisory random-inspection authority on listed industries including roofing. The heat-day Example Output assumptions footer now carries the Appendix J reference, the co-inspection-posture flag, and a 'random-inspection-eligible today' line gated on an active NWS advisory; a new Instructions-side bullet teaches foremen to treat every site visit as a heat-program visit during heat season. v1.2 rewritten 2026-04-28 from eval improvement cycle — named config-field binding (safety.muster_points[] / .nearest_hospitals[] / .jha_path / .standdown_in_progress / .heat_index_data_source / .stop_work_authority_statement, crew_leads[].name / .language_preference, company.osha_jurisdiction), populated Example Output (105°F heat-illness talk on a mixed-language crew with one new hire on Day-3 acclimatization, plus the Construction Safety Week May 4–8 three-pillar fall-protection variant), and date-window auto-default for the Stand-Down. v1.1 Heat NEP / CPL 03-00-024 logic preserved."
 ---
 
 # 🦺 Safety Toolbox Talk Generator
@@ -26,13 +26,15 @@ Draft a short (5–10 minute) OSHA-aligned toolbox talk for a roofing crew that 
 
 ## Required Input
 
-Provide the following:
+**Fastest path — minimum viable input:** give the **job-site type or address** (residential vs commercial is enough) and run — the skill produces a complete, sign-off-ready talk with **no other input required**. Everything else is defaulted or inferred: the topic is auto-picked from weather + site hazards + the Stand-Down/Heat-NEP calendar rules; crew lead and language preference come from `crew_leads[]`; weather is pulled for the site's location (flagged "confirm on-site" when live data isn't provided); muster point and nearest hospital come from `safety.muster_points[]` / `safety.nearest_hospitals[]`; recent events are omitted cleanly when none are given. The skill asks **at most one** question — only when neither a topic nor any weather/site signal is available to drive the auto-pick. Don't interrogate for a crew name, language, or hospital that config already holds.
 
-1. **Crew & site details** — Crew lead name, number of workers on site, project address, material type being installed/torn off, roof pitch, height, and any unique site hazards (power lines, skylights, fragile substrate)
-2. **Today's topic** — Either a specific topic (e.g., "ladder setup on uneven ground") or a general category (fall protection, heat illness, electrical, PPE, material handling, ladder safety, housekeeping, hazard communication). If blank, pick the highest-relevance topic based on weather + site hazards
-3. **Weather & conditions** — Temperature range, wind speed/gusts, precipitation, humidity, UV index if known
-4. **Recent events** — Any near-misses, incidents, OSHA updates, or equipment changes within the last 30 days that warrant attention
-5. **Language preference** — English, Spanish, or bilingual (for crews with mixed language backgrounds)
+The full input list, annotated by how each is resolved:
+
+1. **Crew & site details** *(site type blocking; rest from config / inferred)* — Job-site type or address is the one blocking input (residential vs commercial changes hazards, muster point, and citation flavor). Crew lead name and worker count come from `crew_leads[]`; material type, pitch, height, and unique site hazards (power lines, skylights, fragile substrate) sharpen the talk but default to the residential-reroof hazard baseline when absent, flagged in the Assumptions footer.
+2. **Today's topic** *(inferred / optional)* — A specific topic or general category (fall protection, heat illness, electrical, PPE, material handling, ladder safety, housekeeping, hazard communication). If blank, auto-pick the highest-relevance topic from weather → `safety.standdown_in_progress` → site hazards → rotational baseline. Rarely needs to be supplied.
+3. **Weather & conditions** *(inferred / optional)* — Temperature range, wind/gusts, precipitation, humidity, UV. Pulled for the site location via `safety.heat_index_data_source` when not provided; the sign-off sheet flags readings as "confirm on-site" so the artifact is honest about provenance.
+4. **Recent events** *(optional)* — Near-misses, incidents, OSHA updates, or equipment changes in the last 30 days. Included when given; omitted cleanly when not — never a blocker.
+5. **Language preference** *(from config)* — English, Spanish, or bilingual. Read from the matched `crew_leads[].language_preference`; only ask when the crew lead isn't in config.
 
 ## Instructions
 
@@ -125,6 +127,10 @@ The Stand-Down expects an on-site demonstration component (a foreman-led walk-th
 - Signature sheet fits on the same page if possible
 - Saved as `outputs/safety/toolbox-talks/{YYYY-MM-DD}-{topic-slug}.md` if the user confirms
 - Pair with a monthly log file the foreman updates: `outputs/safety/toolbox-talk-log.md`
+
+**Efficiency notes:**
+- Runs from defaults: job-site type is the only blocking input. Topic auto-picks (weather → Stand-Down → site hazard → rotation), crew lead + language come from `crew_leads[]`, weather is pulled for the location, muster point + hospital come from config. Ask **one** question only when no topic and no weather/site signal exist to drive the auto-pick.
+- Never block on material, pitch, height, recent events, or language — default to the residential-reroof hazard baseline and the config crew lead, and flag any assumption in the footer rather than interrogating.
 
 **Compliance reminders:**
 - The AI-generated talk is a starting point — the foreman must adapt for site-specific conditions and is accountable for accuracy

@@ -1,0 +1,60 @@
+skill: maintenance-plan-generator
+file: skills/sales/maintenance-plan-generator.md
+date: 2026-07-20
+version_evaluated: "1.7"
+file_changed_since_last_eval: false
+grading_basis: cold  # re-derived from scratch; personalization graded against fixtures/config.sample.yml
+scores:
+  clarity: 8
+  specificity: 8
+  industry_fit: 8
+  output_quality: 6
+  personalization: 5
+  efficiency: 9
+overall: 7.4
+previous_score: 8.9
+delta_vs_previous: -1.5
+previous_scores:
+  clarity: 9
+  specificity: 9
+  industry_fit: 9
+  output_quality: 9
+  personalization: 8
+  efficiency: 9
+improvement_candidate: true
+improvement_applied: true
+replaced_original: true
+scores_after_improvement:
+  clarity: 9
+  specificity: 9
+  industry_fit: 9
+  output_quality: 9
+  personalization: 7
+  efficiency: 9
+overall_after_improvement: 8.8
+delta_after_improvement: 1.4
+improvement_note: |
+  IMPROVED. v1.6->v1.7 repaired the residential Bronze-pricing contradiction (the old 'max($285,$420)=$420 ->
+  rounded to $285, lower of the two' -- max() returns the greater, and '$420 rounded to $285' is not rounding)
+  and re-anchored Bronze on the fixture's rates.maintenance_plan_annual_residential ($349); Silver ($1,075) and
+  Gold ($2,380) now derive cleanly and every monthly/prepay figure reconciles (round-half-up stated for the
+  $1,072.50 Silver boundary). Commercial per-sf bound to rates.maintenance_plan_annual_commercial_per_sf ($0.09,
+  was hard-coded $0.10); the Silver/Gold/Platinum cascade was recomputed ($6,650/$19,625/$45,250) with the old
+  'adjusted to' editorial fudges removed so every figure is a true formula output, and all downstream Gold
+  references (ROI $19,625, 13-yr $255,125) updated. Fabricated credentials (JM Peak Advantage, OC Platinum, $5M
+  GL, EMR 0.81) removed and bound to config certifications[] / commercial.certifications[]; phone 0140->0142 and
+  company name corrected in BOTH the residential header and footer (the header was a residual caught on re-grade
+  and fixed). clarity 8->9, specificity 8->9, industry_fit 8->9, output_quality 6->9, personalization 5->7. Re-
+  eval 7.4 -> 8.8 (+1.4); no dimension fell.
+note: |
+  BOTTOM-3 improvement candidate. MAJOR output_quality DEFECT: residential Bronze annual is computed as
+  'max(inspection_rate_flat $285, 1.0 x base_rate_per_square $14 x 30 sq = $420) = $420 -> rounded to $285
+  (lower of the two)' -- max() returns the GREATER value ($420), '$420 rounded to $285' is not rounding, and
+  'lower of the two' directly contradicts max(); the headline Annual price of $285 and the entire Silver ($910)
+  / Gold ($2,090) ladder built on it are therefore wrong. personalization 8->5: the skill invents an entire
+  maintenance.* namespace (base_rate_per_square, inspection_rate_flat, repair_cap_*, tiers[]) that is ABSENT
+  from the fixture while never referencing the fixture's actual rates.maintenance_plan_annual_residential=$349
+  and rates.maintenance_plan_annual_commercial_per_sf=$0.09 (the commercial example uses $0.10/sf); also invents
+  credentials (JM Peak Advantage, OC Platinum Preferred, $5M GL/EMR 0.81) and prints phone 469-555-0140.
+  clarity/specificity/industry_fit ease to 8 because the core pricing logic and named bindings are unsound.
+  efficiency held at 9.

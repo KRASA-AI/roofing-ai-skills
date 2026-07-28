@@ -1,0 +1,29 @@
+skill: material-order-calculator
+file: skills/operations/material-order-calculator.md
+date: 2026-07-13
+version_evaluated: "1.4"
+version_before_improvement: "1.3"
+file_changed_since_last_eval: false
+scores_before_improvement:
+  clarity: 9
+  specificity: 9
+  industry_fit: 9
+  output_quality: 8
+  personalization: 8
+  efficiency: 8
+overall_before_improvement: 8.6
+scores:
+  clarity: 9
+  specificity: 9
+  industry_fit: 9
+  output_quality: 9
+  personalization: 8
+  efficiency: 9
+overall: 8.9
+previous_score: 8.8
+delta_vs_previous: 0.1
+delta_vs_pre_improvement: 0.3
+improvement_candidate: true
+improvement_applied: true
+replaced_original: true
+note: "IMPROVED. Fresh grade found a defect five prior cycles missed: the worked example computed the nail line off BUNDLES (97 bundles x 80 x 5 = ~38,800 nails -> 10 boxes) while Calculation rule 8 and the coverage-constants table both specify nails per SHINGLE at ~80 shingles per SQUARE. The example over-ordered fasteners ~5x and contradicted the spec directly above it, so output_quality graded 8, not the 9 carried forward since 06-08. Rule 10 (tear-off debris) was also dimensionally inverted -- 'squares x dump.bundles_per_yard' multiplies by a divisor and under-sizes the dumpster ~2x. v1.4 fixes both, adds a ROOF GEOMETRY basis block so every linear-foot line reconciles (the I&W line had cited an eave figure irreconcilable with the eave+rake used elsewhere), and adds the Fastest-path minimum-viable-input block with [blocking]/[from config]/[inferred] annotations. output_quality 8->9, efficiency 8->9. Net 8.6 -> 8.9 (+0.3 vs this cycle's honest pre-grade; +0.1 vs the recorded 8.8)."

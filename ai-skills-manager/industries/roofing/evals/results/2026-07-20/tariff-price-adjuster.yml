@@ -1,0 +1,38 @@
+skill: tariff-price-adjuster
+file: skills/sales/tariff-price-adjuster.md
+date: 2026-07-20
+version_evaluated: "2.3"
+file_changed_since_last_eval: false
+grading_basis: cold  # re-derived from scratch; personalization graded against fixtures/config.sample.yml
+scores:
+  clarity: 9
+  specificity: 9
+  industry_fit: 9
+  output_quality: 8
+  personalization: 5
+  efficiency: 9
+overall: 8.4
+previous_score: 9.0
+delta_vs_previous: -0.6
+previous_scores:
+  clarity: 9
+  specificity: 9
+  industry_fit: 9
+  output_quality: 9
+  personalization: 9
+  efficiency: 9
+improvement_candidate: false
+improvement_applied: false
+replaced_original: false
+note: |
+  Cold re-grade. All five templates are now fully worked and every number re-derives (+$706/+$78/+$57 = +$841 =
+  5.0%; $74/mo finance; Template E TCO $21,100/$28,400/$33,000 and cost/yr $844/$947/$660 all check).
+  output_quality capped at 8 because the flagship Template A customer letter ships wrong contact info a rep
+  would paste: phone 469-555-0140 (fixture 0142), email domain acmeroofing.com (fixture acmeroofs.com), address
+  1620 Commerce Dr (fixture 3120 Industrial Blvd). personalization 9->5: market_conditions.active_tariffs does
+  NOT bind -- the fixture's committed tariff is the 2026 Section 232 steel/aluminum surcharge (7%, scope = metal
+  accessories/standing-seam/drip edge/fasteners), but the example fabricates a USTR HTS 6807.10 asphalt tariff
+  and applies 7% to asphalt shingles + underlayment (outside scope; it would actually hit drip edge, the one
+  line the letter holds flat). warranty.workmanship_years shown 10 vs fixture 6; financing.partners and
+  manufacturer_increases invented. One graceful win: uses company.letterhead_path, not the ABSENT-BY-DESIGN
+  logo_path.

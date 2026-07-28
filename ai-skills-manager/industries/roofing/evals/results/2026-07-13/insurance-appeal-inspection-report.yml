@@ -1,0 +1,29 @@
+skill: insurance-appeal-inspection-report
+file: skills/admin/insurance-appeal-inspection-report.md
+date: 2026-07-13
+version_evaluated: "1.2"
+version_before_improvement: "1.1"
+file_changed_since_last_eval: false
+scores_before_improvement:
+  clarity: 8
+  specificity: 9
+  industry_fit: 9
+  output_quality: 8
+  personalization: 8
+  efficiency: 8
+overall_before_improvement: 8.4
+scores:
+  clarity: 9
+  specificity: 9
+  industry_fit: 9
+  output_quality: 9
+  personalization: 8
+  efficiency: 8
+overall: 8.8
+previous_score: 8.8
+delta_vs_previous: 0.0
+delta_vs_pre_improvement: 0.4
+improvement_candidate: true
+improvement_applied: true
+replaced_original: true
+note: "IMPROVED. Fresh grade found three internal inconsistencies in the worked example, each of which would survive into a document a carrier underwriter reads adversarially: (1) the appeals success statistic appeared in three forms in one report -- '31 of 38 (82%)' in resolved-fields vs 'of 31 appeals, 25 overturned (82%)' on the cover page and in the opinion letter, and 25/31 is 80.6%, not 82%; (2) the example numbered its sections 1-9 against a spec defining 10, so every cross-reference pointed at the wrong section ('see Section 5 methodology' landed on the rebuttal table rather than remaining-life; 'methodology limitation in Section 7' landed on remaining-life rather than the photo log); (3) remaining useful life read '14-16 years' on the cover page and in the rebuttal table but '14.5 years' in the RUL table and opinion letter. A report whose own numbers disagree is the exact failure this skill exists to catch a carrier committing -- hence output_quality 8 and clarity 8, not the 9s carried forward. v1.2 reconciles all three, renumbers the example to the spec's 10 sections, and adds a 5-point Consistency Check to the output requirements so the failure mode cannot recur. clarity 8->9, output_quality 8->9. Efficiency deliberately held at 8: field inspection data cannot be defaulted without fabricating evidence, and a fabricated appeal report is worse than none -- this 8 is an honest floor, not a defect."

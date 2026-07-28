@@ -1,0 +1,55 @@
+skill: predictive-lead-scorer
+file: skills/sales/predictive-lead-scorer.md
+date: 2026-07-20
+version_evaluated: "2.2"
+file_changed_since_last_eval: false
+grading_basis: cold  # re-derived from scratch; personalization graded against fixtures/config.sample.yml
+scores:
+  clarity: 9
+  specificity: 9
+  industry_fit: 9
+  output_quality: 4
+  personalization: 6
+  efficiency: 9
+overall: 7.7
+previous_score: 9.0
+delta_vs_previous: -1.3
+previous_scores:
+  clarity: 9
+  specificity: 9
+  industry_fit: 9
+  output_quality: 9
+  personalization: 9
+  efficiency: 9
+improvement_candidate: true
+improvement_applied: true
+replaced_original: true
+scores_after_improvement:
+  clarity: 9
+  specificity: 9
+  industry_fit: 9
+  output_quality: 9
+  personalization: 8
+  efficiency: 9
+overall_after_improvement: 8.9
+delta_after_improvement: 1.2
+improvement_note: |
+  IMPROVED. v2.1->v2.2 rebuilt the Storm-Response worked example so every composite decomposes. Under the
+  skill's own storm weights (W35/A20/N15/R15/$15 /10) all 10 composites now re-derive
+  (97/91/88/84/78/76/75/73/66/36), the ranked table is sorted monotonically, a full decomposition table is shown
+  for ALL top-10 rows (not just two), the 84-composite lead (Lisa Fortuna) is correctly a Hot call rather than
+  the prior mis-scored 78 Warm, the tier summary reads 4 Hot / 13 Warm and the routing-handoff counts were
+  reconciled to match. personalization 6->8: the resolved-config ZIP list now matches the fixture's
+  service_area.zip_codes exactly (the out-of-area 75071 removed from title, instruction and overlay), fields are
+  labelled [config] vs [batch] with defaults flagged, and inspector references bind the fixture's William Reyes.
+  output_quality 4->9. Re-eval 7.7 -> 8.9 (+1.2); no dimension fell.
+note: |
+  BOTTOM-3 improvement candidate. SEVERE output_quality DEFECT: under the skill's own storm-response weights
+  (Weather 35 / Age 20 / Neighborhood 15 / Recency 15 / Revenue 15, /10), 7 of the 10 ranked composites do not
+  decompose to their own criterion rows -- violating the skill's explicit 'no black-box numbers' guarantee.
+  Marcus Bell (10/10/10/6/8) = 91 shown 88; Novak (10/8/7/4/4) = 73.5 shown 66; Diana (10/4/10/6/6) = 76 shown
+  70; Lisa (10/8/10/4/8) = 84 -> Hot shown 78 -> Warm (a tier MISCLASSIFICATION on a call-list); Sara
+  (2/4/4/8/2) = 36 shown 38; #9 (10/8/10/0/6) = 75 shown 66; #10 (10/8/10/0/8) = 78 shown 72. The ranking ORDER
+  is also wrong (Bell at 91 should outrank Nguyen at 88). Only ranks 1/2/7 are correct. personalization 9->6:
+  the example asserts ZIP 75071 in-service-area but the fixture zip_codes exclude it; target_profile.*,
+  canvassing.territories, past_jobs.completed_addresses, rates.average_job_value are absent from the fixture.

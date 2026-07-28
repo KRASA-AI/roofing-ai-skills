@@ -1,0 +1,35 @@
+skill: storm-canvassing-prioritizer
+file: skills/sales/storm-canvassing-prioritizer.md
+date: 2026-07-20
+version_evaluated: "1.4"
+file_changed_since_last_eval: false
+grading_basis: cold  # re-derived from scratch; personalization graded against fixtures/config.sample.yml
+scores:
+  clarity: 9
+  specificity: 9
+  industry_fit: 9
+  output_quality: 7
+  personalization: 6
+  efficiency: 9
+overall: 8.3
+previous_score: 8.9
+delta_vs_previous: -0.6
+previous_scores:
+  clarity: 9
+  specificity: 9
+  industry_fit: 9
+  output_quality: 9
+  personalization: 8
+  efficiency: 9
+improvement_candidate: false
+improvement_applied: false
+replaced_original: false
+note: |
+  Cold re-grade. output_quality DEFECT: the Day-1 crew allocation is internally contradictory -- the Day-by-Day
+  schedule says 'Maple Ridge (5) + Sunset Grove (3), Riverside = phone warm-up' but the ranked plan, canvasser
+  roster, and measurement block all door-knock Riverside on Day 1 (80 doors) with a 3/2/3 split (Maple 3 /
+  Sunset 2 / Riverside 3). The measurement math (240 doors -> 96 -> 27 -> 9) and the three Hot briefs are
+  complete and consistent. personalization 8->6: canvassing.territories/script_personality/cooling_off_states,
+  team.canvasser_roster, team.phone_canvasser_roster, weather_rules.*, past_jobs.completed_addresses are all
+  absent from the fixture; it references service_area.licensed_counties (fixture has licensed_states) and
+  company.canvassing_email_from (fixture has email_from).

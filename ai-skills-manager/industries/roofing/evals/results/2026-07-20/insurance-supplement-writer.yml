@@ -1,0 +1,60 @@
+skill: insurance-supplement-writer
+file: skills/admin/insurance-supplement-writer.md
+date: 2026-07-20
+version_evaluated: "2.3"
+file_changed_since_last_eval: false
+grading_basis: cold  # re-derived from scratch; personalization graded against fixtures/config.sample.yml
+scores:
+  clarity: 9
+  specificity: 9
+  industry_fit: 9
+  output_quality: 5
+  personalization: 6
+  efficiency: 9
+overall: 7.9
+previous_score: 8.9
+delta_vs_previous: -1.0
+previous_scores:
+  clarity: 9
+  specificity: 9
+  industry_fit: 9
+  output_quality: 9
+  personalization: 8
+  efficiency: 9
+improvement_candidate: true
+improvement_applied: true
+replaced_original: true
+scores_after_improvement:
+  clarity: 9
+  specificity: 9
+  industry_fit: 9
+  output_quality: 9
+  personalization: 8
+  efficiency: 9
+overall_after_improvement: 8.9
+delta_after_improvement: 1.0
+improvement_note: |
+  IMPROVED. v2.2->v2.3 made the flagship 24-line supplement reconcile. The old table asserted a $7,400 subtotal
+  while lines 1-20 sum to $5,874.40, and the O&P line was computed circularly ('10% on revised RCV' -- a total
+  that already includes O&P). Rebuilt: O&P is 10/10 (20%) on the pre-O&P base $20,694.40 (original $14,820 +
+  $5,874.40 line items) = $4,138.88; total supplement $10,013.28; revised RCV $24,833.28; ACV $21,251.28
+  (depreciation held $3,582); net payable $19,751.28 -- with an explicit reconciliation line, and the cover
+  letter, diagnostic total and homeowner summary all updated to agree. The fabricated appeals.recent_wins match
+  ({TX, State Farm, hail, $7,200} -- the fixture's TX win is {Allstate, granular loss} with no dollar figure)
+  was replaced with a carrier-neutral credibility reference; the fabricated 'EIN ending 8842' was removed (no
+  config field, flagged rather than invented); company name ('& Inspection' -> '& Restoration') and phone (0140
+  -> 0142) corrected to config. output_quality 5->9, personalization 6->8. Re-eval 7.9 -> 8.9 (+1.0); no
+  dimension fell.
+note: |
+  BOTTOM-3 improvement candidate. MAJOR output_quality DEFECT: the 24-line Summary Table does not sum to its own
+  subtotal -- lines 1-20 add to $5,874.40, plus the O&P line 21 $1,930.00 = $7,804.40, but the table, cover
+  letter, and homeowner summary all state $7,400.00; the revised RCV should therefore be $22,624.40, not the
+  stated $22,220.00 (ACV and net-payable inherit the error). This is the exact numbers-disagree failure the
+  sibling appeal skill was rewritten to police, in a document that goes to a carrier underwriter paid to find a
+  number that disagrees with itself. Secondary: the $1,930 O&P is not derivable from any stated base (10%
+  overhead on the ~$22,220 RCV would be ~$2,222; 10/10 means 20%, not shown). personalization 8->6: invents the
+  supplement.* namespace (standard_op_rate, typical_recovery_per_claim, standard_attachments[]),
+  company.ein_last4 (prints a fabricated 'EIN ending 8842') and pricing.supplement_filing_flat -- none in the
+  fixture; and claims appeals.recent_wins[] matched {TX, State Farm, hail, $7,200} while the fixture's TX win is
+  {Allstate, granular loss} (fabricated match, only the date borrowed); header also uses the wrong company name
+  and phone 0140.

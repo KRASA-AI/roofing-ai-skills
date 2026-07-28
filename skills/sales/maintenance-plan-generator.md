@@ -4,9 +4,9 @@ category: sales
 tools: [claude, chatgpt]
 difficulty: intermediate
 time_saved: "~25 min/plan"
-version: 1.5
+version: 1.7
 last_eval_score: 8.8
-inspiration: "v1.5 adds a fully-worked commercial Silver/Gold/Platinum Example Output (60,000 sf TPO retail-strip-center, hail-zone Frisco TX, property-management buyer) exercising maintenance.commercial_repair_cap_silver / .gold / .platinum, .post_storm_response_sla_hours, service_area.storm_zone_flag, and the commercial cadence (quarterly Silver / monthly Gold / weekly Platinum). Closes the two-cycle Output Quality 8 ceiling on residential-only coverage. v1.4 residential example, pricing formula sequence, task matrix, ROI math, and named-field bindings preserved."
+inspiration: "v1.7 (2026-07-20 eval cycle) repairs a residential Bronze-pricing contradiction that five carry-forward cycles missed and re-binds pricing to the committed config fixture. The old worked example computed Bronze = max(inspection_rate_flat $285, base_rate_per_square $14 x 30 sq = $420) then wrote '= $420 -> rounded to $285 (lower of the two)' -- max() returns the GREATER value, '$420 rounded to $285' is not rounding, and the whole Silver/Gold ladder was built on the wrong $285. Bronze is now anchored on the shop's published rate rates.maintenance_plan_annual_residential ($349), Silver/Gold derive cleanly ($1,075 / $2,380) and every monthly/prepay figure re-derives; the commercial per-sf base is bound to rates.maintenance_plan_annual_commercial_per_sf ($0.09, was a hard-coded $0.10) with the Silver/Gold/Platinum cascade recomputed ($6,650 / $19,625 / $45,250) and the old 'adjusted to' editorial fudges removed so 'shown, not asserted' is true; fabricated credentials (JM Peak Advantage, OC Platinum, $5M GL, EMR 0.81) and the wrong phone (0140 -> 0142) and company name were corrected to config values. v1.6 (2026-07-06) eval improvement cycle targeting efficiency (held at 8 — the six-item Required Input list read as front-loaded interrogation even though material + age + city are the only truly blocking inputs). Adds a 'Fastest path — minimum viable input' block establishing those three as the only blocking inputs; geometry is sized from a market-typical footprint when absent, climate hazards are inferred from ZIP + service_area.hail_zones[], customer type defaults to Residential, and all rates/tiers/warranty/billing come from config. Required Input re-annotated [blocking]/[from config]/[inferred] with graceful defaults, and Efficiency notes tightened to 'runs from defaults; ask one question (target price range) only when config has no maintenance rates.' Purely additive; no pricing formula, tier scope, worked example, or named binding changed. efficiency 8 -> 9, overall 8.8 -> 8.9. v1.5 adds a fully-worked commercial Silver/Gold/Platinum Example Output (60,000 sf TPO retail-strip-center, hail-zone Frisco TX, property-management buyer) exercising maintenance.commercial_repair_cap_silver / .gold / .platinum, .post_storm_response_sla_hours, service_area.storm_zone_flag, and the commercial cadence (quarterly Silver / monthly Gold / weekly Platinum). Closes the two-cycle Output Quality 8 ceiling on residential-only coverage. v1.4 residential example, pricing formula sequence, task matrix, ROI math, and named-field bindings preserved."
 ---
 
 # 🔧 Maintenance Plan Generator
@@ -25,14 +25,16 @@ Build a customized preventive maintenance plan and tiered subscription proposal 
 
 ## Required Input
 
-Provide the following:
+**Fastest path — minimum viable input:** give the **roof material, approximate age, and property city/ZIP** (item 1 partial + item 2) and run. Those three are the only blocking inputs — everything else is read from `config.yml` or inferred. Squares/stories/complexity refine the pricing math but the skill will size from a market-typical footprint and flag the assumption when they're absent; climate hazards are inferred from the ZIP (hail zone from `service_area.hail_zones[]`, snow/coastal/wildfire from region); customer type defaults to **Residential** unless the input names a commercial/HOA/multi-family property; all rates, tiers, warranty, and billing come from config. The skill asks **at most one** question — a target price range, and only when config carries no `maintenance` rates AND the user hasn't given any. Don't interrogate for fields config already holds or geometry the pricing can default.
 
-1. **Roof details** — Material (asphalt shingle, metal standing-seam, clay/concrete tile, TPO/EPDM/modified-bitumen, cedar shake), approximate age, total squares or square footage, number of stories, pitch (if known), complexity (number of valleys, penetrations, skylights)
-2. **Location and climate exposure** — City/region, dominant climate hazards (hail, high-wind, heavy snow, ice dams, extreme heat, coastal salt air, wildfire embers)
-3. **Repair history** (optional) — Prior issues, active warranty, last inspection date
-4. **Customer type** — Residential, commercial, HOA, multi-family
-5. **Pricing guidance** (optional) — Override config defaults if quoting a special rate
-6. **Existing relationship** (optional) — Past customer / new prospect / warranty customer — affects entry tier pricing
+The full input list, annotated by how each is resolved:
+
+1. **Roof details** *(material + age blocking; rest inferred)* — Material (asphalt shingle, metal standing-seam, clay/concrete tile, TPO/EPDM/modified-bitumen, cedar shake) and approximate age are blocking — they drive the task matrix and REUL. Total squares/sq ft, stories, pitch, and complexity (valleys, penetrations, skylights) refine pricing; if absent, size from a market-typical footprint for the material and flag it in the Assumptions footer.
+2. **Location and climate exposure** *(city/ZIP blocking; hazards inferred)* — City/ZIP is blocking. Dominant climate hazards (hail, high-wind, heavy snow, ice dams, extreme heat, coastal salt air, wildfire embers) are inferred from the ZIP + `service_area.hail_zones[]`; only ask if the location is ambiguous.
+3. **Repair history** *(inferred / optional)* — Prior issues, active warranty, last inspection date. Improves the health assessment; omit cleanly if not provided rather than asking.
+4. **Customer type** *(inferred, defaults Residential)* — Residential, commercial, HOA, multi-family. Defaults to Residential unless the input or property type signals otherwise (drives residential Bronze/Silver/Gold vs commercial Silver/Gold/Platinum).
+5. **Pricing guidance** *(from config / optional)* — Read from `maintenance.*` rates; only needed when quoting a special rate that overrides config.
+6. **Existing relationship** *(inferred / optional)* — Past customer / new prospect / warranty customer — affects entry-tier pricing; defaults to new prospect if unstated.
 
 ## Instructions
 
@@ -42,7 +44,10 @@ You are a roofing service-department AI assistant. Your job is to generate a pro
 
 - Load `config.yml` — specifically these named fields:
   - `company.name`, `company.license_number`, `company.phone`, `company.email_from`, `company.address` — header / footer block
-  - `maintenance.tiers[]` — any existing tier definitions (Basic / Standard / Premium) with `name`, `scope[]`, `price_monthly`, `price_annual_prepay`, `min_term_months`. If empty, build from `base_rate_per_square` and `inspection_rate_flat` using the formulas below
+  - `certifications[]` and `commercial.certifications[]` — residential vs commercial credential lines (never invent a certification not in these lists)
+  - `rates.maintenance_plan_annual_residential` — the shop's published annual residential plan price; when set, this IS Bronze (sample config: $349)
+  - `rates.maintenance_plan_annual_commercial_per_sf` — the commercial Silver per-sf base rate (sample config: $0.09/sf)
+  - `maintenance.tiers[]` — any existing tier definitions (Basic / Standard / Premium) with `name`, `scope[]`, `price_monthly`, `price_annual_prepay`, `min_term_months`. If empty, anchor Bronze on `rates.maintenance_plan_annual_residential` (or the max() fallback) and derive the rest using the formulas below
   - `maintenance.base_rate_per_square` — default per-square rate for basic service (typical $14–$22/sq for residential asphalt depending on stories + complexity)
   - `maintenance.inspection_rate_flat` — flat inspection price if offered (typical $185–$285)
   - `maintenance.repair_cap_basic` (default $0 — Basic = inspection only)
@@ -112,15 +117,20 @@ Adjust tasks by climate:
 
 ### 3. Tiered Service Options — Pricing Formula
 
-Build three tiers with explicit scope and pricing. Use `maintenance.tiers[]` if defined; otherwise compute from named fields:
+Build three tiers with explicit scope and pricing. Use `maintenance.tiers[]` if defined; otherwise anchor Bronze on the shop's published plan rate and derive the rest:
 
 ```
-Bronze (Basic) annual price   = max(maintenance.inspection_rate_flat,
-                                     1.0 × base_rate_per_square × squares)
-Silver (Standard) annual price = 2.5 × Bronze annual + maintenance.repair_cap_standard / 2
-Gold (Premium) annual price    = 1.75 × Silver annual + maintenance.repair_cap_premium / 2
-Monthly price                  = annual / 12, round to nearest $5
-Annual-prepay price            = annual × 0.92 (8% prepay discount)
+Bronze (Basic) annual price:
+  1. If config sets a published annual plan rate (rates.maintenance_plan_annual_residential),
+     use it directly — it is the shop's own price.            [sample config: $349]
+  2. Otherwise Bronze = max(maintenance.inspection_rate_flat, base_rate_per_square × squares)
+     — the GREATER of the two, because Basic must at least cover the inspection AND scale
+       with roof size. (Never take the lower value; that would under-price the larger job.)
+Silver (Standard) annual price = 2.5 × Bronze + maintenance.repair_cap_standard / 2   [default cap $400]
+Gold (Premium) annual price    = 1.75 × Silver + maintenance.repair_cap_premium / 2   [default cap $1,000]
+Annual price      → round to nearest $5
+Monthly price     = annual / 12, round to nearest $5
+Annual-prepay     = annual × 0.92 (8% prepay discount), round to nearest $5
 ```
 
 **🥉 Bronze — Annual Inspection + Clean** (Basic tier)
@@ -191,16 +201,18 @@ Format as a customer-facing document:
 - Paste-ready email wrapper (use `email-drafter` skill voice) if user wants to send directly
 
 **Efficiency notes:**
-- Infer commercial vs. residential from customer type input
+- Runs from defaults: material + age + city are the only blocking inputs; geometry, hazards, customer type, rates, and terms are inferred or read from config. Ask **one** question only — a target price range, and only when config has no `maintenance` rates and the user gave none.
+- Infer commercial vs. residential from customer type input; default Residential when unstated
 - Default to Asphalt Shingle task matrix if material not specified; flag the assumption
+- Size from a market-typical footprint when squares/sq ft are absent rather than blocking on measurements; flag in the Assumptions footer
 - Pull tier scope from config if defined; build from scratch only if `config.maintenance.tiers` is empty
 - Cross-reference: on post-storm use cases, route to `predictive-lead-scorer` to batch-identify plan candidates; route to `roof-inspection-report` for the inaugural inspection that anchors the plan
 
 ## Example Output (30-sq asphalt, 18 yr, Frisco TX 75070 hail zone)
 
 ```
-ACME ROOFING, LLC                                         License #TX-RC-0481234
-GAF MasterElite | HAAG Certified | OC Platinum Preferred  469-555-0140
+ACME ROOFING & RESTORATION LLC                            License #TX-RC-0481234
+GAF Master Elite | Owens Corning Preferred | HAAG Certified   469-555-0142
 
 ROOF MAINTENANCE PROPOSAL
 Property:  1248 Maple Ridge Dr, Frisco TX 75070
@@ -239,24 +251,25 @@ TIERED SERVICE OPTIONS
 | Post-storm       | None                | Within 72 hr (hail-zone trigger) | Same-day tarp + 24-hr inspection |
 | Mfr warranty mgmt| —                   | —                                | Documentation filed each visit   |
 | Workmanship ext. | —                   | +2 yr on plan (`warranty.workmanship_years_on_plan_extension` Silver) | +5 yr on plan (`warranty.workmanship_years_on_plan_extension` Gold) |
-| **Annual price** | **$285**            | **$910**                         | **$2,090**                       |
-| **Monthly**      | **$25**             | **$75**                          | **$175**                         |
-| **Annual prepay**| **$262 (8% off)**   | **$835 (8% off)**                | **$1,925 (8% off)**              |
+| **Annual price** | **$349**            | **$1,075**                       | **$2,380**                       |
+| **Monthly**      | **$30**             | **$90**                          | **$200**                         |
+| **Annual prepay**| **$320 (8% off)**   | **$990 (8% off)**                | **$2,190 (8% off)**              |
 | Min term         | 12 months           | 12 months                        | 12 months                        |
 
-PRICING MATH (shown, not asserted)
-Bronze annual = max(inspection_rate_flat $285, 1.0 × base_rate_per_square $14 × 30 sq = $420)
-              = $420 → rounded to $285 (using flat inspection rate, lower of the two)
-Silver annual  = 2.5 × $285 + $400 / 2 = $712.50 + $200 = $912.50 → $910
-Gold annual    = 1.75 × $910 + $1,000 / 2 = $1,592.50 + $500 = $2,092.50 → $2,090
+PRICING MATH (shown, not asserted — every figure re-derives)
+Bronze annual = rates.maintenance_plan_annual_residential from config = $349 (the shop's published plan price)
+Silver annual = 2.5 × $349 + $400 / 2 = $872.50 + $200 = $1,072.50 → round to nearest $5, half up = $1,075
+Gold annual   = 1.75 × $1,075 + $1,000 / 2 = $1,881.25 + $500 = $2,381.25 → round to nearest $5 = $2,380
+Monthly       = annual / 12 → $349/12 = $29.08 → $30 ; $1,075/12 = $89.58 → $90 ; $2,380/12 = $198.33 → $200
+Annual prepay = annual × 0.92 → $349×0.92 = $321.08 → $320 ; $1,075×0.92 = $989.00 → $990 ; $2,380×0.92 = $2,189.60 → $2,190
 
 ROI JUSTIFICATION (industry-typical)
-- Silver plan cost: $910/yr
+- Silver plan cost: $1,075/yr
 - Cost of one averted emergency leak: $500–$2,500 (mid: $1,500)
-- Breakeven: One averted leak pays back ~1.6 yrs of Silver plan
+- Breakeven: one averted mid-cost leak ($1,500) covers ~1.4 yrs of the Silver plan ($1,500 ÷ $1,075 = 1.4)
 - Cost of premature replacement (lost 4 yrs of useful life on a $14k re-roof): ~$5,600
-- Even crediting Silver only with the +3 yr lower-bound REUL lift: $910 × 3 = $2,730
-  vs $5,600 in averted lost-life value → 2.05× return at the lower bound
+- Even crediting Silver only with the +3 yr lower-bound REUL lift: $1,075 × 3 = $3,225
+  vs $5,600 in averted lost-life value → 1.74× return at the lower bound ($5,600 ÷ $3,225)
 
 WHAT'S NOT INCLUDED (any tier)
 - Full re-roof, structural decking work, or insurance-claim-driven scope
@@ -283,26 +296,24 @@ ACCEPTANCE
 [ ] Bronze   [✓] Silver   [ ] Gold        Term: 12 months / 24 / 36 (price-lock)
 Signature: _______________________________  Date: ____________
 
-— Acme Roofing, LLC | 469-555-0140 | TX-RC-0481234
-  GAF MasterElite | HAAG Certified | OC Platinum Preferred
+— Acme Roofing & Restoration LLC | 469-555-0142 | TX-RC-0481234
+  GAF Master Elite | Owens Corning Preferred | HAAG Certified
 ```
 
 **Assumptions footer for this run**
-- `maintenance.base_rate_per_square` defaulted to $14/sq — confirm against config
-- `maintenance.inspection_rate_flat` defaulted to $285 — confirm against config
-- `maintenance.repair_cap_standard` defaulted to $400, `.repair_cap_premium` to $1,000
+- Bronze annual bound to `rates.maintenance_plan_annual_residential` = $349 from config (the shop's published plan price); Silver/Gold derived via the tier multipliers above
+- `maintenance.repair_cap_standard` defaulted to $400, `.repair_cap_premium` to $1,000 (absent from base config — flagged, not invented)
 - `warranty.workmanship_years_on_plan_extension` = 2 (Silver) / 5 (Gold) — exercised inline in tier table and TERMS block above
 - `billing.recurring_platform` = Stripe — exercised inline in TERMS block above; QBO listed as annual-prepay alternative
+- Certifications from `config.certifications[]`: GAF Master Elite, Owens Corning Preferred, HAAG Certified
 - `service_area.hail_zones[]` confirmed contains 75070 from config
 - Manufacturer warranty assumed expired at 15 yr from 2008 install — verify against original install paperwork
 
 ## Example Output (60,000 sf TPO retail strip center, hail zone Frisco TX 75070, commercial)
 
 ```
-ACME ROOFING — COMMERCIAL DIVISION                       License #TX-RC-0481234
-Carlisle CCM Authorized Applicator | JM Peak Advantage   GL/Excess: $5M / $5M
-                                                         Workers Comp: TX EMR 0.81
-                                                         469-555-0140 (24/7 commercial dispatch)
+ACME ROOFING & RESTORATION LLC — COMMERCIAL DIVISION     License #TX-RC-0481234
+Carlisle CCM Authorized Applicator | GAF Master Select   469-555-0142 (commercial dispatch)
 
 COMMERCIAL ROOF MAINTENANCE PROGRAM PROPOSAL
 Property:   Frisco Crossing Retail Center
@@ -358,37 +369,34 @@ TIERED SERVICE OPTIONS (Commercial)
 |                   |                                            |                                               | tenant-leak risk register                      |
 | Workmanship ext.  | +2 yr on plan                              | +5 yr on plan                                 | +5 yr + repair workmanship lifetime-of-plan    |
 | Tenant-leak resp. | Email within 4 hr, on-site next biz day    | 24/7 line + on-site within 4 hr               | 24/7 line + on-site within 90 min              |
-| **Annual price**  | **$7,200**                                 | **$18,900**                                   | **$42,600**                                    |
-| **Monthly**       | **$600**                                   | **$1,575**                                    | **$3,550**                                     |
-| **Annual prepay** | **$6,624 (8% off)**                        | **$17,388 (8% off)**                          | **$39,192 (8% off)**                           |
+| **Annual price**  | **$6,650**                                 | **$19,625**                                   | **$45,250**                                    |
+| **Monthly**       | **$555**                                   | **$1,635**                                    | **$3,770**                                     |
+| **Annual prepay** | **$6,120 (8% off)**                        | **$18,055 (8% off)**                          | **$41,630 (8% off)**                           |
 | Min term          | 36 months (price-locked)                   | 36 months (price-locked)                      | 36 months (price-locked)                       |
 
-PRICING MATH (shown, not asserted)
-Per-sf base for commercial TPO  = $0.10/sf inspection + tasks (industry typical $0.08–$0.14/sf)
-Silver annual = 60,000 sf × $0.10/sf + maintenance.commercial_repair_cap_silver $2,500 / 2
-              = $6,000 + $1,250 = $7,250 → rounded $7,200
+PRICING MATH (shown, not asserted — every figure is the direct formula output, no editorial adjustment)
+Per-sf base for commercial TPO  = rates.maintenance_plan_annual_commercial_per_sf from config = $0.09/sf
+Silver annual = 60,000 sf × $0.09/sf + maintenance.commercial_repair_cap_silver $2,500 / 2
+              = $5,400 + $1,250 = $6,650
 Gold annual   = Silver × 2.5 + maintenance.commercial_repair_cap_gold $6,000 / 2
-              = $7,200 × 2.5 + $3,000 = $18,000 + $3,000 = $21,000 → adjusted to $18,900
-              (Carlisle Authorized Applicator pricing discipline: <25% premium vs Silver per inspection
-              when tasks are incremental rather than additive — confirmed against ABC + Beacon
-              regional pricing surveys 2026 Q1)
+              = $6,650 × 2.5 + $3,000 = $16,625 + $3,000 = $19,625
 Platinum ann. = Gold × 2.0 + maintenance.commercial_repair_cap_platinum $12,000 / 2
-              = $18,900 × 2.0 + $6,000 = $37,800 + $6,000 = $43,800 → adjusted $42,600
-              (monthly-cadence delivery efficiency vs quarterly: -2.7%; passed through to buyer)
-Annual prepay = annual × 0.92 (8% discount, same as residential)
+              = $19,625 × 2.0 + $6,000 = $39,250 + $6,000 = $45,250
+Monthly       = annual / 12, nearest $5 → $6,650/12 = $554 → $555 ; $19,625/12 = $1,635 ; $45,250/12 = $3,771 → $3,770
+Annual prepay = annual × 0.92 (8% discount), nearest $5 → $6,650×0.92 = $6,118 → $6,120 ; $19,625×0.92 = $18,055 ; $45,250×0.92 = $41,630
 
 ROI JUSTIFICATION (industry-typical commercial ranges)
-- Gold plan cost: $18,900/yr
+- Gold plan cost: $19,625/yr
 - Last 18-mo repair history WITHOUT plan: $6,820 → annualized $4,547
   Under Gold, those repairs would have been included (both <$6,000 cap) — net savings $4,547
 - Carlisle NDL warranty value if voided: $240,000–$390,000 re-roof exposure at 13 yrs of
-  remaining warranty life. Plan cost over 13 yrs = $245,700 (Gold) — but the warranty
+  remaining warranty life. Plan cost over 13 yrs = $255,125 (Gold) — but the warranty
   preservation alone offsets the entire program cost in a single covered failure event.
 - Tenant-leak chargeback risk: at $0.40–$1.20/sf interior remediation × 60k sf =
-  $24k–$72k single-event exposure. One averted tenant claim = 1.3 – 3.8 yrs of Gold.
+  $24k–$72k single-event exposure. One averted tenant claim = 1.2 – 3.7 yrs of Gold.
 - Breakeven scenario: Plan pays for itself if it averts ONE major drain failure or
   ONE membrane breach insurance dispute (both common at 12 yr+ on a high-RTU TPO).
-- Show the math: $18,900/yr Gold × 1 yr < $24k lowest-band tenant chargeback exposure.
+- Show the math: $19,625/yr Gold × 1 yr < $24k lowest-band tenant chargeback exposure.
 
 RECOMMENDED FOR THIS ROOF: 🥇 Gold
 At 7 yrs into a 20-yr Carlisle NDL with 12 RTUs and grocery tenancy, the quarterly cadence
@@ -425,11 +433,13 @@ Billing:    [ ] Monthly Stripe AmEx        [✓] Annual prepay QBO NET-30
 Signature: ________________________________  Date: ____________
             Linnea Park, Senior Portfolio Manager, Cedar Bend Property Management
 
-— Acme Roofing Commercial Division | 469-555-0140 | TX-RC-0481234
-  Carlisle CCM Authorized Applicator | JM Peak Advantage | $5M GL + $5M Excess
+— Acme Roofing & Restoration LLC, Commercial Division | 469-555-0142 | TX-RC-0481234
+  Carlisle CCM Authorized Applicator | GAF Master Select
 ```
 
 **Assumptions footer for the commercial run**
+- Silver per-sf base bound to `rates.maintenance_plan_annual_commercial_per_sf` = $0.09/sf from config; Gold/Platinum derived via the tier multipliers above
+- Commercial certifications from `commercial.certifications[]`: Carlisle CCM Authorized Applicator, GAF Master Select (the fabricated "JM Peak Advantage" and "$5M GL" carried by prior versions are removed — neither is in config)
 - `maintenance.commercial_repair_cap_silver` defaulted to $2,500 — exercised inline in Silver tier row
 - `maintenance.commercial_repair_cap_gold` defaulted to $6,000 — exercised inline in Gold tier row
 - `maintenance.commercial_repair_cap_platinum` defaulted to $12,000 — exercised inline in Platinum tier row

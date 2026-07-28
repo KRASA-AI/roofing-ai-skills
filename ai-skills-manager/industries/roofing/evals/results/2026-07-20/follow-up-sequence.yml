@@ -1,0 +1,35 @@
+skill: follow-up-sequence
+file: skills/sales/follow-up-sequence.md
+date: 2026-07-20
+version_evaluated: "2.1"
+file_changed_since_last_eval: false
+grading_basis: cold  # re-derived from scratch; personalization graded against fixtures/config.sample.yml
+scores:
+  clarity: 9
+  specificity: 9
+  industry_fit: 9
+  output_quality: 8
+  personalization: 6
+  efficiency: 9
+overall: 8.5
+previous_score: 9.0
+delta_vs_previous: -0.5
+previous_scores:
+  clarity: 9
+  specificity: 9
+  industry_fit: 9
+  output_quality: 9
+  personalization: 9
+  efficiency: 9
+improvement_candidate: false
+improvement_applied: false
+replaced_original: false
+note: |
+  Cold re-grade. DEFECT: the graceful-close email says the price is 'good through 2026-07-22 (60 days from
+  delivery)' but delivery was 2026-04-22 and 60 days lands on 2026-06-21 (2026-07-22 is 91 days); the
+  assumptions footer reasserts the '60 days' label -- a customer-facing date contradiction. Finance rounding
+  otherwise fine. personalization DROPS 9->6: the 'Resolved config fields' block labels most of its fields as
+  bound but they are ABSENT from the fixture and fabricated (financing.partners[], reviews.142/4.9-star,
+  seasonal_hooks.*, team.rep_roster[], service_area.neighborhoods[], crm.system, company.sms_from_number);
+  warranty.manufacturer_tiers[0] is bound as 'GAF Golden Pledge' but the fixture's [0] is 'GAF System Plus' (a
+  mis-index); company.phone shown 469-555-0140 vs fixture 469-555-0142. output_quality 9->8.

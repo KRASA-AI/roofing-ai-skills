@@ -1,0 +1,36 @@
+skill: crew-schedule-optimizer
+file: skills/operations/crew-schedule-optimizer.md
+date: 2026-07-20
+version_evaluated: "1.3"
+file_changed_since_last_eval: false
+grading_basis: cold  # re-derived from scratch; personalization graded against fixtures/config.sample.yml
+scores:
+  clarity: 9
+  specificity: 9
+  industry_fit: 9
+  output_quality: 8
+  personalization: 5
+  efficiency: 9
+overall: 8.4
+previous_score: 9.2
+delta_vs_previous: -0.8
+previous_scores:
+  clarity: 9
+  specificity: 10
+  industry_fit: 9
+  output_quality: 9
+  personalization: 9
+  efficiency: 9
+improvement_candidate: false
+improvement_applied: false
+replaced_original: false
+note: |
+  Cold re-grade of the repo's former top skill (recommended by 07-13; never previously checked adversarially for
+  arithmetic-in-example errors). Utilization figures re-derive (A 32+16+32+32+32=144/160=90%; B 84/120=70%; C
+  32/80=40%). output_quality DEFECT: Risk Register J1 says 'install Wed 5/13 ... 6-day buffer' to a 5/18
+  deadline (that is 5 days), and 'push to Thu (still 1 day buffer)' is internally inconsistent -- moving one day
+  later cannot drop the buffer from 6 to 1. specificity eases 10->9 and personalization DROPS 9->5: the skill
+  names crews[], weather_rules, shift.*, standard_crew_days, preferred_suppliers, safety.jha_path, of which only
+  service_area.zip_codes resolves in the fixture; the fixture instead carries crew_leads[] (Hector Ramirez/es/6,
+  Dale Whitmore/en/5) and suppliers.preferred[], and the example's Jones/Ramos/Tran crews contradict the real
+  roster. The 9.2 does not survive contact with the committed fixture.

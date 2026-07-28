@@ -13,6 +13,7 @@ This repo is a complete AI toolkit for roofing. Every skill is a standalone prom
 
 | Skill | What it does | Time saved |
 |-------|-------------|------------|
+| AI Jobsite Hazard & Safety-Plan Builder | Produce a pre-mobilization site safety plan for a specific roofing job **before the crew arrives** — while the plan can still change how the day is staged rather than just documenting what already happened. | ~35 min/job |
 | Crew Schedule Optimizer | Turn active jobs, crew availability, weather forecast, and material-delivery commitments into an optimized weekly plan — with a day-by-day grid, per-job crew packets, route clusters, weather contingencies, and a utilization report per crew. | ~45 min/week |
 | Material Order Calculator | Calculate exact material quantities from roof measurements — broken down by material category with appropriate waste factors, bundle/unit conversions, and supplier-ready formatting — so you can place an accurate order without over- or under-buying. | ~15 min/order |
 | Roof Inspection Report | Turn field inspection photos and notes into a professional, structured inspection report with section-by-section findings, condition ratings, photo references, and prioritized recommendations — suitable for homeowner presentation, insurance documentation, real estate transactions, or commercial property-manager capital planning. | ~30 min/report |
@@ -23,6 +24,7 @@ This repo is a complete AI toolkit for roofing. Every skill is a standalone prom
 | Jobsite Content Repurposer | Turn the photos a crew already takes on every job — the ones sitting in CompanyCam, the camera roll, or a shared drive — into a batch of ready-to-publish marketing content: social posts, short-form video scripts and storyboards, before/after captions, and a Google Business Profile update. | ~45 min/post batch |
 | Maintenance Plan Generator | Build a customized preventive maintenance plan and tiered subscription proposal for a roof — grounded in the material type, climate exposure, roof age, and repair history — with defensible pricing, ROI math the homeowner can verify, and subscription terms ready for recurring billing. | ~25 min/plan |
 | Predictive Lead Scorer | Rank a batch of leads or prospects by likelihood-to-close and expected ticket size — using a transparent, weighted composite that a sales rep can audit — so the call-list, door-knock list, and mailer list all start with the homeowners most likely to need (and buy) roof work right now. | ~30 min/batch |
+| Sales Call Coach | Turn a rep's notes or a transcript from a sales pitch into an objection-handling scorecard, a personalized pre-call cheat sheet, and a rolling team objection log — most of the benefit of live in-pitch coaching without needing real-time audio hardware. | ~15 min/call |
 | Storm Canvassing Prioritizer | After a hail or wind event, turn the storm footprint into a prioritized canvassing plan in under an hour. | ~3 hours/storm event |
 | Tariff & Price Adjustment Communicator | Produce customer-facing content that absorbs material-cost volatility without eroding close rates — price-adjustment letters, estimate addenda, website pricing pages, objection-handling scripts, and lifecycle-cost comparison sheets — all grounded in real market data and framed as industry-wide realities rather than company markups. | ~15 min/estimate |
 | Lead Response Automator | Generate instant, channel-appropriate responses to new roofing leads — qualifying them by job type, urgency, and fit — and produce a structured intake sequence that captures property details, schedules inspections against the actual estimator calendar, and hands off a fully qualified lead to the right estimator within minutes rather than hours. | ~20 min/lead |
@@ -34,7 +36,7 @@ This repo is a complete AI toolkit for roofing. Every skill is a standalone prom
 | Review Responder | Craft public, professional responses to online reviews on Google, Nextdoor, BBB, Angi, Yelp, Facebook, and manufacturer / contractor directories — with tailored tone based on star rating and the roofing-specific concern raised, plus an escalation path for legitimate complaints or inaccurate claims. | ~10 min/review |
 | Visual Proposal Generator | Turn a completed estimate, inspection report, or prospect brief into a polished, brand-consistent visual deliverable a homeowner or commercial decision-maker can read in under three minutes. | ~90 min/deliverable |
 
-**Total time saved per use: ~515+ minutes across all skills.**
+**Total time saved per use: ~565+ minutes across all skills.**
 
 ## Quick Start
 

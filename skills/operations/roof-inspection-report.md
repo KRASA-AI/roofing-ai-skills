@@ -4,9 +4,9 @@ category: operations
 tools: [claude, chatgpt]
 difficulty: beginner
 time_saved: "~30 min/report"
-version: 1.5
+version: 1.6
 last_eval_score: 8.9
-inspiration: "v1.5 (2026-06-22) landscape-monitor concept extraction — added a 'Documentation Completeness Check' step that audits the photos/notes provided against the standard documentation set an insurer (and an insurer's automated claim-review system) expects, names exactly which categories are missing, and flags when a gap would invite a coverage denial or force a return trip to the roof. Concept extracted from the 2026 contractor-side observation that carriers increasingly run automated review on the adjuster side to find documentation gaps and use those gaps to deny or underpay claims, and from field-capture tools that verify on-site that every required documentation angle was taken before the crew leaves (e.g., HomePro AI's field-capture/return-trip-prevention positioning surfaced in the May–June 2026 scans). Operationalized vendor-neutrally: it works from whatever photos a shop already takes (CompanyCam, camera roll, drive folder), requires no specific app, and produces a pre-submission gap list rather than a real-time on-roof prompt. All wording, the category taxonomy, and the worked example are original; no source checklist text, product copy, or numeric claims were copied, and no vendor's proprietary 'required-angle' list was reproduced. v1.4 (2026-06-15) eval improvement cycle targeting output_quality — fixed an internal inconsistency in the commercial PM Example Output header, which labeled the building '60-sq TPO retail strip' while the body (and the capital-planning table, priced per 38,000 sf) described a 38,000 sf roof; 38,000 sf is ~380 squares, not 60, so the header now reads '38,000 sf / 380-sq' to match the worked numbers an adjuster or asset manager would cross-check. v1.3 (2026-06-08) eval improvement cycle targeting output_quality (lowest-scoring skill in the repo at 7.8) — the residential Example Output defined a Photo Log and Disclaimer/Certification section in the structure but never showed them; both are now demonstrated end-to-end (23-photo log, full disclaimer + signature/cert footer). Added a second fully-worked Example Output for the Commercial Property-Manager variant (38,000 sf TPO retail strip, 14 yr, Plano TX) exercising the capital-planning table, IBC 1503 / ASCE 7 reserve-study compliance items, tenant-coordination notes, and commercial.cap_planning_horizon_years — the variant was described but unexemplified for two cycles. v1.2 rewritten 2026-04-25 from eval improvement cycle — named config-field binding (inspector.*, certifications.*, branding.*, rates.* for cost-range hints), explicit hail-claim threshold rule (8 strikes per square per FM Global / HAAG industry guidance), commercial property-manager output variant, and an example 28-square hail-damage report skeleton. v1.1 enhanced with structured inspection categories, condition rating scale, photo reference system, and insurance-grade documentation."
+inspiration: "v1.6 (2026-07-28) landscape-monitor concept extraction — added an optional Composite Condition Index (Section 3a): a weighted 0-100 score and A-F letter grade rolled up from the existing 1-5 section ratings, bound to a new optional `inspection.condition_index_weights` config field with sensible defaults when absent. Concept extracted from a July 2026 trade-press profile of a contractor operating system built by an Alpharetta, GA shop, which described feeding a standardized numeric inspection score into a continuous asset-condition-tracking program for owners and property managers, rather than a one-off narrative report. The repo's existing 1-5 per-section ratings gave an inspector-to-inspector consistent scale but no single comparable number a portfolio owner or a returning inspector could track over time; the composite index is that number, computed transparently (weights shown, formula shown) so an adjuster or PM can audit it rather than trust it as a black box. Nothing about the source contractor's own scoring formula, weighting, or software was copied — the section list, weights, and letter-grade bands are original to this repo and reuse the same 9 inspection categories and 1-5 scale already established in Section 3. Cross-references `maintenance-plan-generator` for shops that want to track the index across a customer's or portfolio's inspection history over multiple years. v1.5 (2026-06-22) landscape-monitor concept extraction — added a 'Documentation Completeness Check' step that audits the photos/notes provided against the standard documentation set an insurer (and an insurer's automated claim-review system) expects, names exactly which categories are missing, and flags when a gap would invite a coverage denial or force a return trip to the roof. Concept extracted from the 2026 contractor-side observation that carriers increasingly run automated review on the adjuster side to find documentation gaps and use those gaps to deny or underpay claims, and from field-capture tools that verify on-site that every required documentation angle was taken before the crew leaves (e.g., HomePro AI's field-capture/return-trip-prevention positioning surfaced in the May–June 2026 scans). Operationalized vendor-neutrally: it works from whatever photos a shop already takes (CompanyCam, camera roll, drive folder), requires no specific app, and produces a pre-submission gap list rather than a real-time on-roof prompt. All wording, the category taxonomy, and the worked example are original; no source checklist text, product copy, or numeric claims were copied, and no vendor's proprietary 'required-angle' list was reproduced. v1.4 (2026-06-15) eval improvement cycle targeting output_quality — fixed an internal inconsistency in the commercial PM Example Output header, which labeled the building '60-sq TPO retail strip' while the body (and the capital-planning table, priced per 38,000 sf) described a 38,000 sf roof; 38,000 sf is ~380 squares, not 60, so the header now reads '38,000 sf / 380-sq' to match the worked numbers an adjuster or asset manager would cross-check. v1.3 (2026-06-08) eval improvement cycle targeting output_quality (lowest-scoring skill in the repo at 7.8) — the residential Example Output defined a Photo Log and Disclaimer/Certification section in the structure but never showed them; both are now demonstrated end-to-end (23-photo log, full disclaimer + signature/cert footer). Added a second fully-worked Example Output for the Commercial Property-Manager variant (38,000 sf TPO retail strip, 14 yr, Plano TX) exercising the capital-planning table, IBC 1503 / ASCE 7 reserve-study compliance items, tenant-coordination notes, and commercial.cap_planning_horizon_years — the variant was described but unexemplified for two cycles. v1.2 rewritten 2026-04-25 from eval improvement cycle — named config-field binding (inspector.*, certifications.*, branding.*, rates.* for cost-range hints), explicit hail-claim threshold rule (8 strikes per square per FM Global / HAAG industry guidance), commercial property-manager output variant, and an example 28-square hail-damage report skeleton. v1.1 enhanced with structured inspection categories, condition rating scale, photo reference system, and insurance-grade documentation."
 ---
 
 # 🏠 Roof Inspection Report
@@ -47,6 +47,7 @@ You are a roofing inspector's AI assistant. Your job is to produce a professiona
   - `rates.repair_minimum`, `rates.per_square_<material>` — used to populate the rough cost-range column in the Recommendations table when present
   - `voice` — communication tone (homeowner-friendly / professional / clinical depending on customer type)
   - `commercial.cap_planning_horizon_years` (default 10) — used in commercial reports to bracket the capital-planning recommendation window
+  - `inspection.condition_index_weights` (optional map of section name → weight, summing to 100) — used in the optional Composite Condition Index (Section 3a); if absent, use the default weights shown there and note the default was used
   - If a named field is missing, use a sensible default and flag it in the output's "Assumptions" footer
 - Reference `knowledge-base/terminology/` for correct industry damage descriptors
 - Reference `knowledge-base/regulations/` for code citations referenced in recommendations (IRC R905 series for residential, IBC Chapter 15 for commercial)
@@ -88,6 +89,25 @@ You are a roofing inspector's AI assistant. Your job is to produce a professiona
 - Penetrations (pipe boots, exhaust vents, satellite mounts — seal condition, collar integrity)
 - Decking (visible sagging, soft spots, water staining from attic view)
 - Interior / Attic (insulation, moisture, daylight visibility, ventilation adequacy)
+
+### 3a. Composite Condition Index (optional roof-health score)
+
+Run this section whenever the customer type is commercial/HOA/multi-family, whenever the inspection is part of a maintenance plan, or whenever the user asks for a trackable score. Skip it for a one-off residential storm/insurance report unless requested — the 1-5 per-section ratings in Section 3 are sufficient there.
+
+The index rolls the per-section 1-5 ratings from Section 3 up into a single 0-100 score and letter grade, so a returning inspector, a portfolio owner, or a maintenance-plan customer has one comparable number to track across visits instead of nine separate ratings to re-read each time.
+
+**Method:**
+1. Convert each section's 1-5 rating to a percentage (rating ÷ 5 × 100)
+2. Multiply each section's percentage by its weight from `inspection.condition_index_weights`. If not configured, use these defaults (weighted toward waterproofing and structural categories over cosmetic ones): Shingles/Roofing Material 20, Flashing 15, Decking 15, Valleys 10, Penetrations 10, Ventilation 10, Gutters/Downspouts 10, Ridge/Hip Caps 5, Interior/Attic 5 (sums to 100; skip and renormalize any section marked "Not inspected")
+3. Sum the weighted percentages for the Composite Score (0-100)
+4. Map to a letter grade: A = 90-100, B = 80-89, C = 70-79, D = 60-69, F = below 60
+
+Show the full per-section math in a table so the score is auditable, not a black box:
+
+| Section | Rating (1-5) | % | Weight | Weighted % |
+|---------|--------------|---|--------|------------|
+
+State the weights used (config-bound or default) and the resulting **Composite Score + Letter Grade** as a one-line verdict. For maintenance-plan or commercial-portfolio customers, note the index alongside the date so it can be compared against the same property's prior inspection once one exists, and cross-reference `maintenance-plan-generator` for shops tracking the index as part of an ongoing service relationship.
 
 ### 4. Damage Summary (storm/insurance only)
 
@@ -213,6 +233,22 @@ Ventilation         4  See Photo 20     Ridge vent intact, NFA adequate.
 Penetrations        3  See Photos 21–22 Pipe boots within useful life.
 Decking             4  Attic visible    No staining, no soft spots.
 Attic               4  See Photo 23     Insulation dry, no moisture intrusion.
+
+COMPOSITE CONDITION INDEX (default weights — no inspection.condition_index_weights configured)
+Section          Rating  %    Weight  Weighted %
+Shingles           2     40%    20      8.0
+Flashing           4     80%    15     12.0
+Decking            4     80%    15     12.0
+Valleys            3     60%    10      6.0
+Penetrations       3     60%    10      6.0
+Ventilation        4     80%    10      8.0
+Gutters            2     40%    10      4.0
+Ridge/Hip Caps     3     60%     5      3.0
+Attic              4     80%     5      4.0
+COMPOSITE SCORE: 63 / 100 — GRADE: D
+Consistent with the storm-driven Poor (2) shingle and gutter ratings pulling the
+score down; grade reflects a roof at full-replacement decision point, not a
+maintenance-monitor point. Re-score at next inspection to track post-replacement.
 
 CLAIM RECOMMENDATION
 Industry-standard rule applied: ≥8 functional strikes per 10×10 test square on

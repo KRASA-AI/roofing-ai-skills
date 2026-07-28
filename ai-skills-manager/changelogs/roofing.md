@@ -4,6 +4,134 @@ Maintained by the Skill Evaluator scheduled task. Most recent entry first.
 
 ---
 
+## 2026-07-20 14:43 (automated eval cycle)
+
+**Evaluated:** all **16 skills** in `skills/` (excluding `_shared/`) against rubric v1.0 — including the new **AI Jobsite Hazard Planner** (v1.0), graded for the first time. Two firsts this cycle: personalization was graded **against the committed fixture** (`evals/fixtures/config.sample.yml`) as the fixture's header instructs, and **every skill was graded cold** rather than carrying dimension scores forward. Results persisted to `evals/results/2026-07-20/`.
+
+**Averages:** honest cold average **8.43** (16 skills), **8.66 after repairing the bottom 3**. The 07-13 figure of 8.95 was a carry-forward artifact.
+
+**Headline finding — the config fixture, committed last cycle to *lift* personalization, instead revealed that the library's worked examples are personalized against a config schema that does not exist.** The fixture uses `crew_leads[]`; skills bind `crews[]`. The fixture has scalar `safety.muster_point`; skills bind array `safety.muster_points[]`. The fixture has no `financing`, `reviews`, `estimators[]`, `maintenance.*` or `supplement.*` blocks; skills present all of them as "resolved config." The one skill that scored 9.0 on personalization — **Commercial Prospect Researcher** — is the only one whose example was written *after* the fixture existed. Two systemic worked-example defects were confirmed by grep: the wrong company phone (`469-555-0140` vs fixture `0142`) in **8 skills** (two printing *both* numbers in one document), and the wrong company name (`& Inspection LLC` vs `& Restoration LLC`) in the two admin skills.
+
+**Cold grading also caught arithmetic/consistency defects carry-forward had masked**, three of them in the bottom 3 (repaired) and five more flagged for next cycle (Estimate Builder metal deposit $14,003 vs $13,728; Crew Schedule buffer day-count; Insurance Appeal roof age 8yr8mo vs "8yr6mo"; Follow-Up 60-day date landing on 2026-07-22 not 2026-06-21; Storm Canvassing Day-1 crew split).
+
+**Improvements made (bottom 3, all replaced their originals, none degraded):**
+
+1. **Maintenance Plan Generator v1.6 → v1.7: 7.4 → 8.8 (+1.4).** Repaired the residential Bronze contradiction (`max($285,$420)=$420 → rounded to $285, lower of the two` — max returns the greater, and $420 doesn't round to $285) and re-anchored Bronze on the fixture's `rates.maintenance_plan_annual_residential` ($349); Silver ($1,075) / Gold ($2,380) now derive cleanly and every monthly/prepay reconciles. Commercial per-sf bound to `rates.maintenance_plan_annual_commercial_per_sf` ($0.09, was hard-coded $0.10); Silver/Gold/Platinum recomputed ($6,650/$19,625/$45,250) with the "adjusted to" fudges removed; downstream Gold refs updated. Fabricated credentials (JM Peak Advantage, OC Platinum, $5M GL, EMR 0.81) removed and bound to `certifications[]`; phone/company-name corrected in both header and footer. output_quality 6→9, clarity/specificity/industry_fit 8→9, personalization 5→7.
+2. **Predictive Lead Scorer v2.1 → v2.2: 7.7 → 8.9 (+1.2).** Rebuilt the 25-lead example so all 10 composites decompose under the storm weights (97/91/88/84/78/76/75/73/66/36), the ranking is monotonic, a full decomposition table is shown for every top-10 row, the mis-scored 84-composite Hot lead (Lisa Fortuna) is correctly a live call, and the tier/routing counts reconcile to 4 Hot / 13 Warm. Out-of-area ZIP 75071 replaced with the fixture's 75035; fields labelled `[config]` vs `[batch]`; inspector bound to William Reyes. output_quality 4→9, personalization 6→8.
+3. **Insurance Supplement Writer v2.2 → v2.3: 7.9 → 8.9 (+1.0).** Made the 24-line supplement reconcile: O&P is now 10/10 (20%) on the pre-O&P base $20,694.40 = $4,138.88; total $10,013.28; revised RCV $24,833.28; ACV $21,251.28; net $19,751.28 — with a printed reconciliation line and cover letter/diagnostic/homeowner summary all agreeing (was a $7,400 subtotal against lines that sum to $5,874.40, with a circular O&P). Replaced the fabricated `{State Farm, $7,200}` recent-win with the fixture's real carrier-neutral `{TX, Allstate, granular loss}`; removed the fabricated "EIN ending 8842"; corrected company name and phone. output_quality 5→9, personalization 6→8.
+
+**Final ranking (after improvements):**
+
+| Rank | Skill | Score | 07-13 (carried) |
+|-----:|-------|------:|----------------:|
+| 1 | Commercial Prospect Researcher | 9.0 | 8.9 |
+| 2 | Predictive Lead Scorer | 8.9 | 9.0 |
+| 2 | Material Order Calculator | 8.9 | 8.9 |
+| 2 | Insurance Supplement Writer | 8.9 | 8.9 |
+| 5 | Jobsite Content Repurposer | 8.8 | 8.9 |
+| 5 | Maintenance Plan Generator | 8.8 | 8.9 |
+| 7 | Roof Inspection Report | 8.7 | 8.9 |
+| 7 | Safety Toolbox Talk Generator | 8.7 | 8.9 |
+| 9 | AI Jobsite Hazard Planner | 8.6 | — (new) |
+| 9 | Insurance Appeal Inspection Report | 8.6 | 8.8 |
+| 9 | Lead Response Automator | 8.6 | 8.9 |
+| 12 | Follow-Up Sequence | 8.5 | 9.0 |
+| 13 | Estimate Builder | 8.4 | 9.1 |
+| 13 | Tariff & Price Adjustment Communicator | 8.4 | 9.0 |
+| 13 | Crew Schedule Optimizer | 8.4 | 9.2 |
+| 16 | Storm Canvassing Prioritizer | 8.3 | 8.9 |
+
+**Persistent weaknesses:** (1) worked examples personalized against a phantom config schema — the dominant, per-skill-fixable issue; (2) a wrong company phone/name hard-coded into 8+ examples, two self-contradicting; (3) `test-cases/` still empty.
+
+**Recommendations for next cycle:** (1) library-wide identity sweep (`0140`→`0142`, `& Inspection`→`& Restoration`, `acmeroofing.com`→`acmeroofs.com`) — a pure win lifting ~8 skills; (2) rewrite the former top scorers' examples against the real fixture schema (Crew Schedule `crews[]`→`crew_leads[]`, Lead Response `estimators[]`→`crew_leads[]`, Safety Toolbox array→scalar `safety.*`), using Commercial Prospect as the template; (3) fix the five flagged arithmetic defects; (4) point tariff logic at the real `market_conditions.active_tariffs` (Section 232, metal-scoped 7%); (5) seed `test-cases/`.
+
+**Verification:** every score recomputed correctly (cold 8.4313 → 8.43; after 8.6562 → 8.66); 16 skills map 1:1 to 16 result files; the three improved examples were re-derived programmatically and re-graded by a separate adversarial agent, which caught three residual editing inconsistencies (predictive routing counts + a leftover 75071 in the title; maintenance's residential header) — all fixed before finalizing. **Not committed** — edits, results, summary and this entry are in the working tree, left for the repo's daily-sync job.
+
+---
+
+## 2026-07-13 (automated eval cycle)
+
+**Evaluated:** all 15 skills in `skills/` (excluding `_shared/`) against rubric v1.0. One external change since 07-06: the landscape monitor shipped **Estimate Builder v1.6** earlier the same day. The other 14 opened byte-identical. Results persisted to `evals/results/2026-07-13/`.
+
+**Averages:** 8.93 (07-06 after-improvements) → **8.95 after improvements** (new repo high). Four skills edited, four improved, **none degraded**.
+
+**Headline finding — carry-forward grading was concealing real defects.** Since 06-08, unchanged skills have inherited their dimension scores rather than being re-derived. This cycle cold-graded the three bottom skills instead, and all three were scored too high. Two of the defects were arithmetic errors sitting inside worked examples that a user would paste straight into a supplier order or a carrier appeal:
+
+- **Material Order Calculator** (carried 8.8, honest cold grade **8.6**) — the worked example computed the nail line off *bundles* (97 × 80 × 5 ≈ 38,800 nails → 10 boxes) while the skill's own rule 8 and coverage-constants table both specify nails per *shingle* at ~80 shingles per *square*. Correct answer: **2 boxes**. A ~5x fastener over-order, contradicting the spec printed directly above it. The tear-off debris rule separately multiplied squares by `dump.bundles_per_yard` — a divisor — under-sizing the dumpster ~2x.
+- **Insurance Appeal Inspection Report** (carried 8.8, honest cold grade **8.4**) — the appeals success statistic appeared in three different forms in a single report ("31 of 38 (82%)" vs "of 31 appeals, 25 overturned (82%)"; 25/31 = 80.6%), the example numbered its sections 1–9 against a spec defining 10 so every cross-reference pointed at the wrong section, and remaining useful life read "14–16 years" in two places and "14.5 years" in two others. In a document whose entire purpose is to catch a carrier's numbers disagreeing with themselves.
+- **Estimate Builder** (recorded 9.1, cold grade **8.9**) — v1.6, shipped hours earlier by the landscape monitor, added a new customer-facing output section (Transparent-Quote Benchmark) and demonstrated it in neither worked example.
+
+**Improvements made (all four replaced their originals):**
+
+1. **Material Order Calculator v1.3 → v1.4: 8.6 → 8.9 (+0.3).** Nail line rebuilt per-shingle (28 sq × 80 × 6 = 13,440 ÷ ~7,200/box → 2 boxes); debris rule corrected to divide by `bundles_per_yard` with an explicit anti-inversion warning; a ROOF GEOMETRY basis block added so every linear-foot line reconciles against one set of numbers (the I&W line now resolves to 3 rolls, not 2); Fastest-path minimum-viable-input block with `[blocking]`/`[from config]`/`[inferred]` annotations. output_quality 8→9, efficiency 8→9.
+2. **Insurance Appeal Inspection Report v1.1 → v1.2: 8.4 → 8.8 (+0.4).** All three inconsistencies reconciled; example renumbered to the spec's 10 sections; a 5-point **Consistency Check** added to output requirements so the failure mode cannot recur. clarity 8→9, output_quality 8→9. Efficiency deliberately held at 8 — field inspection data cannot be defaulted without fabricating evidence, and a fabricated appeal report is worse than none.
+3. **Commercial Prospect Researcher v1.4 → v1.5: 8.8 → 8.9 (+0.1).** Efficiency pass, completing the Fastest-path treatment across the former 8.8 tier. Territory (a bare zip code) is now the sole blocking input; "reason to call" was removed as an ask because trigger discovery *is* Layer 3 of the skill's own framework — asking the rep for it inverts the skill. efficiency 8→9.
+4. **Estimate Builder v1.6 → v1.7: 8.9 → 9.1 (regression repaired).** The missing Transparent-Quote Benchmark instance written into the asphalt example — a $14,900 AI-platform quote benchmarked against the $17,794 Good tier, a six-row Value Delta table where every row is independently verifiable (license #, COI, GAF certification lookup, permit #, warranty document, phone number), and a Pricing-Flags line telling the estimator to hold the number because the delta is scope, not margin. output_quality restored to 9.
+
+**Also committed: `evals/fixtures/config.sample.yml`** — the fixture that five consecutive cycles named as the single highest-leverage move in the repo. It binds every field the library references and deliberately omits four (`company.logo_path`, `pricing.commercial_inspection_flat`, `suppliers.preferred[].last_pricing`, and any medical-office case study) so graceful-degradation behavior stays under test. Personalization was **not** re-graded against it this cycle — changing the grading basis and the skills in the same pass would make the delta unreadable. From 07-20, personalization is graded against the fixture, which should lift ~12 skills from 8 toward 9–10.
+
+**Scores (after improvements):**
+
+| Skill | Score | Prior (07-06) | Δ |
+|-------|------:|------:|---:|
+| Crew Schedule Optimizer | 9.2 | 9.2 | 0.0 |
+| Estimate Builder | 9.1 | 9.1 | 0.0 (dipped to 8.9 intra-cycle, repaired) |
+| Follow-Up Sequence | 9.0 | 9.0 | 0.0 |
+| Predictive Lead Scorer | 9.0 | 9.0 | 0.0 |
+| Tariff & Price Adjustment Communicator | 9.0 | 9.0 | 0.0 |
+| Insurance Supplement Writer | 8.9 | 8.9 | 0.0 |
+| Roof Inspection Report | 8.9 | 8.9 | 0.0 |
+| Lead Response Automator | 8.9 | 8.9 | 0.0 |
+| Jobsite Content Repurposer | 8.9 | 8.9 | 0.0 |
+| Maintenance Plan Generator | 8.9 | 8.9 | 0.0 |
+| Safety Toolbox Talk Generator | 8.9 | 8.9 | 0.0 |
+| Storm Canvassing Prioritizer | 8.9 | 8.9 | 0.0 |
+| **Material Order Calculator** | **8.9** | 8.8 | **+0.1** |
+| **Commercial Prospect Researcher** | **8.9** | 8.8 | **+0.1** |
+| Insurance Appeal Inspection Report | 8.8 | 8.8 | 0.0 |
+
+**Recommendations carried to next cycle:** (1) grade personalization against the new fixture; (2) **cold-re-grade three carried-forward skills per cycle on rotation, starting with the three highest scorers** — they have been carried longest and never checked adversarially for the arithmetic-in-worked-example failure mode that surfaced twice today; (3) seed `test-cases/` now that a config fixture exists to run them against; (4) add a spec-to-example consistency gate to the landscape-monitor task, so a new output section cannot ship without a worked instance.
+
+---
+
+## 2026-07-06 (automated eval cycle)
+
+**Evaluated:** all 15 skills in `skills/` (excluding `_shared/`) against rubric v1.0. Since 2026-06-29, **no skill file changed anywhere in the repo** (git diff vs the 06-29 improvement commit shows only README regeneration and a share-image sync) — all 15 opened byte-identical to their last evaluated versions and carried their dimension scores forward as the pre-improvement baseline. Results persisted to `evals/results/2026-07-06/`.
+
+**Averages:** prior cycle 8.91 (15 skills) → this-cycle baseline 8.91 → **after improvements 8.93** (new repo high). No skill degraded. Floor unchanged at 8.8, but the count of skills at the floor dropped from 6 to 3; the 8.9 tier grew from 4 skills to 7.
+
+**Scores (after improvements):**
+
+| Skill | Score | Prior (06-29) | Δ |
+|-------|------:|------:|---:|
+| Crew Schedule Optimizer | 9.2 | 9.2 | 0.0 |
+| Estimate Builder | 9.1 | 9.1 | 0.0 |
+| Follow-Up Sequence | 9.0 | 9.0 | 0.0 |
+| Predictive Lead Scorer | 9.0 | 9.0 | 0.0 |
+| Tariff & Price Adjustment Communicator | 9.0 | 9.0 | 0.0 |
+| Insurance Supplement Writer | 8.9 | 8.9 | 0.0 |
+| Roof Inspection Report | 8.9 | 8.9 | 0.0 |
+| Lead Response Automator | 8.9 | 8.9 | 0.0 |
+| Jobsite Content Repurposer | 8.9 | 8.9 | 0.0 |
+| **Maintenance Plan Generator** | **8.9** | 8.8 | **+0.1** |
+| **Safety Toolbox Talk Generator** | **8.9** | 8.8 | **+0.1** |
+| **Storm Canvassing Prioritizer** | **8.9** | 8.8 | **+0.1** |
+| Insurance Appeal Inspection Report | 8.8 | 8.8 | 0.0 |
+| Material Order Calculator | 8.8 | 8.8 | 0.0 |
+| Commercial Prospect Researcher | 8.8 | 8.8 | 0.0 |
+
+**Improvements made (bottom 3 by pre-improvement score, all targeting efficiency):** Six skills entered tied at 8.8 with the identical profile (`clarity 9 / specificity 9 / industry_fit 9 / output_quality 9 / personalization 8 / efficiency 8`). With output_quality and industry_fit already closed library-wide and personalization blocked by eval design, **efficiency** is the only skill-fixable lever. Applied the proven Lead-Response "minimum viable input + one-question triage" pattern to the three where it is most honest:
+
+- **Maintenance Plan Generator** v1.5 → v1.6. Added a "Fastest path — minimum viable input" block establishing roof material + age + city as the only blocking inputs (geometry sized from a market-typical footprint when absent, hazards inferred from ZIP + `service_area.hail_zones[]`, customer type defaults Residential, rates/tiers/warranty/billing from config); re-annotated inputs `[blocking]/[from config]/[inferred]`; tightened Efficiency notes. Purely additive. efficiency 8 → 9, overall 8.8 → **8.9**, replaced.
+- **Safety Toolbox Talk Generator** v1.3 → v1.4. Added the Fastest-path block (job-site type the only blocking input; topic auto-picks from weather + Stand-Down/Heat-NEP calendar; crew/language/weather/muster/hospital from config with a "confirm on-site" weather default) plus a new Efficiency-notes section and input annotations. Purely additive; Heat-NEP and Stand-Down logic untouched. efficiency 8 → 9, overall 8.8 → **8.9**, replaced.
+- **Storm Canvassing Prioritizer** v1.3 → v1.4. Added the Fastest-path block (storm footprint the only blocking input; service area/roster/thresholds/tone from config; property-intelligence depth auto-degrades; city-headline accepted with a degraded-confidence tag) plus an Efficiency-notes block and input annotations. Purely additive; five-layer framework and pre-storm orchestration layer untouched. efficiency 8 → 9, overall 8.8 → **8.9**, replaced.
+
+**Persistent weaknesses:** **personalization** is now the sole binding constraint (8 on 10 of 15 skills) — still **no committed `config.yml` fixture**, so it is graded on absent-config handling (ceiling 8) rather than live binding. **efficiency 8** now survives only on the three unimproved 8.8 skills; Insurance Appeal's 8 is arguably a legitimate floor (field inspection data can't be defaulted), while Material Order and Commercial Prospect Researcher already carry partial triage language and are the next targets. `test-cases/` remains empty.
+
+**Recommendations for next cycle:** (1) commit a sample `config.yml` fixture — five cycles running, now essentially the only lever left to move the headline; (2) finish the efficiency pass on Material Order Calculator and Commercial Prospect Researcher, leaving Insurance Appeal at its legitimate floor; (3) seed `test-cases/` for regression grading; (4) grade future content edits strictly for spec-to-example consistency to defend against regression.
+
+---
+
 ## 2026-06-29 00:14 UTC (automated eval cycle)
 
 **Evaluated:** all 15 skills in `skills/` (excluding `_shared/`) against rubric v1.0. Since 2026-06-22, exactly one skill file changed via other automation — `insurance-supplement-writer.md` (v2.1→v2.2, landscape-monitor commit `3842c8b`); the other 14 were byte-identical and carried forward. Results persisted to `evals/results/2026-06-29/`.

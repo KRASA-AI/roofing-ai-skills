@@ -1,0 +1,36 @@
+skill: lead-response-automator
+file: skills/customer-service/lead-response-automator.md
+date: 2026-07-20
+version_evaluated: "1.5"
+file_changed_since_last_eval: false
+grading_basis: cold  # re-derived from scratch; personalization graded against fixtures/config.sample.yml
+scores:
+  clarity: 9
+  specificity: 9
+  industry_fit: 9
+  output_quality: 9
+  personalization: 5
+  efficiency: 9
+overall: 8.6
+previous_score: 8.9
+delta_vs_previous: -0.3
+previous_scores:
+  clarity: 9
+  specificity: 9
+  industry_fit: 9
+  output_quality: 9
+  personalization: 8
+  efficiency: 9
+improvement_candidate: false
+improvement_applied: false
+replaced_original: false
+note: |
+  Cold re-grade. Five complete tier examples (Red/Yellow/Green/White + in-shift recovery),
+  SMS/email/phone/handoff all demonstrated, SLA timings reconcile (VM-save 45s <= 60s). personalization DEFECT
+  8->5: the skill's entire routing engine company.estimators[]
+  (name/phone/calendar_id/skill_tier/service_zips/is_on_call) does not exist in the fixture, which carries
+  crew_leads[] instead; the example fabricates estimators, reusing account_manager Marcus Patel as a Tier-A
+  estimator and inventing Andrea Cole. Also invented: the whole response.* block, reviews.* (fabricated
+  4.9-star/142), crm.system, company.calendar_integration/sms_from_number/website,
+  service_area.licensed_counties[]. company.phone is rendered 469-555-0140 in one place and 0142 in another
+  WITHIN a single scenario. warranty (6/10/25) and service_area.zip_codes resolve exactly.

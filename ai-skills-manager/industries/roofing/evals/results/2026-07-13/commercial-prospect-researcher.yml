@@ -1,0 +1,29 @@
+skill: commercial-prospect-researcher
+file: skills/sales/commercial-prospect-researcher.md
+date: 2026-07-13
+version_evaluated: "1.5"
+version_before_improvement: "1.4"
+file_changed_since_last_eval: false
+scores_before_improvement:
+  clarity: 9
+  specificity: 9
+  industry_fit: 9
+  output_quality: 9
+  personalization: 8
+  efficiency: 8
+overall_before_improvement: 8.8
+scores:
+  clarity: 9
+  specificity: 9
+  industry_fit: 9
+  output_quality: 9
+  personalization: 8
+  efficiency: 9
+overall: 8.9
+previous_score: 8.8
+delta_vs_previous: 0.1
+delta_vs_pre_improvement: 0.1
+improvement_candidate: true
+improvement_applied: true
+replaced_original: true
+note: "IMPROVED. Targeted the sole sub-9 skill-fixable dimension (efficiency 8). Five of the six Required Inputs already resolve from config, and the sixth -- 'reason to call' -- is precisely what Layer 3 of the skill's own research framework exists to discover; asking the rep for a trigger inverts the skill, since the rep is here because they do not know which building has one. v1.5 adds a Fastest-path block (a bare zip code is enough), [blocking]/[from config]/[inferred] annotations, explicit defaults (10 buildings, name-level-attempted contact depth, 12+ yr roof age), a single-question fallback fired only when config carries neither target_verticals[] nor commercial_zip_codes[], and a degrade-depth-don't-stall rule. Four-layer framework, decision-maker lookup, Est. Project Value math, campaign plan, and all three worked briefs untouched. efficiency 8->9."

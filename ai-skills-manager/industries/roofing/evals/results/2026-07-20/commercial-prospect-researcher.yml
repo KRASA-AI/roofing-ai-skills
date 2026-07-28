@@ -1,0 +1,36 @@
+skill: commercial-prospect-researcher
+file: skills/sales/commercial-prospect-researcher.md
+date: 2026-07-20
+version_evaluated: "1.5"
+file_changed_since_last_eval: false
+grading_basis: cold  # re-derived from scratch; personalization graded against fixtures/config.sample.yml
+scores:
+  clarity: 9
+  specificity: 9
+  industry_fit: 9
+  output_quality: 9
+  personalization: 9
+  efficiency: 9
+overall: 9.0
+previous_score: 8.9
+delta_vs_previous: 0.1
+previous_scores:
+  clarity: 9
+  specificity: 9
+  industry_fit: 9
+  output_quality: 9
+  personalization: 8
+  efficiency: 9
+improvement_candidate: false
+improvement_applied: false
+replaced_original: false
+note: |
+  Cold re-grade against the now-committed config fixture. personalization RISES 8->9: binds fixture case studies
+  exactly (Frisco 75034 TPO 78k/2024 $0.42/sf SureWeld; Plano 75074 EPDM 41k/2023 zero-callbacks),
+  commercial.certifications[0]=Carlisle CCM, commercial_zip_codes, crew_capacity_sf_per_week=25000, and
+  gracefully logs the ABSENT-BY-DESIGN medical_office (MOB) vertical gap instead of inventing a case study.
+  Capacity check re-derives (62,000+51,000=113,000 sf; $430K+$360K=$790K; 113,000/25,000=4.5 wks) and all three
+  prospect briefs are demonstrated. Only nick: names voice.commercial where the fixture key is top-level
+  voice_commercial. The single skill to GAIN this cycle -- and a clean demonstration that a worked example
+  WRITTEN against the real fixture scores 9 on personalization while the rest of the library, written against a
+  guessed schema, does not.

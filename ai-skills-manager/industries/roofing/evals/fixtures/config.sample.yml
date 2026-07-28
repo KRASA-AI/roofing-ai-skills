@@ -1,0 +1,148 @@
+# Roofing eval fixture — sample config.yml
+#
+# WHY THIS EXISTS
+# Five consecutive eval cycles (05-25 through 07-06) named the same blocker: personalization
+# is capped at 8 across most of the library not because the skills bind config poorly, but
+# because no config fixture is committed, so personalization can only be graded on how
+# gracefully a skill handles an ABSENT config (ceiling 8) rather than on live field binding
+# (9-10). This fixture removes that cap.
+#
+# HOW TO USE IT (starting with the 2026-07-20 cycle)
+# Grade personalization by resolving each named field a skill references against this file:
+#   9-10  every field the skill names resolves here, is used in the right place, and the
+#         skill still degrades gracefully when an optional field is absent
+#   7-8   fields named and bound, but some are invented (not in this fixture) or unused
+#   4-6   config referenced only generically
+# Fields deliberately LEFT OUT below (marked ABSENT-BY-DESIGN) test graceful degradation —
+# a skill that fabricates a value for one of these instead of flagging it in its Assumptions
+# footer should be marked down.
+#
+# This is a fixture, not a real business. Values are representative of a mid-size
+# North-Texas residential-plus-light-commercial shop.
+
+company:
+  name: "Acme Roofing & Restoration LLC"
+  license_number: "TX-RC-0481234"
+  phone: "469-555-0142"
+  commercial_phone: "469-555-0177"
+  email_from: "estimates@acmeroofs.com"
+  commercial_email_from: "commercial@acmeroofs.com"
+  address: "3120 Industrial Blvd, Frisco, TX 75033"
+  delivery_address: "3120 Industrial Blvd, Frisco, TX 75033"
+  account_manager_name: "Marcus Patel"
+  letterhead_path: "assets/letterhead-acme.png"
+  # ABSENT-BY-DESIGN: company.logo_path
+
+voice: "Direct, plain-spoken, no jargon. Explain the why before the what. Never pressure; never oversell. A homeowner should be able to read it once and know what happens next."
+voice_commercial: "Consultative and peer-level. Facility managers buy on risk and capital planning, not on urgency."
+voice_expert: "Clinical, objective, third-party. Quantified. No marketing language, no adjectives that cannot be measured."
+
+service_area:
+  zip_codes: ["75033", "75034", "75035", "75070", "75074", "75075", "75093", "75013", "75002"]
+  commercial_zip_codes: ["75074", "75075", "75013", "75002"]
+  licensed_states: ["TX", "TN", "KY", "OK"]
+  hail_zones: ["75033", "75034", "75070", "75074"]
+  drive_time_max_minutes: 45
+
+rates:
+  tearoff_per_square: 80
+  install_per_square_architectural: 385
+  install_per_square_designer: 520
+  install_per_square_metal_standing_seam: 1250
+  underlayment_per_sf: 0.55
+  ice_water_per_lf: 1.85
+  drip_edge_per_lf: 2.40
+  starter_per_lf: 1.95
+  ridge_vent_per_lf: 9.50
+  step_flashing_per_lf: 7.50
+  pipe_boot_each: 85
+  permit_rate: 325
+  decking_per_sheet: 78
+  maintenance_plan_annual_residential: 349
+  maintenance_plan_annual_commercial_per_sf: 0.09
+  last_updated: "2026-06-15"
+
+pricing:
+  appeal_inspection_flat: 375
+  # ABSENT-BY-DESIGN: pricing.commercial_inspection_flat
+
+warranty:
+  workmanship_years: 6
+  workmanship_years_better: 10
+  workmanship_years_best: 25
+  manufacturer_tiers: ["GAF System Plus", "GAF Golden Pledge"]
+
+certifications: ["GAF Master Elite", "Owens Corning Preferred", "HAAG Certified"]
+
+material_brands:
+  shingle_default: "GAF Timberline HDZ"
+  shingle_alternates: ["Owens Corning Duration", "CertainTeed Landmark"]
+  underlayment_default: "GAF Tiger Paw"
+  iws_default: "GAF StormGuard"
+  ridge_cap_default: "GAF TimberTex"        # pre-formed -> ~20 lf/bundle, NOT the 31 lf 3-tab constant
+  starter_default: "GAF Pro-Start"
+  drip_edge_finish: "Aluminum, brown"
+  nail_default: "1-1/4\" coil roofing nails, electro-galvanized"
+
+suppliers:
+  delivery_window_default: "next-day before 7 AM curbside"
+  preferred:
+    - name: "ABC Supply"
+      account_number: "18472-ACME"
+      portal_url: "https://myabcsupply.com"
+      quote_format: "abc_supply"
+    - name: "Beacon Building Products"
+      account_number: "BP-99310"
+      portal_url: "https://beaconpro.com"
+      quote_format: "beacon_pro"
+      # ABSENT-BY-DESIGN: suppliers.preferred[].last_pricing
+
+dump:
+  bundles_per_yard: 4
+  dumpster_sizes_yd: [10, 15, 20, 30, 40]
+
+crew_leads:
+  - name: "Hector Ramirez"
+    language: "es"
+    crew_size: 6
+  - name: "Dale Whitmore"
+    language: "en"
+    crew_size: 5
+
+safety:
+  muster_point: "Northeast corner of the driveway, at the mailbox"
+  nearest_hospital: "Baylor Scott & White Medical Center – Frisco, 5601 Warren Pkwy"
+
+inspector:
+  name: "William Reyes"
+  haag_id: "14782"
+  haag_certifications: ["HAAG-Certified-Residential #14782", "HAAG-Certified-Wind #11203"]
+  years_inspecting: 19
+  expert_witness_history: true
+  professional_liability_carrier: "CNA Insurance, policy #PL-22817-A ($2M each-claim)"
+  independence_statement: "The undersigned inspector has no contingent fee, no commission, and no financial interest in the outcome of the homeowner's policy retention."
+
+appeals:
+  success_rate_last_12_months: "31 of 38 (82%)"
+  typical_turnaround_business_days: 5
+  recent_wins:
+    - {state: "TN", carrier: "Stillwater P&C", defect_type: "moss", outcome: "overturned 2026-01-09"}
+    - {state: "TX", carrier: "Allstate", defect_type: "granular loss", outcome: "overturned 2026-03-22"}
+
+commercial:
+  target_verticals: ["warehouse_distribution", "retail_strip", "light_industrial", "medical_office"]
+  certifications: ["Carlisle CCM Authorized Applicator", "GAF Master Select"]
+  preferred_systems: ["TPO", "EPDM", "coating"]
+  crew_capacity_sf_per_week: 25000
+  case_studies:
+    - {vertical: "warehouse_distribution", zip: "75034", system: "TPO", square_footage: 78000, completion_year: 2024, client_quote_or_metric: "recovered at $0.42/sf vs full replacement; Carlisle SureWeld warranty extended 10 years"}
+    - {vertical: "light_industrial", zip: "75074", system: "EPDM", square_footage: 41000, completion_year: 2023, client_quote_or_metric: "re-flashed and coated ahead of a tenant solar install; zero leak callbacks through two summers"}
+  # ABSENT-BY-DESIGN: no medical_office (MOB) case study -- exercises the "vertical gap" path
+
+market_conditions:
+  active_tariffs:
+    - name: "2026 Section 232 steel/aluminum surcharge"
+      scope: "metal accessories, standing-seam panels, drip edge, fasteners"
+      pass_through_pct: 7
+
+pricing_mode: "tariff_aware"

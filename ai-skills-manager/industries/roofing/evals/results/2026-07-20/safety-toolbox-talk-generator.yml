@@ -1,0 +1,36 @@
+skill: safety-toolbox-talk-generator
+file: skills/operations/safety-toolbox-talk-generator.md
+date: 2026-07-20
+version_evaluated: "1.4"
+file_changed_since_last_eval: false
+grading_basis: cold  # re-derived from scratch; personalization graded against fixtures/config.sample.yml
+scores:
+  clarity: 9
+  specificity: 9
+  industry_fit: 9
+  output_quality: 9
+  personalization: 6
+  efficiency: 9
+overall: 8.7
+previous_score: 8.9
+delta_vs_previous: -0.2
+previous_scores:
+  clarity: 9
+  specificity: 9
+  industry_fit: 9
+  output_quality: 9
+  personalization: 8
+  efficiency: 9
+improvement_candidate: false
+improvement_applied: false
+replaced_original: false
+note: |
+  Cold re-grade. Both worked examples are internally consistent (Jamal Day-3 acclimatization 20+20+20 = 60% cap
+  checks out; crew counts reconcile) and all 7 talk sections are demonstrated with correct OSHA cites (Subpart
+  M/X/L/E, Heat NEP CPL 03-00-024, Appendix J). personalization DEFECT 8->6: the skill names
+  safety.muster_points[], safety.nearest_hospitals[], safety.jha_path, safety.standdown_in_progress,
+  safety.heat_index_data_source, safety.stop_work_authority_statement, safety.acclimatization_log_path,
+  company.osha_jurisdiction, crew_leads[].language_preference+.phone -- NONE resolve (fixture has scalar
+  safety.muster_point / safety.nearest_hospital and crew_leads[].language). The example fabricates crew leads
+  (Hector Vega/Andrea Cole vs fixture Hector Ramirez/Dale Whitmore), hospitals, and a muster value that
+  contradicts the one real fixture value.

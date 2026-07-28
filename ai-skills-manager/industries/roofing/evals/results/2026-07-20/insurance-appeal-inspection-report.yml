@@ -1,0 +1,37 @@
+skill: insurance-appeal-inspection-report
+file: skills/admin/insurance-appeal-inspection-report.md
+date: 2026-07-20
+version_evaluated: "1.2"
+file_changed_since_last_eval: false
+grading_basis: cold  # re-derived from scratch; personalization graded against fixtures/config.sample.yml
+scores:
+  clarity: 9
+  specificity: 9
+  industry_fit: 9
+  output_quality: 8
+  personalization: 8
+  efficiency: 8
+overall: 8.6
+previous_score: 8.8
+delta_vs_previous: -0.2
+previous_scores:
+  clarity: 9
+  specificity: 9
+  industry_fit: 9
+  output_quality: 9
+  personalization: 8
+  efficiency: 8
+improvement_candidate: false
+improvement_applied: false
+replaced_original: false
+note: |
+  Cold re-grade. Last cycle's success-statistic repair HOLDS: 31/38 = 81.6% -> '82%' is correct and appears in
+  exactly one form, and RUL = 14.5 is identical across cover / rebuttal / section 7 / letter. output_quality
+  DEFECT 9->8: roof age self-contradicts -- install 2017-08-14 to inspection 2026-04-22 is 8 yr 8 mo, but the
+  report states '8 years, 6 months' and uses '8.5 years' in the section-7 RUL math; a carrier underwriter could
+  exploit the ~2-month disagreement between the report's own dates and its stated age. personalization held at
+  8: inspector.* / appeals.* / pricing.appeal_inspection_flat resolve and recent_wins correctly matches {TN,
+  Stillwater P&C, moss, 2026-01-09}, but the header renders 'Acme Roofing & Inspection LLC' (fixture 'Acme
+  Roofing & Restoration LLC') and phone 469-555-0140 (fixture 0142), and voice.expert is a naming mismatch
+  (fixture voice_expert). efficiency remains an honest floor of 8 -- field-inspection evidence cannot be
+  defaulted without fabricating it.

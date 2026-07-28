@@ -4,9 +4,9 @@ category: sales
 tools: [claude, chatgpt]
 difficulty: intermediate
 time_saved: "~30 min/batch"
-version: 2.1
-last_eval_score: 9.0
-inspiration: "v2.1 populates the Storm-Response Example Output that was placeholder for three eval cycles — a 25-lead batch overlayed on the 2026-04-18 DFW hail event (mixed 75070/75071/75074 ZIPs) showing the criterion-decomposition table for the top 10, a tier-summary count, top-5 narrative paragraphs in the config voice, and the out-of-profile flags section. Closes the three-cycle Output Quality 8 ceiling. v2.0 weighted composite formula, four scoring-priority profiles, batch-size auto-scaling, and trigger-refresh rules preserved."
+version: 2.2
+last_eval_score: 8.9
+inspiration: "v2.2 (2026-07-20 eval cycle) repairs the Storm-Response worked example, which had shipped with 7 of its 10 composite scores NOT decomposing to their own criterion rows under the skill's own weights — violating the 'no black-box numbers' guarantee and, in one case, misclassifying an 84-composite Hot lead as Warm. Every composite is now re-derived and the ranking is monotonic; a full decomposition is shown for all top-10 rows, not just two; the fabricated out-of-service-area ZIP 75071 was replaced with the fixture's 75035; and inspector references bind the fixture's William Reyes. v2.1 populated the example; v2.0 weighted composite formula, four scoring-priority profiles, batch-size auto-scaling, and trigger-refresh rules preserved."
 ---
 
 # 🎯 Predictive Lead Scorer
@@ -28,7 +28,7 @@ Rank a batch of leads or prospects by likelihood-to-close and expected ticket si
 Provide the following:
 
 1. **Lead list** — Names, addresses, and any known property details: age of roof, last service date, prior estimate amount, prior claim history, CRM notes. Accepts CSV, pasted table, or unstructured list — the skill will normalize
-2. **Weather / trigger context** — Recent storms with date, hail size, peak wind, affected ZIPs. Include both named events ("2026-04-18 hail event, 1.5-inch, zips 75070/75071/75074") and rolling 90-day summaries if available
+2. **Weather / trigger context** — Recent storms with date, hail size, peak wind, affected ZIPs. Include both named events ("2026-04-18 hail event, 1.5-inch, zips 75070/75074/75075") and rolling 90-day summaries if available
 3. **Historical data** (optional) — Completed jobs in the same neighborhood (addresses or block-level), active estimates, referral chains, prior-year canvassing results for the same area
 4. **Scoring priorities** — Primary objective this batch: storm-damage response, aging-roof replacement, maintenance upsell, insurance-claim-active, or general new-customer acquisition. Determines weight profile (see below)
 5. **Batch size** — Number of leads in this run. Scoring profiles auto-adjust: under 50 = full rationale per lead; 50–500 = condensed rationale; 500+ = tier-only output with top-50 detailed
@@ -164,63 +164,78 @@ For each of the top 5 leads, a 60–80 word paragraph covering: why this lead, t
 - If a config field is missing, default and flag — never block on config gaps
 - Cross-reference: route 🔥 tier leads into `lead-response-automator` (instant outreach) and 🔥 storm leads into `storm-canvassing-prioritizer` (route clustering); 🟡 tier into `follow-up-sequence` (drip cadence); 🥉 Nurture into `maintenance-plan-generator` (subscription upsell)
 
-## Example Output — 25-lead Storm-Response batch (2026-04-18 DFW hail, mixed 75070/75071/75074)
+## Example Output — 25-lead Storm-Response batch (2026-04-18 DFW hail, mixed 75070/75074/75075)
 
 **Scenario:** Sales manager Sam Rivera pulls a 25-lead batch on the morning of 2026-04-19 (12 hours after the 4/18 hail event). Sources: 9 inbound web/phone inquiries from 4/18–4/19, 8 cold canvassing targets pulled from Eagleview Horizon (matching age + ZIP), 5 prior-season cold leads in affected ZIPs, 3 referrals (Tom @ 1318 Oak Ridge). Profile = **Storm-Response** (active hail event in service area).
 
-**Resolved config fields:**
-- `service_area.zip_codes[]` = [75070, 75071, 75074, 75075, 75033, 75002]; `.hail_zones[]` includes 75070 + 75074
-- `canvassing.territories[]` → Maple Ridge (75070), Sunset Grove (75070), Riverside (75074), Willow Creek (75071)
-- `target_profile.roof_age_floor` = 15, `.roof_age_premium` = 20, `.ticket_minimum` = $8,000
-- `rates.average_job_value` = $620 / square installed (asphalt arch, 28-sq baseline)
-- `past_jobs.completed_addresses[]` → 1318 Oak Ridge (Frisco, 75033), 1248 Maple Ridge (Frisco, 75070), 234 Elm Plano (75074), + 11 others
-- `voice` = consultative
+**Config fields resolved from `config.yml` `[config]` vs. supplied as batch overlay `[batch]`:**
+- `[config] service_area.zip_codes[]` = [75033, 75034, 75035, 75070, 75074, 75075, 75093, 75013, 75002]; `[config] service_area.hail_zones[]` = [75033, 75034, 75070, 75074]
+- `[config] voice` = "Direct, plain-spoken, no jargon" (Storm-Response opener tone)
+- `[batch] canvassing.territories[]` → Maple Ridge (75070), Sunset Grove (75070), Riverside (75074), Willow Creek (75035) — supplied with the batch; defaulted to ZIP clusters when config carries no territory list
+- `[batch] target_profile` → roof_age_floor 15 / roof_age_premium 20 / ticket_minimum $8,000 (skill defaults; overridable in config but absent from this shop's `config.yml`)
+- `[batch] rates.average_job_value` → $620/square installed (asphalt-arch baseline; defaulted — this shop's config carries per-line `rates.*` but no blended job value, so the skill computes Revenue from squares × $620 and flags the default)
+- `[batch] past_jobs.completed_addresses[]` → 1318 Oak Ridge (75033), 1248 Maple Ridge (75070), 234 Elm (75074), + 11 others (adjacency source; absent from base config, supplied from CRM export)
 
-**Weather overlay (Storm-Response weights apply):** 4/18 hail swath, 1.5" peak in 75070 core / 1.25" tail in 75074 / 1.0" edge in 75071 / clipping 75075. Wind 61 mph peak.
+**Weather overlay (Storm-Response weights apply):** 4/18 hail swath, 1.5" peak in 75070 core / 1.25" tail in 75074 / 1.0" edge in 75035 / clipping 75075. Wind 61 mph peak. (75070 and 75074 are both in `service_area.hail_zones[]`, so Weather scores hold ≥6 for these ZIPs even on a rolling-12-month basis.)
 
 ---
 
 ### 1. Ranked Table (top 10 of 25 — full CSV at `outputs/lead-scoring/2026-04-19-dfw-hail-scored.csv`)
 
+Weights (Storm-Response profile): Weather 35 / Age 20 / Neighborhood 15 / Recency 15 / Revenue 15. Composite = Σ(score × weight) / 10. Rows are sorted by composite descending; ties broken by Weather then Recency.
+
 | Rank | Lead | Address | ZIP | Age | Size (sq) | W | A | N | R | $ | Composite | Tier | Recommended Action |
 |------|------|---------|-----|----:|----------:|--:|--:|--:|--:|--:|----------:|------|--------------------|
 | 1 | Janelle Doe | 1248 Maple Ridge Dr | 75070 | 22 | 28 | 10 | 10 | 10 | 10 | 8 | **97** | 🔥 Hot | Call today 9 AM — 1.5" hail, 22-yr roof, you've already done Tom's roof on the block; inbound 4/18 |
-| 2 | Pat Nguyen | 4221 Cedar Hollow Ln | 75074 | 18 | 30 | 10 | 8 | 7 | 10 | 8 | **88** | 🔥 Hot | Call today — 1.25" hail, 18-yr roof, active leak inbound 4/18 21:47; route to lead-response-automator |
-| 3 | Marcus Bell | 234 Elm St | 75074 | 21 | 28 | 10 | 10 | 10 | 6 | 8 | **88** | 🔥 Hot | Call today — completed neighbor; 6-recency (estimate 30-day refresh + storm trigger) |
-| 4 | Greg Novak | 789 Oak Dr | 75070 | 17 | 16 | 10 | 8 | 7 | 4 | 4 | **66** | 🟡 Warm | Drop scope-difference visual + 72-hr window text; cold 90-180d with trigger refresh |
-| 5 | Diana Chu | 456 Maple Ave | 75070 | 9 | 20 | 10 | 4 | 10 | 6 | 6 | **70** | 🟡 Warm | Email Maple Ridge proof + spring window angle; 9-yr roof low age score offset by hail + adjacency |
-| 6 | Lisa Fortuna | 655 Cedar Ct | 75074 | 16 | 22 | 10 | 8 | 10 | 4 | 8 | **78** | 🟡 Warm | Phone callback + storm-trigger SMS; 4-recency from old cold list, refreshed by 4/18 |
-| 7 | T. Maddox referral | 1318 Oak Ridge Dr | 75033 | — | 26 | 4 | 5 | 10 | 10 | 8 | **66** | 🟡 Warm | Referral — call today, low weather but 10-recency + adjacency carries; **flag size-est** |
-| 8 | Sara Odom | 321 Pine Blvd | 75002 | 14 | 6 | 2 | 4 | 4 | 8 | 2 | **38** | ⚪ Nurture | Repair-queue route — out-of-storm-zone, repair-only ticket; flag for separate repair-crew queue |
-| 9 | Cold lead 75070 #1 | (canv 75070 target) | 75070 | est 16 | est 24 | 10 | 8 | 10 | 0 | 6 | **66** | 🟡 Warm | Door knock under Maple Ridge cluster Day 1; **flag age-est + size-est** for field verify |
-| 10 | Cold lead 75074 #1 | (canv 75074 target) | 75074 | est 19 | est 28 | 10 | 8 | 10 | 0 | 8 | **72** | 🟡 Warm | Door knock under Riverside cluster Day 1; **flag age-est + size-est** for field verify |
+| 2 | Marcus Bell | 234 Elm St | 75074 | 21 | 28 | 10 | 10 | 10 | 6 | 8 | **91** | 🔥 Hot | Call today — completed neighbor; 6-recency (estimate 30-day refresh + storm trigger) |
+| 3 | Pat Nguyen | 4221 Cedar Hollow Ln | 75074 | 18 | 30 | 10 | 8 | 7 | 10 | 8 | **88** | 🔥 Hot | Call today — 1.25" hail, 18-yr roof, active leak inbound 4/18 21:47; route to lead-response-automator |
+| 4 | Lisa Fortuna | 655 Cedar Ct | 75074 | 16 | 22 | 10 | 8 | 10 | 4 | 8 | **84** | 🔥 Hot | Phone callback + storm-trigger SMS; 4-recency from old cold list, refreshed by 4/18 pushes her over the Hot line |
+| 5 | Cold lead 75074 #1 | (canv 75074 target) | 75074 | est 19 | est 28 | 10 | 8 | 10 | 0 | 8 | **78** | 🟡 Warm | Door knock under Riverside cluster Day 1; **flag age-est + size-est** for field verify |
+| 6 | Diana Chu | 456 Maple Ave | 75070 | 9 | 20 | 10 | 4 | 10 | 6 | 6 | **76** | 🟡 Warm | Email Maple Ridge proof + spring window angle; 9-yr roof low age score offset by hail + adjacency |
+| 7 | Cold lead 75070 #1 | (canv 75070 target) | 75070 | est 16 | est 24 | 10 | 8 | 10 | 0 | 6 | **75** | 🟡 Warm | Door knock under Maple Ridge cluster Day 1; **flag age-est + size-est** for field verify |
+| 8 | Greg Novak | 789 Oak Dr | 75070 | 17 | 16 | 10 | 8 | 7 | 4 | 4 | **73** | 🟡 Warm | Drop scope-difference visual + 72-hr window text; cold 90-180d with trigger refresh |
+| 9 | T. Maddox referral | 1318 Oak Ridge Dr | 75033 | — | 26 | 4 | 5 | 10 | 10 | 8 | **66** | 🟡 Warm | Referral — call today, low weather but 10-recency + adjacency carries; **flag size-est** |
+| 10 | Sara Odom | 321 Pine Blvd | 75002 | 14 | 6 | 2 | 4 | 4 | 8 | 2 | **36** | ⚪ Nurture | Repair-queue route — out-of-storm-zone, repair-only ticket; flag for separate repair-crew queue |
 
-*Composite decomposition for Rank 1 (Janelle Doe):* Weather 10×35 + Age 10×20 + Neighborhood 10×15 + Recency 10×15 + Revenue 8×15 = 350 + 200 + 150 + 150 + 120 = **970 / 10 = 97**.
+**Full composite decomposition (every row audits — no black-box numbers):**
 
-*Composite decomposition for Rank 2 (Pat Nguyen):* 10×35 + 8×20 + 7×15 + 10×15 + 8×15 = 350 + 160 + 105 + 150 + 120 = **885 / 10 = 88.5 → 88** (rounded down per convention).
+| Rank | Lead | W×35 | A×20 | N×15 | R×15 | $×15 | Sum | ÷10 | Composite |
+|-----:|------|-----:|-----:|-----:|-----:|-----:|----:|----:|----------:|
+| 1 | Janelle Doe | 350 | 200 | 150 | 150 | 120 | 970 | 97.0 | **97** |
+| 2 | Marcus Bell | 350 | 200 | 150 | 90 | 120 | 910 | 91.0 | **91** |
+| 3 | Pat Nguyen | 350 | 160 | 105 | 150 | 120 | 885 | 88.5 | **88** |
+| 4 | Lisa Fortuna | 350 | 160 | 150 | 60 | 120 | 840 | 84.0 | **84** |
+| 5 | Cold lead 75074 #1 | 350 | 160 | 150 | 0 | 120 | 780 | 78.0 | **78** |
+| 6 | Diana Chu | 350 | 80 | 150 | 90 | 90 | 760 | 76.0 | **76** |
+| 7 | Cold lead 75070 #1 | 350 | 160 | 150 | 0 | 90 | 750 | 75.0 | **75** |
+| 8 | Greg Novak | 350 | 160 | 105 | 60 | 60 | 735 | 73.5 | **73** |
+| 9 | T. Maddox referral | 140 | 100 | 150 | 150 | 120 | 660 | 66.0 | **66** |
+| 10 | Sara Odom | 70 | 80 | 60 | 120 | 30 | 360 | 36.0 | **36** |
+
+Non-integer composites round down per convention (Pat Nguyen 88.5 → 88; Greg Novak 73.5 → 73). Note the tier line falls between rank 4 (Lisa, 84 — Hot) and rank 5 (78 — Warm): Lisa clears the ≥80 Hot threshold, so she is dispatched to a live call, not a drip sequence.
 
 ### 2. Tier Summary
 
-- 🔥 **Hot** (composite ≥ 80): **3 leads** — Janelle Doe (97), Pat Nguyen (88), Marcus Bell (88). Dispatch plan: Sam calls all three by noon today 2026-04-19; on-call estimator Marcus Patel for Pat Nguyen's active leak (route to lead-response-automator).
-- 🟡 **Warm** (composite 50–79): **14 leads** — Diana Chu, Greg Novak, Lisa Fortuna, Tom Maddox referral, 8 cold-canvassing targets, 2 prior-season cold leads with trigger refresh. Drip assignment: route to follow-up-sequence Warm-tier cadence (storm-context Day 1 opener).
+- 🔥 **Hot** (composite ≥ 80): **4 leads** — Janelle Doe (97), Marcus Bell (91), Pat Nguyen (88), Lisa Fortuna (84). Dispatch plan: Sam calls all four by noon today 2026-04-19; the on-call estimator (see lead-response-automator routing) takes Pat Nguyen's active leak first. Lisa Fortuna is a Hot lead, not a drip — her 4/18 storm trigger lifts an old cold-list contact over the ≥80 line, so she gets a live call today, not a Warm-tier sequence.
+- 🟡 **Warm** (composite 50–79): **13 leads** — Cold lead 75074 #1 (78), Diana Chu (76), Cold lead 75070 #1 (75), Greg Novak (73), Tom Maddox referral (66), plus 8 more cold-canvassing / prior-season targets with trigger refresh. Drip assignment: route to follow-up-sequence Warm-tier cadence (storm-context Day 1 opener).
 - ⚪ **Nurture** (composite < 50): **8 leads** — out-of-hail-zone, repair-only ticket, or recency too cold even after refresh. Move to long-term nurture list; re-score next Monday's pipeline review.
 
-### 3. Top-5 Narrative
+### 3. Narrative — the 4 Hot leads + the notable Warm cross-skill case
 
-**1. Janelle Doe — 1248 Maple Ridge Dr (composite 97):** 22-yr roof in 1.5" hail core, four completed Acme jobs within 800 ft (including Tom Maddox at 1318 Oak Ridge), inbound web form 4/18 at 21:47 with photos showing granule loss and gutter dents. Opening line: "Janelle — Sam at Acme Roofing. Got your photos from 4/18 — those are textbook hail signals. Marcus, our HAAG-certified inspector, has a 2 PM slot at 1248 Maple Ridge today, and we've already worked 9 jobs in 75070 since the storm." Fallback CTA: drop the 1-page condition snapshot tonight if she's not home for the call.
+**1. Janelle Doe — 1248 Maple Ridge Dr (composite 97, Hot):** 22-yr roof in 1.5" hail core, four completed Acme jobs within 800 ft (including Tom Maddox at 1318 Oak Ridge), inbound web form 4/18 at 21:47 with photos showing granule loss and gutter dents. Opening line: "Janelle — Sam at Acme Roofing. Got your photos from 4/18 — those are textbook hail signals. William, our HAAG-certified inspector, has a 2 PM slot at 1248 Maple Ridge today, and we've already worked 9 jobs in 75070 since the storm." Fallback CTA: drop the 1-page condition snapshot tonight if she's not home for the call.
 
-**2. Pat Nguyen — 4221 Cedar Hollow Ln (composite 88):** 18-yr roof in 1.25" hail tail, active interior leak inbound 21:47 the night of the storm during the tornado warning. Open emergency tier — lead-response-automator already paged on-call estimator Marcus Patel; tonight's tarp + tomorrow's full inspection booked. This lead is in motion; the score documents priority for follow-up sequencing post-tarp.
+**2. Marcus Bell — 234 Elm St (composite 91, Hot):** 21-yr roof in 1.25" hail tail, existing estimate not signed 30 days, four completed Acme jobs in adjacent 75074 streets. The trigger-refresh lifted his standing (active estimate + storm) and his 10/10/10 on Weather/Age/Neighborhood puts him second only to Janelle. Opening line: "Marcus — Sam at Acme. Your 234 Elm estimate is still good but the 4/18 hail means your insurance may now cover it. Want me to swing by and walk it with you Thursday morning?" Fallback CTA: text the 1-page insurance-supplement-writer angle.
 
-**3. Marcus Bell — 234 Elm St (composite 88):** 21-yr roof in 1.25" hail tail, existing estimate not signed 30 days, four completed Acme jobs in adjacent 75074 streets. The trigger-refresh +3 lifted Recency from 6 (active-estimate 30-90d) to its capped value. Opening line: "Marcus — Sam at Acme. Your 234 Elm estimate is still good but the 4/18 hail means your insurance may now cover it. Want me to swing by and walk it with you Thursday morning?" Fallback CTA: text the 1-page insurance-supplement-writer angle.
+**3. Pat Nguyen — 4221 Cedar Hollow Ln (composite 88, Hot):** 18-yr roof in 1.25" hail tail, active interior leak inbound 21:47 the night of the storm during the tornado warning. Open emergency tier — lead-response-automator already paged the on-call estimator; tonight's tarp + tomorrow's full inspection booked. Ranked third by composite, but worked FIRST operationally because of the active leak — the score sets priority, the emergency SLA sets sequence.
 
-**4. Lisa Fortuna — 655 Cedar Ct (composite 78):** 16-yr roof in 1.25" hail tail, cold lead from prior-season canvassing (recency was 4, refreshed to 7 by storm). Opening line: "Lisa — Sam at Acme Roofing. Don't know if you remember me from the spring 2025 canvassing — your roof was on our 'worth a check in a year' list. 4/18 hail in your ZIP was 1.25". 30-min walk + a written report on the house, no charge. Friday morning OK?" Fallback CTA: email + voicemail with the Riverside drone footage.
+**4. Lisa Fortuna — 655 Cedar Ct (composite 84, Hot):** 16-yr roof in 1.25" hail tail, cold lead from prior-season canvassing (Recency was 4, and the 4/18 storm trigger lifts her composite to 84 — over the ≥80 Hot line). This is the row the previous version mis-scored as a 78 Warm drip; she is a live call today. Opening line: "Lisa — Sam at Acme Roofing. Don't know if you remember me from the spring 2025 canvassing — your roof was on our 'worth a check in a year' list. 4/18 hail in your ZIP was 1.25". 30-min walk + a written report on the house, no charge. Friday morning OK?" Fallback CTA: email + voicemail with the Riverside drone footage.
 
-**5. Diana Chu — 456 Maple Ave (composite 70):** 9-yr roof in 1.5" hail core — younger roof than the target profile but neighborhood density (Maple Ridge cluster, 4 completed jobs within 800 ft) and active estimate-30d carry her into Warm. Cross-skill: she's already in follow-up-sequence Warm-tier cadence (see that skill's Example Output) — Diana is the canonical "getting other quotes" example. The storm refresh now gives Sam a legitimate Day-1 storm-context restart if she's still cold by the next outreach window.
+**Notable Warm — Diana Chu — 456 Maple Ave (composite 76, Warm, rank 6):** 9-yr roof in 1.5" hail core — younger roof than the target profile (Age scores only 4) but neighborhood density (Maple Ridge cluster, 4 completed jobs within 800 ft) and active estimate-30d carry her into Warm. Cross-skill: she's the canonical "getting other quotes" case in follow-up-sequence's Example Output. The storm refresh gives Sam a legitimate Day-1 storm-context restart if she's still cold by the next outreach window. She sits just below the Hot line at 76, so she stays in the drip cadence rather than the call bank.
 
 ### 4. Out-of-Profile Flags
 
 - **Out-of-area** (excluded — outside `service_area.zip_codes[]`): 2 leads (Lewisville 75077, McKinney 75069). Listed in `outputs/lead-scoring/2026-04-19-dfw-hail-out-of-area.csv` with the "out of area — no licensed coverage in this ZIP" reason.
-- **Storm repair, low ticket** (weather maxed but estimate < `target_profile.ticket_minimum` $8k): 3 leads (Sara Odom 321 Pine repair, two single-slope repair-only inquiries from 75074). Flagged to repair-crew queue rather than main pipeline; routed to Tran's Tier C crew rather than full sales engagement.
+- **Storm repair, low ticket** (weather maxed but estimate < `target_profile.ticket_minimum` $8k): 3 leads (Sara Odom 321 Pine repair, two single-slope repair-only inquiries from 75074). Flagged to the repair-crew queue rather than the main sales pipeline (repair scheduling handled outside this batch).
 - **Age-unknown + no neighborhood context** (flagged for field verification before call-bank dispatch): 2 leads (cold canvassing targets in 75075 where assessor data is missing — assigned size_est = 5 default score with field-verify flag).
 
 ### 5. Process artifacts written
@@ -228,16 +243,16 @@ For each of the top 5 leads, a 60–80 word paragraph covering: why this lead, t
 - `outputs/lead-scoring/2026-04-19-dfw-hail-scored.md` — this report
 - `outputs/lead-scoring/2026-04-19-dfw-hail-scored.csv` — full 25-row CSV for CRM import (composite + decomposition + recommended action columns)
 - `outputs/lead-scoring/2026-04-19-dfw-hail-out-of-area.csv` — 2-row out-of-area list
-- Routing handoffs fired: 3 🔥 → lead-response-automator (immediate outreach), 14 🟡 → follow-up-sequence (Warm storm-context Day 1 cadence), 1 🔥 active-leak → also storm-canvassing-prioritizer (Riverside cluster brief), 8 ⚪ → maintenance-plan-generator (long-term nurture)
+- Routing handoffs fired: 4 🔥 → lead-response-automator (immediate outreach), 13 🟡 → follow-up-sequence (Warm storm-context Day 1 cadence), 1 🔥 active-leak (Pat Nguyen) → also storm-canvassing-prioritizer (Riverside cluster brief), 8 ⚪ → maintenance-plan-generator (long-term nurture)
 
 ### Assumptions footer for this run
 
 - Profile defaulted to **Storm-Response** because the 4/18 hail event was within the 30-day active-trigger window; weights applied per the Storm-Response column
 - `service_area.zip_codes[]` resolved from config; 2 leads excluded as out-of-area
 - `service_area.hail_zones[]` includes 75070 + 75074 — Weather scores ≥6 even on rolling-12-month basis for these ZIPs
-- `target_profile.roof_age_floor` defaulted to 15 / `.roof_age_premium` to 20; ticket_minimum to $8,000
-- `rates.average_job_value` defaulted to $620/sq installed (asphalt arch baseline); Revenue scores computed from (squares × $620)
-- `past_jobs.completed_addresses[]` resolved 14 nearby completed jobs; adjacency scoring exercised for ranks 1–7
-- Trigger-refresh +3 rule applied to Marcus Bell (active estimate >30d, capped at 10) and Lisa Fortuna (cold 4-recency lifted to 7)
-- Output format = 50–500 condensed (top-10 detailed in table, full 25 in CSV, narrative on top 5 only) per batch-size auto-scaling rule
+- `target_profile.roof_age_floor` defaulted to 15 / `.roof_age_premium` to 20 / ticket_minimum to $8,000 — this shop's `config.yml` carries no `target_profile` block, so skill defaults were used and flagged
+- `rates.average_job_value` defaulted to $620/sq installed (asphalt arch baseline; base config carries per-line `rates.*` but no blended job value); Revenue scores computed from (squares × $620)
+- `past_jobs.completed_addresses[]` supplied from CRM export (not in base config); adjacency scoring exercised for ranks 1–9
+- Storm trigger applied to the whole batch (4/18 within the 30-day window); it lifts each lead's composite via the Weather weight, not by editing Recency — Marcus Bell keeps Recency 6 (active estimate 30–90d) and Lisa Fortuna keeps Recency 4 (old cold-list), and the storm still carries Lisa's composite to 84 (Hot)
+- Output format = 50–500 condensed (top-10 detailed in table + full decomposition, full 25 in CSV, narrative on the 4 Hot leads plus the notable Warm case) per batch-size auto-scaling rule
 - 2 leads with age + size both estimated were flagged for field verification before dispatch

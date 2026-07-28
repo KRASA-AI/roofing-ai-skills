@@ -1,0 +1,35 @@
+skill: roof-inspection-report
+file: skills/operations/roof-inspection-report.md
+date: 2026-07-20
+version_evaluated: "1.5"
+file_changed_since_last_eval: false
+grading_basis: cold  # re-derived from scratch; personalization graded against fixtures/config.sample.yml
+scores:
+  clarity: 9
+  specificity: 9
+  industry_fit: 9
+  output_quality: 9
+  personalization: 6
+  efficiency: 9
+overall: 8.7
+previous_score: 8.9
+delta_vs_previous: -0.2
+previous_scores:
+  clarity: 9
+  specificity: 9
+  industry_fit: 9
+  output_quality: 9
+  personalization: 8
+  efficiency: 9
+improvement_candidate: false
+improvement_applied: false
+replaced_original: false
+note: |
+  Cold re-grade. Photo log counts to exactly 23, the claim rule fires correctly on N=12/W=9 (both >=8), the
+  38,000 sf = 380 sq header fix holds, and every spec section incl the new completeness check is demonstrated.
+  personalization DEFECT 8->6: the residential example's inspector is 'Marcus Patel, 14 yrs, HAAG #H-2019-4421'
+  -- but Marcus Patel is the fixture's company.account_manager_name; the fixture inspector is inspector.name
+  William Reyes, years_inspecting 19, HAAG #14782 (the example put the account manager in the inspector block).
+  Also branding.logo_path/.report_letterhead_path/.primary_color_hex do not exist (fixture uses
+  company.letterhead_path; company.logo_path is absent-by-design), and certifications.haag /
+  rates.repair_minimum / commercial.cap_planning_horizon_years do not resolve.

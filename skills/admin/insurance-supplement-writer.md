@@ -4,9 +4,9 @@ category: admin
 tools: [claude, chatgpt]
 difficulty: intermediate
 time_saved: "~45 min/supplement"
-version: 2.2
+version: 2.3
 last_eval_score: 8.9
-inspiration: "v2.2 (2026-06-29) landscape-monitor concept extraction — added a 'Carrier Scope Diagnostic' front-end step that reads the carrier's Scope of Loss / Xactimate line items and systematically derives the gap list (missing line items, $0 or withheld entries, underscoped quantities, below-market unit prices, omitted code-required items, missing O&P trigger, and depreciation handling) instead of requiring the user to hand-identify every gap before drafting — turning the gaps from a required input into a generated output that feeds the supplement. Also added an optional plain-language homeowner scope summary that restates RCV / ACV / depreciation / deductible / net-payable and the supplemented items in everyday terms so the rep can walk the homeowner through where the claim stands. Concept extracted from a June 2026 cluster of carrier-scope-reading tools observed in the scan: a homeowner-facing tool that turns a complex insurance scope/estimate into a plain-English explanation (Inspector Roofing's ScopeReader, launched June 9, 2026), a contractor-facing tool that flags missing line items, underscoped quantities, $0 entries, and code omissions against standard Xactimate codes (the AiScopeSCANNER pattern), and the broader Roofr x Verisk ESX-file integration (April 15, 2026) that lowers the cost of producing the field-verified scope the diagnostic compares against. Operationalized vendor-neutrally: it works from a pasted or referenced carrier estimate plus the shop's own field scope, requires no specific app or subscription, and produces a pre-draft gap table plus an optional homeowner summary rather than a real-time product. All wording, the diagnostic category taxonomy, the table format, and the worked example are original; no source product copy, checklist text, prompt wording, or numeric vendor claims were copied, and no proprietary scope-analysis ruleset was reproduced. v2.1 rewritten 2026-04-28 from eval improvement cycle — named config-field binding (supplement.standard_op_rate / .typical_recovery_per_claim / .standard_attachments[], inspector.haag_id / .haag_certifications[] / .years_inspecting, appeals.recent_wins[], service_area.licensed_states[], pricing.supplement_filing_flat) and a populated canonical $7,400 hail Example Output (carrier $14,820 → revised $22,220 with 24-line supplement covering O&P + IWS + drip edge + decking discovery + detach/reset). v2.0 Xactimate line-item structure, state-bulletin escalation, and ten-category framework preserved."
+inspiration: "v2.3 (2026-07-20 eval cycle) repairs the flagship worked example, which did not reconcile: the 24-line Summary Table asserted a $7,400 subtotal while lines 1–20 sum to $5,874.40 and the O&P line was computed CIRCULARLY as '10% on revised RCV' (a total that already includes O&P). Rebuilt correctly: O&P is 10/10 (20%) on the pre-O&P base $20,694.40 (original $14,820.00 + $5,874.40 line items) = $4,138.88, total supplement $10,013.28, revised RCV $24,833.28, ACV $21,251.28 (depreciation held), net payable $19,751.28 — every figure now re-derives and a reconciliation line is printed. Also: the fabricated appeals.recent_wins match ({TX, State Farm, hail, $7,200} — the config's TX win is {Allstate, granular loss} with no dollar figure) was replaced with a carrier-neutral credibility reference; the fabricated 'EIN ending 8842' was removed (no config field); and the company name ('& Inspection' → '& Restoration') and phone (0140 → 0142) were corrected to config. v2.2 (2026-06-29) landscape-monitor concept extraction — added a 'Carrier Scope Diagnostic' front-end step that reads the carrier's Scope of Loss / Xactimate line items and systematically derives the gap list (missing line items, $0 or withheld entries, underscoped quantities, below-market unit prices, omitted code-required items, missing O&P trigger, and depreciation handling) instead of requiring the user to hand-identify every gap before drafting — turning the gaps from a required input into a generated output that feeds the supplement. Also added an optional plain-language homeowner scope summary that restates RCV / ACV / depreciation / deductible / net-payable and the supplemented items in everyday terms so the rep can walk the homeowner through where the claim stands. Concept extracted from a June 2026 cluster of carrier-scope-reading tools observed in the scan: a homeowner-facing tool that turns a complex insurance scope/estimate into a plain-English explanation (Inspector Roofing's ScopeReader, launched June 9, 2026), a contractor-facing tool that flags missing line items, underscoped quantities, $0 entries, and code omissions against standard Xactimate codes (the AiScopeSCANNER pattern), and the broader Roofr x Verisk ESX-file integration (April 15, 2026) that lowers the cost of producing the field-verified scope the diagnostic compares against. Operationalized vendor-neutrally: it works from a pasted or referenced carrier estimate plus the shop's own field scope, requires no specific app or subscription, and produces a pre-draft gap table plus an optional homeowner summary rather than a real-time product. All wording, the diagnostic category taxonomy, the table format, and the worked example are original; no source product copy, checklist text, prompt wording, or numeric vendor claims were copied, and no proprietary scope-analysis ruleset was reproduced. v2.1 rewritten 2026-04-28 from eval improvement cycle — named config-field binding (supplement.standard_op_rate / .typical_recovery_per_claim / .standard_attachments[], inspector.haag_id / .haag_certifications[] / .years_inspecting, appeals.recent_wins[], service_area.licensed_states[], pricing.supplement_filing_flat) and a populated canonical hail Example Output (carrier $14,820 → revised RCV, corrected to $24,833 in v2.3, with a 24-line supplement covering O&P + IWS + drip edge + decking discovery + detach/reset). v2.0 Xactimate line-item structure, state-bulletin escalation, and ten-category framework preserved."
 ---
 
 # 🛡️ Insurance Supplement Writer
@@ -99,7 +99,7 @@ A pre-draft table that shows the cross-check before the supplement is written. D
 | Architectural shingle qty | 28.0 SQ | 32.8 SQ (28.5 + 15% waste) | Under-qty | +$1,738 |
 | Drip edge — rakes (code) | 0 LF | 142 LF (IRC R905.2.8.5) | Missing | +$348 |
 | Detach & reset gutters | 0 LF | 162 LF (needed for IWS install) | Missing | +$462 |
-| O&P (3-trade trigger) | not applied | roofing + gutter + paint | Missing | +$1,930 |
+| O&P (3-trade trigger) | not applied | roofing + gutter + paint | Missing | +$4,138.88 (10/10 on $20,694.40 base) |
 | Solar attic fan R&R | none on roof | none present | N/A | $0 |
 
 **Diagnostic total (flagged rows): ~$X,XXX** → carried into the Supplement Summary Table below.
@@ -165,7 +165,7 @@ For each supplement item, produce a short paragraph:
 
 ## Example Output
 
-### Canonical $7,400 hail supplement — 28-sq architectural in 75070 (carrier $14,820 → revised $22,220)
+### Canonical hail supplement — 28-sq architectural in 75070 (carrier $14,820 → revised $24,833; +$10,013 supplement)
 
 > **Inbound:**
 > "Carrier: State Farm. Claim #58-2K-Q9821. Date of loss: 2026-04-18 (1.5-inch hail, NOAA event 20260418-DFW-HAIL-117). Adjuster: Marcus Hill, marcus.hill@statefarm.com. Insured: Janelle Doe, 1248 Maple Ridge Dr, Frisco TX 75070. Policy ending 9173. Carrier estimate: $14,820 RCV / $11,238 ACV / $3,582 depreciation held / $1,500 deductible / $9,738 net payable. Field-verified scope: 28.5 squares with 15% waste = 32.8 squares; 162 lf eaves, 142 lf rakes, 86 lf ridge, 38 lf valley, 4 plumbing penetrations, 1 chimney chase, gutter detach/reset 162 lf, ridge vent. Code items required: IWS to wall (820 sf), drip edge eaves+rakes (304 lf), ridge vent NFA. Discovered after tear-off: 12 sf rotted decking south slope, fascia replacement at chimney 8 lf. Three trades on the job: roofing, gutter detach/reset, painting (chimney chase repaint). Current ABC Supply quote on file."
@@ -175,16 +175,16 @@ For each supplement item, produce a short paragraph:
 > - `inspector.years_inspecting` → 19
 > - `supplement.standard_op_rate` → 10/10 (TX is an O&P state)
 > - `supplement.standard_attachments[]` → field inspection report + photo log + measurement diagram + code citations + ABC Supply quote
-> - `appeals.recent_wins[]` → contains {TX, State Farm, hail, $7,200 supplement approved 2026-03-22} match — 1-line cite in cover letter
+> - `appeals.recent_wins[]` → nearest TX entry is {TX, Allstate, granular loss, overturned 2026-03-22}; cited (carrier-neutral, no dollar figure) as a general credibility reference. There is NO State Farm or supplement-specific win in config, so none is claimed — the cover letter references only what the field actually carries.
 > - `service_area.licensed_states[]` → contains TX ✓
 >
 > ---
 >
-> **HEADER (every page):** Acme Roofing & Inspection LLC | TX-RC-0481234 | William Reyes HAAG-Certified-Residential #14782 (19 yrs) | EIN ending 8842 | 469-555-0140
+> **HEADER (every page):** Acme Roofing & Restoration LLC | TX-RC-0481234 | William Reyes HAAG-Certified-Residential #14782 (19 yrs) | 469-555-0142
 >
 > ### COVER LETTER
 >
-> *Acme Roofing & Inspection LLC — Letterhead*
+> *Acme Roofing & Restoration LLC — Letterhead*
 >
 > 2026-04-28
 >
@@ -196,18 +196,18 @@ For each supplement item, produce a short paragraph:
 >
 > Thank you for your work on the 4/18 hail claim at 1248 Maple Ridge. Your initial estimate dated 2026-04-22 totaled $14,820 RCV. After completion of the field-verified inspection on 2026-04-23 and the start of tear-off on 2026-04-26, additional items were identified requiring supplement.
 >
-> Please find enclosed a supplement request in the amount of **$7,400.00** across **24 line items**, detailed below. The revised estimate total is **$22,220.00 RCV**.
+> Please find enclosed a supplement request in the amount of **$10,013.28** across **24 line items**, detailed below — **$5,874.40** in corrected and code-required line items plus **$4,138.88** in 10/10 overhead and profit (the original estimate applied none). The revised estimate total is **$24,833.28 RCV**.
 >
-> Of the recent supplements this firm has filed with State Farm in TX following 1.0–1.5-inch hail events, the most analogous prior matter (a 26-sq Frisco re-roof, claim approved 2026-03-22) settled at $7,200 supplement on a similar scope.
+> This firm's field-verified scopes have held up under carrier review — most recently a TX granular-loss determination a carrier reversed on 2026-03-22 after we supplied dated photographs and code citations. Every line below is documented to that same standard.
 >
 > Most of the supplemented items are code-required (IWS to wall, drip edge per IRC R905.2.8.5, ridge-vent NFA), discovered conditions (12 sf rotted decking on south slope identified once tear-off began), or O&P (three trades — roofing, gutter detach/reset, painting). Each line is tied to evidence: photo number, code citation, or current supplier quote.
 >
-> I am available at 469-555-0140 or wreyes@acmeroofs.com to walk through any line.
+> I am available at 469-555-0142 or estimates@acmeroofs.com to walk through any line.
 >
 > Respectfully,
 >
 > William Reyes, HAAG-Certified-Residential #14782
-> Acme Roofing & Inspection LLC | TX-RC-0481234 | EIN ending 8842
+> Acme Roofing & Restoration LLC | TX-RC-0481234
 >
 > ### 1. SUPPLEMENT SUMMARY TABLE
 >
@@ -233,17 +233,18 @@ For each supplement item, produce a short paragraph:
 > | 18 | RFG DUMP | Dump fee — 30-yd dumpster | 1 EA @ $385 | 1 EA @ $445 | +$60.00 | Price variance — current dump-rate market |
 > | 19 | RFG PERMIT | Municipal permit (City of Frisco) | 1 EA @ $185 | 1 EA @ $235 | +$50.00 | Price variance — 2026 fee schedule update |
 > | 20 | RFG INSP | Final municipal inspection fee | 0 EA | 1 EA @ $85 | +$85.00 | Missing item |
-> | 21 | RFG OP | Overhead 10% on revised RCV | n/a | $1,930.00 | +$1,930.00 | Three trades trigger (roofing, gutter, paint) — `supplement.standard_op_rate` 10/10 |
-> | 22 | RFG OP | Profit 10% on revised RCV | n/a | (rolled into Line 21) | (incl.) | Three trades trigger |
+> | 21 | RFG OP | Overhead & Profit 10/10 (20%) on pre-O&P base $20,694.40 | n/a | $4,138.88 | +$4,138.88 | Three-trade trigger (roofing, gutter, paint) — `supplement.standard_op_rate` 10/10; base = original RCV + line items 1–20 |
+> | 22 | RFG OP | Profit half of the 10/10 — combined into Line 21 | n/a | (incl. in Line 21) | (incl.) | Both O&P halves shown as the single $4,138.88 figure to avoid double-counting |
 > | 23 | RFG R&R | Detach & reset solar attic fan | 0 EA | 0 EA | $0.00 | None present — line documented as not applicable |
 > | 24 | DOC AI-EXPL | State explainability docs | n/a | n/a | $0.00 | Procedural request — not a billing line; see Section 7 |
-> | | | | | **Subtotal supplement** | **+$7,400.00** | |
+> | | | | | **Subtotal supplement** | **+$10,013.28** | |
 >
+> Reconciliation: line items 1–20 = **$5,874.40** + O&P (Line 21) **$4,138.88** = **$10,013.28**. (Lines 22–24 add $0.00.)
 > Total original RCV: $14,820.00
-> Total supplement: +$7,400.00
-> **Revised RCV: $22,220.00**
-> Revised ACV (after $3,582 depreciation hold): $18,638.00
-> Net payable post-deductible: $17,138.00 (deductible $1,500)
+> Total supplement: +$10,013.28
+> **Revised RCV: $24,833.28**  (= $14,820.00 + $10,013.28)
+> Revised ACV (after $3,582 depreciation hold): $21,251.28  (= $24,833.28 − $3,582.00)
+> Net payable post-deductible: $19,751.28  (= $21,251.28 ACV − $1,500 deductible; recoverable depreciation $3,582.00 released on completion)
 >
 > ### 2. LINE-ITEM JUSTIFICATIONS (representative — full set in Section 5 below)
 >
@@ -265,10 +266,11 @@ For each supplement item, produce a short paragraph:
 > *Supporting evidence:* Photos #21 (rotted decking exposed at tear-off), #22 (replacement panels installed), invoice from supplier dated 2026-04-26 (Appendix D).
 > *Requested action:* Please add Line RFG DECK at 12 SF × $4.85 = $58.20.
 >
-> **Line 21 / 22 — Overhead & Profit 10/10 (+$1,930.00):**
-> *Reason:* Three trades on the job — roofing, gutter detach & reset (Line 13), painting (Line 17, chimney touch-up after metal flash work). The 10/10 industry standard applies in Texas (TDI consistent with NAIC O&P guidance). Supplement.standard_op_rate is 10/10.
+> **Line 21 / 22 — Overhead & Profit 10/10 (+$4,138.88):**
+> *Reason:* Three trades on the job — roofing, gutter detach & reset (Line 13), painting (Line 17, chimney touch-up after metal flash work). The 10/10 industry standard applies in Texas (TDI consistent with NAIC O&P guidance). `supplement.standard_op_rate` is 10/10.
+> *Calculation:* O&P is computed on the pre-O&P base, not on a total that already includes it. Base = original RCV $14,820.00 + supplemented line items 1–20 $5,874.40 = **$20,694.40**. 10/10 = 20% × $20,694.40 = **$4,138.88**. The carrier's original estimate applied no O&P at all, so the full 10/10 is recoverable.
 > *Supporting evidence:* Trade-coordination scope: roofing crew, separate gutter sub for detach/reset on the IWS install day, paint sub for the chimney chase finish.
-> *Requested action:* Please add 10% overhead and 10% profit on the revised RCV per standard practice.
+> *Requested action:* Please add 10% overhead and 10% profit ($4,138.88) on the $20,694.40 pre-O&P base per standard practice.
 >
 > ### 3. O&P JUSTIFICATION
 >
@@ -284,7 +286,7 @@ For each supplement item, produce a short paragraph:
 >
 > Original depreciation withheld: $3,582.00 (per carrier estimate dated 2026-04-22).
 >
-> Per policy language for recoverable depreciation release upon completion, Acme Roofing & Inspection LLC commits to providing the following on completion: final invoice, lien waiver, completion photos with timestamps, and signed homeowner satisfaction acknowledgment.
+> Per policy language for recoverable depreciation release upon completion, Acme Roofing & Restoration LLC commits to providing the following on completion: final invoice, lien waiver, completion photos with timestamps, and signed homeowner satisfaction acknowledgment.
 >
 > Requested: release of $3,582.00 recoverable depreciation upon receipt of completion documentation, anticipated 2026-05-08.
 >
@@ -304,7 +306,9 @@ For each supplement item, produce a short paragraph:
 >
 > - `inspector.haag_id` resolved to 14782 Residential and surfaced in cover letter footer (denial-context guidance triggered: claim is not contesting an AI denial, but credentials surfaced regardless because supplement is >$2,500)
 > - `supplement.standard_op_rate` defaulted to 10/10 (TX is an O&P state)
-> - `appeals.recent_wins[]` matched on {TX, State Farm, hail} → cited the 2026-03-22 Frisco supplement settlement in the cover letter
+> - `appeals.recent_wins[]` carries no State Farm or supplement-specific win; the nearest TX entry {TX, Allstate, granular loss, overturned 2026-03-22} was cited carrier-neutral and without a dollar figure as a general credibility reference — not fabricated into a State Farm supplement settlement
+> - Depreciation held flat at $3,582 across the supplement: the supplemented items are predominantly code, labor, and O&P (recoverable or non-depreciated), so the depreciation hold is unchanged pending final adjuster review — flagged here, not asserted as final
+> - No `company.ein` / tax-ID field exists in config, so the EIN line carried by prior versions was removed rather than invented
 > - `supplement.standard_attachments[]` resolved against config; full nine-item attachments checklist preserved
 > - `service_area.licensed_states[]` contains TX ✓
 > - `pricing.supplement_filing_flat` not surfaced (homeowner did not ask; service is bundled into the contractor's job recovery)
@@ -326,14 +330,14 @@ For each supplement item, produce a short paragraph:
 > | Ridge vent (code) | 0 LF | 38 LF (Frisco NFA 1:150) | Missing | +$323 |
 > | Detach & reset gutters | 0 LF | 162 LF (needed for IWS install) | Missing | +$462 |
 > | Pipe boots | 2 EA @ $35 | 4 EA @ $42 (field count + price) | Under-qty + under-price | +$98 |
-> | O&P (3-trade trigger) | not applied | roofing + gutter + paint | Missing | +$1,930 |
+> | O&P (3-trade trigger) | not applied | roofing + gutter + paint | Missing | +$4,138.88 (10/10 on $20,694.40 base) |
 > | Recoverable depreciation | $3,582 withheld | release on completion | $0 / withheld | (release) |
 > | Solar attic fan R&R | none on roof | none present | N/A | $0 |
 >
-> **Diagnostic total (flagged rows): ~$6,650 of the ~$7,400 supplement before discovery items.** Decking/fascia found at tear-off (+$174) and the remaining accessory/permit lines bring it to the full $7,400. → These rows now feed the Supplement Summary Table; the skill proceeds to the cover letter exactly as in the canonical example above.
+> **Diagnostic total (flagged rows): ~$5,700 in line-item gaps before discovery.** Decking/fascia found at tear-off (+$174.20) brings line items to **$5,874.40**; the 10/10 O&P on the corrected $20,694.40 base adds **$4,138.88**, for a **$10,013.28** total supplement. → These rows now feed the Supplement Summary Table; the skill proceeds to the cover letter exactly as in the canonical example above.
 >
 > **Optional — Plain-Language Homeowner Scope Summary (for Janelle, not the adjuster):**
 >
 > > Here's where your hail claim stands today. State Farm has approved **$14,820** to replace your roof (that's the full "replacement cost"). They hold back **$3,582** in depreciation until the work is finished, and your policy deductible is **$1,500** — so the first check is about **$9,738**, and the held-back $3,582 is released to you once we complete the job and send photos and the final invoice.
 > >
-> > Reviewing their estimate against what your roof actually needs, we found several required items their first estimate left out — the waterproof membrane your local code requires, rake-edge metal, the ridge vent, and the labor to take your gutters off and reset them so the membrane can go in correctly — plus a quantity correction (your roof measured larger than they allowed for). We're sending the insurer a **supplement of about $7,400** to add these. *This is a request, not a guarantee* — the adjuster reviews each line — but every item is backed by a photo, a code section, or a current supplier price, which is what tends to get them approved. If they approve it, your out-of-pocket stays your $1,500 deductible; the supplement is paid by insurance, not by you. We'll keep you posted at each step.
+> > Reviewing their estimate against what your roof actually needs, we found several required items their first estimate left out — the waterproof membrane your local code requires, rake-edge metal, the ridge vent, and the labor to take your gutters off and reset them so the membrane can go in correctly — plus a quantity correction (your roof measured larger than they allowed for), and the standard overhead-and-profit their estimate never included. We're sending the insurer a **supplement of about $10,000** to add these. *This is a request, not a guarantee* — the adjuster reviews each line — but every item is backed by a photo, a code section, or a current supplier price, which is what tends to get them approved. If they approve it, your out-of-pocket stays your $1,500 deductible; the supplement is paid by insurance, not by you. We'll keep you posted at each step.

@@ -1,0 +1,37 @@
+skill: estimate-builder
+file: skills/sales/estimate-builder.md
+date: 2026-07-20
+version_evaluated: "1.7"
+file_changed_since_last_eval: false
+grading_basis: cold  # re-derived from scratch; personalization graded against fixtures/config.sample.yml
+scores:
+  clarity: 9
+  specificity: 9
+  industry_fit: 9
+  output_quality: 7
+  personalization: 7
+  efficiency: 9
+overall: 8.4
+previous_score: 9.1
+delta_vs_previous: -0.7
+previous_scores:
+  clarity: 9
+  specificity: 9
+  industry_fit: 9
+  output_quality: 9
+  personalization: 10
+  efficiency: 9
+improvement_candidate: false
+improvement_applied: false
+replaced_original: false
+note: |
+  Cold re-grade of a carried-forward top skill (recommended by 07-13). DEFECTS surfaced that five carry-forward
+  cycles missed: (1) metal-tier deposit states '25% deposit ($14,003 on Better)' but 25% x $54,910 = $13,728 --
+  a $275 error in a number a rep pastes into a contract; (2) the metal Tier table $/yr column is headed '40-yr
+  proxy' yet Better $1,098 was computed on 50 yr and Best $1,499 on 75 yr, so the header mislabels two of three
+  rows; (3) 144-mo metal financing is ~1% low ($601 vs $606, $650 vs $656, $1,331 vs $1,343 at 9.99%). The
+  asphalt example is fully clean (subtotal $17,794, deltas $2,746/$6,416, $/yr $593/$514/$484, benchmark all re-
+  derive). personalization DROPS 10->7: asphalt example binds real fixture rates/license/phone, but the GreenSky
+  financing table and $475/$625 dump fees are presented as resolved config though the fixture has no financing
+  or dump-fee fields (fabricated, unflagged); also names rates.per_square_<material> vs fixture
+  install_per_square_architectural. output_quality 9->7.

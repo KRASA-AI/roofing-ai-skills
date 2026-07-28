@@ -1,0 +1,17 @@
+skill: estimate-builder
+file: skills/sales/estimate-builder.md
+date: 2026-07-06
+version_evaluated: "1.5"
+file_changed_since_last_eval: false
+scores:
+  clarity: 9
+  specificity: 9
+  industry_fit: 9
+  output_quality: 9
+  personalization: 10
+  efficiency: 9
+overall: 9.1
+previous_score: 9.1
+delta_vs_previous: 0.0
+improvement_candidate: false
+note: "Byte-identical to the 2026-06-29 evaluated version (no skill file changed repo-wide since the 06-29 improvement commit); dimension scores carried forward. personalization held at 8 by the unchanged config-fixture ceiling."

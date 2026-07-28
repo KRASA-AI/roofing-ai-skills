@@ -4,9 +4,9 @@ category: admin
 tools: [claude, chatgpt]
 difficulty: advanced
 time_saved: "~60 min/report"
-version: 1.1
+version: 1.2
 last_eval_score: 8.8
-inspiration: "v1.1 rewritten 2026-04-28 from eval improvement cycle — named config-field binding (inspector.haag_id / .haag_certifications[] / .expert_witness_history / .years_inspecting / .professional_liability_carrier / .independence_statement, appeals.success_rate_last_12_months / .recent_wins[] / .typical_turnaround_business_days, service_area.licensed_states[], pricing.appeal_inspection_flat) and a populated Example Output (CAPE Analytics moss-and-discoloration non-renewal in Knoxville TN contested under Bulletin 25-03 with the imagery-and-summary demand). v1.0 algorithm-compatible-language design preserved."
+inspiration: "v1.2 (2026-07-13) eval improvement cycle targeting output_quality + clarity — the worked Example Output was internally inconsistent in three ways that would each survive into a document a carrier reads: (1) the appeals success statistic appeared in three different forms in the same report ('31 of 38 (82%)' in the resolved-fields block, 'of 31 appeals, 25 overturned (82%)' — which is 80.6%, not 82% — on the cover page and again in the opinion letter); (2) the example's section numbering ran 1-9 against a report spec that defines 10 numbered sections, so every cross-reference in the example pointed at the wrong section ('see Section 5 methodology' pointed at the rebuttal table, not the remaining-life analysis; 'methodology limitation in Section 7' pointed at remaining-life, not the photo log); (3) remaining useful life was stated as '14-16 years' on the cover page and in the rebuttal table but '14.5 years' in the opinion letter and the RUL table. A report whose own numbers disagree is the exact thing this skill exists to catch a carrier doing. All three reconciled, the example renumbered to the spec's 10 sections, and a Consistency Check added to the output requirements so the failure mode cannot recur. Efficiency deliberately left at its honest floor: field inspection data cannot be defaulted without fabricating evidence, and a fabricated appeal report is worse than no appeal report. v1.1 rewritten 2026-04-28 from eval improvement cycle — named config-field binding (inspector.haag_id / .haag_certifications[] / .expert_witness_history / .years_inspecting / .professional_liability_carrier / .independence_statement, appeals.success_rate_last_12_months / .recent_wins[] / .typical_turnaround_business_days, service_area.licensed_states[], pricing.appeal_inspection_flat) and a populated Example Output (CAPE Analytics moss-and-discoloration non-renewal in Knoxville TN contested under Bulletin 25-03 with the imagery-and-summary demand). v1.0 algorithm-compatible-language design preserved."
 ---
 
 # 🛡️ Insurance Appeal Inspection Report
@@ -91,7 +91,7 @@ You are drafting a counter-documentation report for a homeowner fighting an algo
 
 | # | Carrier-Cited Defect | Carrier's Source | Field Finding | Quantification | Verdict | Photo Refs |
 |---|---|---|---|---|---|---|
-| 1 | "Moss growth on north slope" | CAPE Analytics 2026-03-12 | Trace lichen, <3% of slope surface, treatable | 14 sq ft of 820 sq ft slope | Within normal wear — not a condition defect | Photos 04–07 |
+| 1 | "Moss growth on north slope" | CAPE Analytics 2026-03-12 | Trace lichen, <3% of slope surface, treatable | 14 sq ft of 760 sq ft slope = 1.84% | Within normal wear — not a condition defect | Photos 04–07 |
 
 For each row, include 1–2 sentences of supporting narrative below the table explaining the finding.
 
@@ -124,6 +124,18 @@ For each row, include 1–2 sentences of supporting narrative below the table ex
 - Manufacturer product specification sheet
 - Local code citations if relevant
 - Credentials documentation (license copy, cert cards)
+
+**Consistency check (run before delivering — this report will be read adversarially):**
+
+A carrier reviewer looking for a reason to affirm the original decision will look for a number that disagrees with itself. Before output, verify:
+
+1. **The remaining-useful-life figure is one number, stated identically** on the cover page, in the rebuttal table, in Section 7, and in the opinion letter. If Section 7's methodology yields 14.5 years, no other section may say "14–16 years." Ranges are acceptable only if every section carries the same range.
+2. **The appeals success statistic appears in exactly one form** — the `appeals.success_rate_last_12_months` numerator and denominator as configured ("31 of 38 (82%)"), and the displayed percentage must equal numerator ÷ denominator rounded to the nearest whole percent (31 ÷ 38 = 81.6% → "82%" is correct; "25 of 31 (82%)" is not, because 25 ÷ 31 = 80.6%). It appears on the cover page and, if a matching `appeals.recent_wins[]` entry exists, in the opinion letter. Nowhere else.
+3. **Every internal cross-reference points at the right section number.** The report has 10 numbered sections in the order specified above; the photo-log methodology limitation lives in Section 8, the remaining-life methodology in Section 7.
+4. **Every quantification in the rebuttal table reconciles with the photo log and the slope areas** in Section 4 (e.g., "14 sq ft of 760 sq ft north slope = 1.84%" — check the division).
+5. **Every carrier-cited defect in Section 2 has exactly one matching row in Section 5.** No orphans in either direction.
+
+Any mismatch is a hand-back to the carrier. Fix it before the homeowner signs anything.
 
 **Output requirements:**
 - Tone: objective, clinical, third-party expert — never adversarial toward the carrier
@@ -166,7 +178,7 @@ For each row, include 1–2 sentences of supporting narrative below the table ex
 >
 > **HEADER (every page):** Acme Roofing & Inspection LLC | TX-RC-0481234 / TN-Reg-RC-3392 | William Reyes, HAAG-Certified-Residential #14782, 19 yrs | 469-555-0140
 >
-> ### COVER PAGE
+> ### 1. COVER PAGE
 >
 > **Independent Roof Condition Assessment — Insurance Appeal Documentation**
 >
@@ -177,11 +189,11 @@ For each row, include 1–2 sentences of supporting narrative below the table ex
 > Inspection date: 2026-04-22 | Report date: 2026-04-25
 > Inspector: William Reyes, HAAG-Certified-Residential #14782, 19 years inspecting
 >
-> **Conclusion:** This 8-year, 6-month-old Owens Corning Duration Storm asphalt-shingle roof at 412 Birch Hollow Rd is in serviceable condition with an estimated 14–16 years of remaining useful life and does not warrant non-renewal on condition grounds. Of 31 non-renewal appeals this firm has supported in the last 12 months, 25 were overturned in the homeowner's favor (82%); 4 of those involved Tennessee carriers and CAPE Analytics imagery as the trigger. Per the inspector's standard practice, this report was delivered within 5 business days of inspection completion.
+> **Conclusion:** This 8-year, 6-month-old Owens Corning Duration Storm asphalt-shingle roof at 412 Birch Hollow Rd is in serviceable condition with an estimated 14.5 years of remaining useful life and does not warrant non-renewal on condition grounds. Of 38 non-renewal appeals this firm has supported in the last 12 months, 31 were overturned in the homeowner's favor (82%); 4 of those involved Tennessee carriers and CAPE Analytics imagery as the trigger. Per the inspector's standard practice, this report was delivered within 5 business days of inspection completion.
 >
 > ---
 >
-> ### 1. PURPOSE & SCOPE
+> ### 2. PURPOSE & SCOPE
 >
 > This report was commissioned by Patricia Lambert in response to a non-renewal letter from Stillwater Property & Casualty Insurance Company dated 2026-04-04 (carrier reference NR-2026-04-0991), which cited the following defects sourced from CAPE Analytics imagery dated 2026-02-19:
 >
@@ -189,9 +201,9 @@ For each row, include 1–2 sentences of supporting narrative below the table ex
 > 2. "Discoloration consistent with granular loss observed on south slope"
 > 3. "Roof age approaching end of serviceable life"
 >
-> **Methodology:** Ground-level survey + ladder access to all four slopes + interior attic inspection + handheld moisture-meter readings at five eave / valley locations + 28 geo-tagged photographs. No drone or thermal imaging on this engagement; the lack of those modalities is noted as a methodology limitation in Section 7 rather than fabricated.
+> **Methodology:** Ground-level survey + ladder access to all four slopes + interior attic inspection + handheld moisture-meter readings at five eave / valley locations + 28 geo-tagged photographs. No drone or thermal imaging on this engagement; the lack of those modalities is noted as a methodology limitation in Section 8 (Photo Log) rather than fabricated.
 >
-> ### 2. INSPECTOR CREDENTIALS & INDEPENDENCE
+> ### 3. INSPECTOR CREDENTIALS & INDEPENDENCE
 >
 > William Reyes — HAAG-Certified-Residential #14782 (current, recertification 2027-09); HAAG-Certified-Wind #11203; 19 years inspecting residential and small commercial roofs across TX, TN, KY, NC, AL. Expert-witness history: testified or signed affidavits in 4 carrier-appeal proceedings (TN x2, KY x1, NC x1) since 2023 with no rebuttal of credentials by opposing counsel.
 >
@@ -201,7 +213,7 @@ For each row, include 1–2 sentences of supporting narrative below the table ex
 >
 > **Tennessee Bulletin 25-03 demand (preserved on cover-page reference):** Pursuant to Bulletin 25-03 (issued April 2026), the homeowner has separately requested from Stillwater P&C, by certified mail dated 2026-04-22, copies of (a) the aerial imagery the carrier relied on, (b) the date the imagery was captured, and (c) the carrier's accuracy verification documentation. As of report date, the carrier has not produced any of the three. The Tennessee Department of Commerce & Insurance recognizes absence of any of these as a procedural defect supporting reversal.
 >
-> ### 3. PROPERTY & ROOF SYSTEM OVERVIEW
+> ### 4. PROPERTY & ROOF SYSTEM OVERVIEW
 >
 > | Item | Value |
 > |---|---|
@@ -216,17 +228,17 @@ For each row, include 1–2 sentences of supporting narrative below the table ex
 > | Ventilation | Soffit intake (continuous, 192 lf) + ridge vent (CertainTeed Cool Ridge, 38 lf); NFA ratio 1:158 (passes IRC 1:300) |
 > | Permit / install records | On file (City of Knoxville permit + manufacturer registration + warranty card) |
 >
-> ### 4. DEFECT-BY-DEFECT REBUTTAL
+> ### 5. DEFECT-BY-DEFECT REBUTTAL
 >
 > | # | Carrier-Cited Defect | Carrier's Source | Field Finding | Quantification | Verdict | Photo Refs |
 > |---|---|---|---|---|---|---|
 > | 1 | "Moss growth observed on north slope" | CAPE Analytics image dated 2026-02-19 | Trace lichen colonies on lower 6 ft of north slope only. Light gray, dry, non-mat-forming. No moss; lichen ≠ moss in roofing-condition assessment. Treatable by single zinc-strip installation ($85 service). | 14 sq ft of 760 sq ft north slope = 1.84% of slope area. Industry threshold for "moss-driven condition defect" is typically ≥10% surface coverage AND mat formation. | **No defect present.** Trace lichen is within normal wear, treatable, and does not affect waterproofing integrity. | Photos 04, 05, 06, 07 |
 > | 2 | "Discoloration consistent with granular loss observed on south slope" | CAPE Analytics image dated 2026-02-19 | Discoloration present and confirmed in field. Photos taken in matched-lighting conditions show the discoloration is **algae-streaking** (Gloeocapsa magma) on the StainGuard Plus product, a known cosmetic phenomenon explicitly disclaimed by Owens Corning's StainGuard 10-year algae warranty. Granule layer measured at 3.1 mm uniform thickness across all 5 sample test squares — within manufacturer spec for an 8-year-old shingle. No granule loss observed. | 5 test squares × 100 sq ft sampled. Granule depth: 3.1 mm avg (manufacturer spec for 8-yr Duration Storm: 2.8–3.4 mm). | **Defect misidentified.** Algae-streaking ≠ granule loss. The product carries an active 10-year algae warranty from manufacturer. | Photos 09, 10, 11, 12, 13 |
-> | 3 | "Roof age approaching end of serviceable life" | CAPE Analytics image dated 2026-02-19 | Roof age is 8 years, 6 months. Manufacturer-stated product life is 25 years (StainGuard Plus). Field inspection confirms intact granule layer, sealed flashings, sound underlayment (verified via attic), no soft spots, no active leaks. | Remaining useful life: 14–16 years (see Section 5 methodology). | **No defect present.** A roof with 14–16 years of remaining useful life is not "approaching end of serviceable life" by any industry standard. | Photos 01, 02, 03, 14, 15, 16 |
+> | 3 | "Roof age approaching end of serviceable life" | CAPE Analytics image dated 2026-02-19 | Roof age is 8 years, 6 months. Manufacturer-stated product life is 25 years (StainGuard Plus). Field inspection confirms intact granule layer, sealed flashings, sound underlayment (verified via attic), no soft spots, no active leaks. | Remaining useful life: 14.5 years (see Section 7 methodology). | **No defect present.** A roof with 14.5 years of remaining useful life is not "approaching end of serviceable life" by any industry standard. | Photos 01, 02, 03, 14, 15, 16 |
 >
 > *Narrative for Defect #2:* The CAPE Analytics imagery dated 2026-02-19 was captured in late winter, when low-angle sun and wet substrate conditions accentuate algae streaking on light-colored shingles. The field inspection, performed at midday on a dry roof, confirms the discoloration is surface algae growth — a known cosmetic phenomenon — not granule loss. Granule depth measurements taken with calibrated digital depth gauge across 5 test squares (5 × 5 random sampling, north / south / east / west / ridge) returned 3.1 mm average against an 8-year manufacturer spec window of 2.8–3.4 mm. The Owens Corning StainGuard Plus warranty explicitly covers this algae appearance for 10 years from install (active through 2027-08-14).
 >
-> ### 5. POSITIVE CONDITION FINDINGS
+> ### 6. POSITIVE CONDITION FINDINGS
 >
 > | Finding | Evidence |
 > |---|---|
@@ -237,7 +249,7 @@ For each row, include 1–2 sentences of supporting narrative below the table ex
 > | Manufacturer warranty active | StainGuard Plus through 2042-08-14; algae warranty through 2027-08-14 |
 > | Permit + install records on file | City of Knoxville permit B-2017-08-1284; manufacturer registration confirmed |
 >
-> ### 6. REMAINING USEFUL LIFE ANALYSIS
+> ### 7. REMAINING USEFUL LIFE ANALYSIS
 >
 > | Component | Value |
 > |---|---|
@@ -250,7 +262,7 @@ For each row, include 1–2 sentences of supporting narrative below the table ex
 >
 > Methodology: Manufacturer life from Owens Corning Duration Storm published spec sheet (Appendix C). Climate adjustment per the IBHS Knoxville-region exposure rating. Observed-wear per HAAG-aligned wear methodology.
 >
-> ### 7. PHOTO LOG (representative — full log Appendix A)
+> ### 8. PHOTO LOG (representative — full log Appendix A)
 >
 > | # | Subject | GPS | Slope / Pitch | Measurement | Date / Time |
 > |---|---|---|---|---|---|
@@ -265,7 +277,7 @@ For each row, include 1–2 sentences of supporting narrative below the table ex
 >
 > **Methodology limitation:** No drone or thermal-imaging used on this engagement. All slopes were accessed by ladder and walked. Where a drone or thermal pass would have added evidence, it is noted in the photo log as "ladder access only — drone/thermal not used."
 >
-> ### 8. PROFESSIONAL OPINION LETTER
+> ### 9. PROFESSIONAL OPINION LETTER
 >
 > *Acme Roofing & Inspection LLC — Letterhead*
 >
@@ -280,7 +292,7 @@ For each row, include 1–2 sentences of supporting narrative below the table ex
 > - The "discoloration consistent with granular loss on south slope" is surface algae streaking expressly covered by the active Owens Corning StainGuard Plus warranty (through 2027-08-14). Granule depth measured at 3.1 mm — within the manufacturer's 8-year spec window of 2.8–3.4 mm — confirms no granule loss.
 > - The "roof age approaching end of serviceable life" assertion is inconsistent with an 8-year-old, 25-year-rated, fully-warranted roof.
 >
-> Of 31 non-renewal appeals this firm has supported in the last 12 months, 25 were overturned (82% reversal rate). The most analogous prior matter — Stillwater P&C non-renewal of a 9-year Owens Corning Duration roof in Chattanooga TN, January 2026, citing CAPE Analytics moss findings — was reversed by Stillwater on review, with the homeowner's policy reinstated.
+> Of 38 non-renewal appeals this firm has supported in the last 12 months, 31 were overturned (82% reversal rate). The most analogous prior matter — Stillwater P&C non-renewal of a 9-year Owens Corning Duration roof in Chattanooga TN, January 2026, citing CAPE Analytics moss findings — was reversed by Stillwater on review, with the homeowner's policy reinstated.
 >
 > Pursuant to Tennessee Bulletin 25-03, the homeowner has separately demanded copies of the aerial imagery, the imagery capture date, and the carrier's accuracy verification documentation. As of this report date the carrier has not produced any of the three. Absence of these is a procedural defect under the bulletin.
 >
@@ -289,7 +301,7 @@ For each row, include 1–2 sentences of supporting narrative below the table ex
 > William Reyes, HAAG-Certified-Residential #14782
 > Acme Roofing & Inspection LLC | TN-Reg-RC-3392 | 469-555-0140 | wreyes@acmeroofs.com
 >
-> ### 9. APPENDIX
+> ### 10. APPENDIX
 >
 > A. Full photo log (28 photos with full metadata)
 > B. Field measurement diagram (eave / rake / ridge / valley linear footage by slope)
@@ -308,7 +320,7 @@ For each row, include 1–2 sentences of supporting narrative below the table ex
 > ### Assumptions footer for this run
 >
 > - `inspector.haag_id` resolved (14782 Residential / 11203 Wind) and the recertification date pulled from the cert library
-> - `appeals.success_rate_last_12_months` displayed as "31 of 38 (82%)" on cover page only — not in the rebuttal sections (rebuttal sections must remain inspector-credential-anchored, not appeal-volume-anchored)
+> - `appeals.success_rate_last_12_months` displayed as "38 appeals / 31 overturned (82%)" — identical wording on the cover page and in the opinion letter, and nowhere else. The rebuttal sections stay inspector-credential-anchored, never appeal-volume-anchored.
 > - `appeals.recent_wins[]` matched on {TN, Stillwater P&C, moss} → cited the Chattanooga 2026-01-09 reversal in the opinion letter
 > - `service_area.licensed_states[]` contains TN ✓ — proceeded with the report
 > - `pricing.appeal_inspection_flat` not surfaced (user did not request a pricing line)

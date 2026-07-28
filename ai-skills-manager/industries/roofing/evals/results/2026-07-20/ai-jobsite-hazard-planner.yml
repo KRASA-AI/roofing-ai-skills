@@ -1,0 +1,32 @@
+skill: ai-jobsite-hazard-planner
+file: skills/operations/ai-jobsite-hazard-planner.md
+date: 2026-07-20
+version_evaluated: "1.0"
+file_changed_since_last_eval: true
+grading_basis: cold  # re-derived from scratch; personalization graded against fixtures/config.sample.yml
+scores:
+  clarity: 9
+  specificity: 9
+  industry_fit: 9
+  output_quality: 9
+  personalization: 5
+  efficiency: 9
+overall: 8.6
+previous_score: null  # first evaluation
+delta_vs_previous: null
+improvement_candidate: false
+improvement_applied: false
+replaced_original: false
+note: |
+  FIRST EVALUATION -- brand-new skill added 2026-07-20, graded fully and cold. A genuinely strong net-new safety
+  skill: exact OSHA cites (1926 Subpart M .501/.502/.503, .502(d)(20) rescue plan, Subpart X/L/E), Heat NEP CPL
+  03-00-024, hierarchy-of-controls ordering, competent-person / trust-but-verify governance and discoverability
+  framing. All 7 spec sections are demonstrated and the weighted risk composite re-derives (30+22+14+8 = 74/100,
+  maxes 35+30+20+15 = 100, band HIGH correct) -- no arithmetic error. Held to 8.6 by personalization (5): the
+  skill binds ARRAY paths safety.muster_points[] / safety.nearest_hospitals[] but the fixture has SCALAR
+  safety.muster_point ('Northeast corner of the driveway, at the mailbox') and safety.nearest_hospital ('Baylor
+  Scott & White - Frisco'); the worked example fabricates 'Driveway end at street curb' + 'Medical City
+  McKinney' from non-existent .residential_default/array paths instead of binding the fixture values, uses
+  crew_leads[].language_preference (fixture key is language), and invents six safety.* keys (competent_person[],
+  jha_path, acclimatization_log_path, heat_index_data_source, nws_advisory_source, ai_data_retention_policy)
+  plus company.osha_jurisdiction. It does degrade gracefully on the competent-person default.

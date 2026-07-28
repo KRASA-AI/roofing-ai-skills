@@ -1,0 +1,29 @@
+skill: estimate-builder
+file: skills/sales/estimate-builder.md
+date: 2026-07-13
+version_evaluated: "1.7"
+version_before_improvement: "1.6"
+file_changed_since_last_eval: true
+scores_before_improvement:
+  clarity: 9
+  specificity: 9
+  industry_fit: 9
+  output_quality: 8
+  personalization: 10
+  efficiency: 9
+overall_before_improvement: 8.9
+scores:
+  clarity: 9
+  specificity: 9
+  industry_fit: 9
+  output_quality: 9
+  personalization: 10
+  efficiency: 9
+overall: 9.1
+previous_score: 9.1
+delta_vs_previous: 0.0
+delta_vs_pre_improvement: 0.2
+improvement_candidate: true
+improvement_applied: true
+replaced_original: true
+note: "REGRESSION CAUGHT AND REPAIRED (the only skill changed externally since the last eval). The landscape-monitor pass earlier today shipped v1.6, adding a brand-new customer-facing output section (8, Transparent-Quote Benchmark) plus Process step 7, but demonstrated neither in either worked example -- reopening the exact spec-to-example gap the 06-15 and 06-22 cycles closed elsewhere in the library, and leaving the highest-stakes section in the skill (used while a homeowner sits across the table holding a cheaper AI-platform number) as the only one with no worked instance. Graded fresh at output_quality 8 -> 8.9, a -0.2 regression from 9.1. v1.7 writes the missing instance into the asphalt example: a $14,900 AI-platform instant quote benchmarked against the $17,794 Good tier, a six-row Value Delta table where every row is independently verifiable (license #, COI, GAF certification lookup, permit #, warranty document, phone number), the lifecycle-per-year reframe the skill already computes, and a Pricing-Flags line instructing the estimator to hold the number because the delta is scope, not margin. output_quality restored to 9; 9.1 recovered."

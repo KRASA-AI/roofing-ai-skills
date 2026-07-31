@@ -1,0 +1,53 @@
+skill: storm-canvassing-prioritizer
+file: skills/sales/storm-canvassing-prioritizer.md
+date: 2026-07-28
+version_evaluated: "1.4"
+file_changed_since_last_eval: false
+grading_basis: cold  # re-derived from scratch; personalization graded against fixtures/config.sample.yml
+scores:
+  clarity: 9
+  specificity: 9
+  industry_fit: 9
+  output_quality: 7
+  personalization: 6
+  efficiency: 9
+overall: 8.3
+previous_score: 8.3
+delta_vs_previous: 0.0
+previous_scores:
+  clarity: 9
+  specificity: 9
+  industry_fit: 9
+  output_quality: 7
+  personalization: 6
+  efficiency: 9
+improvement_candidate: false
+improvement_applied: false
+replaced_original: false
+note: |
+  UNCHANGED, DEFECT NOT FIXED. Version is still 1.4 (identical text to the 2026-07-20 cold-grade), and the
+  previously-identified Day-1 crew-allocation contradiction still stands verbatim. Day-by-Day Schedule row 1
+  reads "Maple Ridge (5) + Sunset Grove (3)" door coverage with Riverside listed only as "warm-up (60 calls)"
+  phone -- i.e. no Riverside doors on Day 1. But three other sections of the same output contradict this: (1)
+  the Ranked Neighborhood Plan table gives Riverside a Day-1 figure of "80 d" (doors, not calls); (2) the
+  Measurement Targets block states "Day 1 doors knocked: 240 (90 + 70 + 80)" where 90/70/80 are exactly the
+  Maple Ridge / Sunset Grove / Riverside Day-1 door figures from the ranked table -- Riverside's 80 is counted
+  as doors, not the "60 calls" the schedule claims; (3) the Canvasser Assignments table Day-1-assigns three
+  named knockers (Sam Boone, Tyler Voss, Ana Reyes) to the Riverside cluster on Day 1, and splits Maple
+  Ridge/Sunset Grove 3/2 (Jamie+Luis+Dee / Priya+Marcus), not the "5 + 3" the schedule text states. Four
+  numbers in one deliverable (5+3 schedule text, 3+2+3 roster assignment, 90/70/80 measurement math, and the
+  "Riverside = calls only" claim) don't agree with each other -- a sales manager handing this plan to a room
+  can't tell whether Riverside gets knocked on Day 1 or not. Re-derived the rest of the math clean: 240 doors ->
+  40% contact -> 96 -> 28% booking -> 27 (240*.4=96, 96*.28=26.88->27) -> 35% close -> 9 (27*.35=9.45->9), all
+  correct. personalization holds at 6: service_area.zip_codes[] resolves cleanly, but the skill's own worked
+  example uses ZIP 75071 (Willow Creek) as an in-scope territory even though 75071 is NOT in the fixture's
+  service_area.zip_codes[] list. `canvassing.territories[]`, `canvassing.script_personality`,
+  `canvassing.cooling_off_states[]`, `team.canvasser_roster[]` / `.phone_canvasser_roster[]`, `weather_rules.*`,
+  and `past_jobs.completed_addresses[]` are all referenced heavily and none exist in the fixture schema -- the
+  entire 8-person named roster (Jamie Reed, Luis Mora, Dee Carter, etc.) and all "adjacent social-proof"
+  addresses (1318 Oak Ridge, 942 Sunset Grove Ln, 3104 Riverside Dr) are invented rather than resolved from the
+  fixture's actual `crew_leads[]` (Hector Ramirez, Dale Whitmore) or `service_area.hail_zones[]`/`.licensed_states[]`.
+  `service_area.licensed_counties[]` and `company.canvassing_email_from` are also invented field names -- the
+  fixture uses `service_area.licensed_states[]` and `company.email_from` respectively. No change since last
+  cycle on any dimension; this is the standing #1 defect for this skill across at least two consecutive cycles
+  and has not been picked up as an improvement candidate yet.

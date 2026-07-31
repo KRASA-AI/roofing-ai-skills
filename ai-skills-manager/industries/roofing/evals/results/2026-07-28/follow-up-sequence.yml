@@ -1,0 +1,47 @@
+skill: follow-up-sequence
+file: skills/sales/follow-up-sequence.md
+date: 2026-07-28
+version_evaluated: "2.1"
+file_changed_since_last_eval: false
+grading_basis: cold  # re-derived from scratch; personalization graded against fixtures/config.sample.yml
+scores:
+  clarity: 9
+  specificity: 9
+  industry_fit: 9
+  output_quality: 7
+  personalization: 6
+  efficiency: 9
+overall: 8.3
+previous_score: 8.5
+delta_vs_previous: -0.2
+previous_scores:
+  clarity: 9
+  specificity: 9
+  industry_fit: 9
+  output_quality: 8
+  personalization: 6
+  efficiency: 9
+improvement_candidate: false
+improvement_applied: false
+replaced_original: false
+note: |
+  Cold re-grade of an unchanged file (v2.1). The 07-20 date-math defect still holds: the graceful-close email
+  (Touch 7) states "$18,200 price is good through 2026-07-22 (60 days from delivery)" but the estimate was
+  delivered 2026-04-22 -- 60 days from 4/22 lands on 2026-06-21, and 2026-07-22 is actually 91 days out (Apr 8 +
+  May 31 + Jun 30 + Jul 22 = 91); the Assumptions footer compounds this by re-asserting "Hold-period default 60
+  days." Re-derivation this cycle also found an additional, previously-uncaught inconsistency: Touch 2's SMS is
+  labeled "Body (147 chars)" but the actual message ("Diana -- Sam at Acme. Just wrapped Janelle's roof at 1248
+  Maple Ridge -- drone shots: acmeroofs.com/maple-ridge. Still on the fence? Happy to answer anything. -- Sam")
+  runs to roughly 160+ characters -- both mislabeled and brushing past the skill's own "SMS: under 160
+  characters" guideline in Message guidelines. Financing figures are off by ~$1 on rounding ($759 stated vs
+  $758.33 actual for $18,200/24mo; $216 stated vs $217.4 actual at 9.99% APR/144mo) -- trivial in isolation but
+  adds to the pattern of unverified figures in a customer-facing document. output_quality drops 8->7 on the
+  accumulation of a substantive date error plus a second, independently-found numeric mislabel.
+  personalization holds at 6: the "Resolved config fields" block still presents financing.partners[],
+  reviews.count_last_90_days=142/average_rating=4.9, seasonal_hooks.*, team.rep_roster[], service_area.
+  neighborhoods[], crm.system, and company.sms_from_number as bound, but NONE of those keys exist anywhere in
+  the fixture (fixture has no financing, reviews, seasonal_hooks, team, crm, or service_area.neighborhoods
+  blocks, and company has no sms_from_number field). warranty.manufacturer_tiers[0] is bound to "GAF Golden
+  Pledge" but the fixture's actual index-0 value is "GAF System Plus" (manufacturer_tiers[1] is Golden Pledge --
+  a mis-indexing that persists unchanged). company.phone is printed as 469-555-0140 throughout every touch
+  (Touch 1, 4, 6, 7) versus the fixture's actual 469-555-0142.

@@ -1,0 +1,48 @@
+skill: insurance-appeal-inspection-report
+file: skills/admin/insurance-appeal-inspection-report.md
+date: 2026-07-28
+version_evaluated: "1.2"
+file_changed_since_last_eval: false
+grading_basis: cold  # re-derived from scratch; personalization graded against fixtures/config.sample.yml
+scores:
+  clarity: 9
+  specificity: 9
+  industry_fit: 9
+  output_quality: 8
+  personalization: 6
+  efficiency: 8
+overall: 8.4
+previous_score: 8.6
+delta_vs_previous: -0.2
+previous_scores:
+  clarity: 9
+  specificity: 9
+  industry_fit: 9
+  output_quality: 8
+  personalization: 8
+  efficiency: 8
+improvement_candidate: false
+improvement_applied: false
+replaced_original: false
+note: |
+  Cold re-grade, version unchanged at 1.2. Re-derived install-to-inspection date math: 2017-08-14 to 2026-04-22 is
+  8 years, 8 months, 8 days, not the "8 years, 6 months" the inbound data states and the report repeats on the
+  cover page and Section 4 table, nor the "8.5 years" plugged into the Section 7 RUL formula (25 - 8.5 = 16.5,
+  then -1.0/-1.0 = 14.5 -- the arithmetic from that wrong input is itself internally consistent, so the RUL figure
+  stays identical across all four sections per the Consistency Check, but it is built on a roof-age input that
+  disagrees with the report's own stated dates by ~2 months). This is the same output_quality defect as last
+  cycle (9->8) and it still holds. 31/38=81.6%->"82%" and slope-percentage math (14/760=1.84%) both still check
+  out. personalization DEFECT, re-scored 8->6: beyond the already-known header company name ("Acme Roofing &
+  Inspection LLC" vs fixture "Acme Roofing & Restoration LLC") and phone (469-555-0140 vs fixture 0142, wrong in
+  the header, cover-page-adjacent signature block, AND the opinion-letter closing line), this cold pass also
+  found the header/opinion-letter fabricate a second license number "TN-Reg-RC-3392" that does not exist anywhere
+  in config (company.license_number is a single TX value, "TX-RC-0481234" -- service_area.licensed_states[] lists
+  state abbreviations only, never per-state license numbers), and the opinion-letter signature substitutes an
+  invented personal address "wreyes@acmeroofs.com" in place of the config-bound company.email_from
+  ("estimates@acmeroofs.com"). Plus the pre-existing voice.expert vs. fixture's voice_expert naming mismatch.
+  inspector.*, appeals.* (recent_wins[] matches {TN, Stillwater P&C, moss, 2026-01-09} exactly),
+  service_area.licensed_states[], and appeals.typical_turnaround_business_days all resolve correctly against the
+  fixture -- so the defect is concentrated entirely in the company-identity block, not a wholesale failure, but it
+  is now four distinct company-identity errors (name, phone x3 locations, invented state license, invented email)
+  rather than the three previously logged. efficiency unchanged at its honest floor of 8 -- field-inspection
+  evidence cannot be defaulted without fabricating it.

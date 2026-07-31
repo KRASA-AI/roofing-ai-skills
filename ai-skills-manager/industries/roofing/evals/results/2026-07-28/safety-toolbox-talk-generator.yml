@@ -1,0 +1,46 @@
+skill: safety-toolbox-talk-generator
+file: skills/operations/safety-toolbox-talk-generator.md
+date: 2026-07-28
+version_evaluated: "1.4"
+file_changed_since_last_eval: false
+grading_basis: cold  # re-derived from scratch; personalization graded against fixtures/config.sample.yml
+scores:
+  clarity: 9
+  specificity: 9
+  industry_fit: 9
+  output_quality: 8
+  personalization: 6
+  efficiency: 9
+overall: 8.5
+previous_score: 8.7
+delta_vs_previous: -0.2
+previous_scores:
+  clarity: 9
+  specificity: 9
+  industry_fit: 9
+  output_quality: 9
+  personalization: 6
+  efficiency: 9
+improvement_candidate: false
+improvement_applied: false
+replaced_original: false
+note: |
+  Cold re-grade, version unchanged at 1.4. Acclimatization math still checks out (20% Day1 + 20% Day2 + 20% Day3
+  = 60% cap for Jamal Wright, matches the "progressing 20% per day" rule). OSHA cites (Subpart M/X/L/E, Heat NEP
+  CPL 03-00-024, Appendix J) all correctly used. New output_quality finding this pass, not previously caught: the
+  two worked examples use inconsistent crew-headcount conventions. Example 2 ("3-man crew," Andrea Cole) lists
+  exactly 3 sign-off rows (Andrea + Chris Marquez + Brandon Lee) — headcount includes the foreman. Example 1
+  ("4-man crew," Hector Vega) lists 5 sign-off rows (Hector + Jamal Wright + Carlos Reyes + Diego Morales +
+  Brandon Lee) — under the same convention this should be 4 total, not 5. One of the two examples is internally
+  miscounted relative to the other's own labeling convention — a minor but real arithmetic/roster inconsistency,
+  docking output_quality 9->8. personalization DEFECT unchanged at 6: safety.muster_points[], safety.nearest_
+  hospitals[], safety.jha_path, safety.standdown_in_progress, safety.heat_index_data_source, safety.stop_work_
+  authority_statement, safety.acclimatization_log_path, company.osha_jurisdiction, and crew_leads[].language_
+  preference/.phone are all named but none resolve against the fixture, which has only scalar safety.muster_point
+  ("Northeast corner of the driveway, at the mailbox" — example uses a fabricated "Driveway end at the street
+  curb" instead) and scalar safety.nearest_hospital ("Baylor Scott & White Medical Center – Frisco, 5601 Warren
+  Pkwy" — example substitutes a fabricated "Texas Health Frisco, 5400 Dallas Pkwy" for the same ZIP). crew_leads[]
+  in the fixture has exactly 2 entries (Hector Ramirez es/crew_size 6, Dale Whitmore en/crew_size 5); the examples
+  invent "Hector Vega" and "Andrea Cole" instead, and Hector Vega's crew count (4 workers + foreman = 5) doesn't
+  match fixture Hector Ramirez's crew_size of 6 either. No change in kind from 07-20, just reconfirmed. Overall
+  8.7 -> 8.5 on the output_quality slip.

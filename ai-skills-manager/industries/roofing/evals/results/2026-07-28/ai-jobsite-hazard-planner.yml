@@ -1,0 +1,50 @@
+skill: ai-jobsite-hazard-planner
+file: skills/operations/ai-jobsite-hazard-planner.md
+date: 2026-07-28
+version_evaluated: "1.0"
+file_changed_since_last_eval: false
+grading_basis: cold  # re-derived from scratch; personalization graded against fixtures/config.sample.yml
+scores:
+  clarity: 9
+  specificity: 9
+  industry_fit: 9
+  output_quality: 9
+  personalization: 5
+  efficiency: 9
+overall: 8.6
+previous_score: 8.6
+delta_vs_previous: 0.0
+previous_scores:
+  clarity: 9
+  specificity: 9
+  industry_fit: 9
+  output_quality: 9
+  personalization: 5
+  efficiency: 9
+improvement_candidate: false
+improvement_applied: false
+replaced_original: false
+note: |
+  Cold re-grade, version unchanged at 1.0. All previously-identified defects HOLD, confirmed by re-checking
+  directly against fixtures/config.sample.yml: the skill's "Before you start" block still binds array paths
+  safety.muster_points[] and safety.nearest_hospitals[] while the fixture carries only scalar safety.muster_point
+  ("Northeast corner of the driveway, at the mailbox") and safety.nearest_hospital ("Baylor Scott & White Medical
+  Center – Frisco, 5601 Warren Pkwy"); crew_leads[].language_preference is used but the fixture's field is
+  crew_leads[].language; and company.osha_jurisdiction plus six safety.* keys (competent_person[], jha_path,
+  acclimatization_log_path, heat_index_data_source, nws_advisory_source, ai_data_retention_policy) have no
+  corresponding fixture fields at all. The worked example still fabricates specific, plausible-looking values
+  instead of using the real fixture data or flagging the absence: "safety.nearest_hospitals[] for 75071 →
+  Medical City McKinney, 4500 Medical Center Dr, 972-547-8000" is an invented hospital, address, and phone number
+  wholesale substituted for the fixture's actual (and geographically different) Baylor Scott & White – Frisco
+  entry; "safety.muster_points[].residential_default → 'Driveway end at street curb, opposite the dumpster'" is
+  likewise invented text, not the fixture's "Northeast corner of the driveway, at the mailbox." Additionally
+  flagging on this pass (not previously called out): the sign-off/emergency footer invents a named "safety lead
+  Janelle Park (469-555-0140)" who has no corresponding field or role anywhere in config — no safety-lead role
+  exists in the fixture, and the phone number used for her matches no config phone field either. Re-derived the
+  Daily Risk Score composite by hand: 30/35 (geometry) + 22/30 (weather) + 14/20 (crew) + 8/15 (task-phase) =
+  74/100 against a 35+30+20+15=100 max, correctly labeled HIGH — no arithmetic error, matches the prior cycle's
+  finding. It does still degrade gracefully in one place: safety.competent_person[] absent → crew lead Marcus
+  Bell is defaulted into the role with an explicit "confirm designation" flag rather than inventing a different
+  name, which is the pattern the other invented fields should have followed but didn't. Scores held flat at last
+  cycle's levels across the board — this is a stable, unchanged first-eval skill with a well-defined, consistent
+  defect profile concentrated entirely in the safety.*/crew_leads personalization layer.

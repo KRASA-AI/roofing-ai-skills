@@ -1,0 +1,96 @@
+skill: roof-inspection-report
+file: skills/operations/roof-inspection-report.md
+date: 2026-07-28
+version_evaluated: "1.6"
+file_changed_since_last_eval: true
+grading_basis: cold  # re-derived from scratch; personalization graded against fixtures/config.sample.yml
+scores:
+  clarity: 9
+  specificity: 9
+  industry_fit: 9
+  output_quality: 6
+  personalization: 5
+  efficiency: 9
+overall: 8.0
+previous_score: 8.7
+delta_vs_previous: -0.7
+previous_scores:
+  clarity: 9
+  specificity: 9
+  industry_fit: 9
+  output_quality: 9
+  personalization: 6
+  efficiency: 9
+improvement_candidate: true
+improvement_applied: true
+replaced_original: true
+scores_after_improvement:
+  clarity: 9
+  specificity: 9
+  industry_fit: 9
+  output_quality: 9
+  personalization: 9
+  efficiency: 9
+overall_after_improvement: 9.0
+delta_after_improvement: 1.0
+improvement_note: |
+  v1.6 -> v1.7 edited directly on skills/operations/roof-inspection-report.md and re-graded cold against the same
+  rubric and fixture. All three confirmed defects fixed and verified by hand: (1) Section 3a trigger-rule
+  violation -- the Composite Condition Index block (with its full weighted-% table) was removed from the
+  residential storm-claim example (replaced with a one-line note citing the skip rule) and added to the
+  commercial PM example instead, with a new Inspection Findings section (9 categories, TPO-appropriate
+  observations: Roofing Material 3, Ridge/Hip 4, Valleys 3, Flashing 3, Gutters 4, Ventilation 4, Penetrations 4,
+  Decking 4, Interior/Plenum 4) and re-derived math: weighted% = 12.0+9.0+12.0+6.0+8.0+8.0+8.0+4.0+4.0 = 71,
+  correctly landing in the C band (70-79), consistent with the example's REPAIR-AND-MONITOR verdict. (2) The
+  claim-recommendation mislabeling -- South (3 strikes, 0 wind) and East (4 strikes, 0 wind), both under the
+  5-strike threshold, were changed from "Marginal" to "Not Rec." in the Damage Summary table, and the Executive
+  Summary + Claim Recommendation narrative were rewritten to match. This surfaced a second-order inconsistency
+  not in the original defect list: the Documentation Completeness Check still called S+E "marginal slopes" and
+  the verdict was "One gap before submission" -- both were corrected (S+E reframed as Not-Recommended/monitoring-
+  file-only, not part of the claim scope) and the verdict changed to "Submission-ready" since the only
+  documentation gap was on non-claimed slopes. (3) Inspector identity -- "Marcus Patel...HAAG #H-2019-4421" (in
+  fact company.account_manager_name) was replaced with the real inspector, William Reyes, HAAG ID #14782, 19 yrs
+  inspecting, in both examples' headers, signature blocks, and disclaimers. Fabricated field names
+  (inspector.title/.email/.cell, inspector.years_experience, certifications.haag/.manufacturer[]/
+  .state_license_states[], branding.logo_path/.report_letterhead_path/.primary_color_hex, rates.repair_minimum)
+  were removed from the Before-You-Start field list, Cover Page spec, Recommendations spec, and Disclaimer spec,
+  and replaced with fields that actually resolve against fixtures/config.sample.yml (inspector.years_inspecting,
+  flat certifications[] list, company.letterhead_path, rates.tearoff_per_square/install_per_square_<material>/
+  line-item rates), with company.logo_path explicitly flagged and demonstrated as absent-by-design (placeholder +
+  Assumptions note) in both worked examples rather than invented. Newly bound: inspector.professional_liability_
+  carrier, inspector.independence_statement, inspector.expert_witness_history, and inspector.haag_certifications[]
+  are named in Before-You-Start and demonstrated verbatim against the fixture in both examples' Disclaimer/
+  Certification footers (CNA Insurance policy #PL-22817-A, the exact independence-statement text, expert witness
+  history true -> "available on request", and both HAAG-Certified-Residential/-Wind cert strings). Re-graded cold:
+  clarity 9->9, specificity 9->9, industry_fit 9->9, output_quality 6->9, personalization 5->9, efficiency 9->9;
+  overall 8.0->9.0 (delta +1.0). No dimension regressed, so the edited file is kept in place; last_eval_score in
+  frontmatter updated to 9.0.
+note: |
+  v1.5 -> v1.6 (new Section 3a, Composite Condition Index). The new arithmetic is exactly right: default weights
+  sum to 100 (20+15+15+10+10+10+10+5+5), each section's rating/5x100 and %xweight/100 checks out line-by-line
+  (Shingles 2->40%->8.0, Flashing 4->80%->12.0, Decking 4->80%->12.0, Valleys 3->60%->6.0, Penetrations 3->60%->
+  6.0, Ventilation 4->80%->8.0, Gutters 2->40%->4.0, Ridge/Hip Caps 3->60%->3.0, Attic 4->80%->4.0), and the sum
+  8+12+12+6+6+8+4+3+4=63 correctly lands in the D band (60-69). No arithmetic defect in the new section itself.
+  But two real output_quality defects surfaced under adversarial re-derivation of the rest of the file (neither
+  flagged in the 07-20 cycle): (1) Section 3a's own trigger rule says run it for commercial/HOA/multi-family and
+  SKIP it for a one-off residential storm/insurance report unless requested -- the file does exactly the
+  opposite of its own rule: the residential storm-claim example (which should skip it) runs it in full, and the
+  commercial PM example (which should run it) omits it entirely. (2) The claim-recommendation rule states <5
+  strikes with no wind/leak = "not recommended," 5-7 = "marginal" -- but the residential example's South (3
+  strikes) and East (4 strikes) slopes, both under 5 with 0 wind damage, are labeled "Marginal" instead of "Not
+  Recommended," misapplying the skill's own threshold. Photo log count (23) and the 380-sq/38,000sf header still
+  check out. personalization DEFECT deepens on closer inspection: previously-flagged branding.logo_path/.report_
+  letterhead_path/.primary_color_hex (fixture has no branding block; company.letterhead_path is the real field,
+  company.logo_path is absent-by-design) and certifications.haag/rates.repair_minimum/commercial.cap_planning_
+  horizon_years (none exist in the fixture) still don't resolve, and the inspector identity is still swapped
+  (both examples sign "Marcus Patel...HAAG #H-2019-4421," but Marcus Patel is company.account_manager_name in
+  the fixture -- the real inspector is William Reyes, HAAG #14782, 19 yrs). New this pass: inspector.title and
+  inspector.email/.cell don't exist in the fixture at all, and inspector.years_experience is a fabricated field
+  name (fixture has inspector.years_inspecting) -- essentially the whole inspector.* block is invented except
+  .name, which is then bound to the wrong person anyway. The fixture's rich inspector-credibility fields
+  (professional_liability_carrier, independence_statement, expert_witness_history, haag_certifications[]) --
+  exactly what an adjuster would want surfaced -- are never referenced by the skill at all. One genuine positive:
+  the new inspection.condition_index_weights field (also absent-by-design in the fixture) is handled exactly
+  right, with the residential example explicitly labeled "default weights -- no inspection.condition_index_
+  weights configured." That correct graceful-degradation pattern is not enough to offset the inspector-identity
+  and branding.* fabrication elsewhere. output_quality drops 9->6, personalization drops 6->5, overall 8.7->8.0.

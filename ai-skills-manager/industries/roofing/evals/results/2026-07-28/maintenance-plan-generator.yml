@@ -1,0 +1,51 @@
+skill: maintenance-plan-generator
+file: skills/sales/maintenance-plan-generator.md
+date: 2026-07-28
+version_evaluated: "1.7"
+file_changed_since_last_eval: false
+grading_basis: cold  # re-derived from scratch; personalization graded against fixtures/config.sample.yml
+scores:
+  clarity: 9
+  specificity: 9
+  industry_fit: 9
+  output_quality: 9
+  personalization: 7
+  efficiency: 9
+overall: 8.8
+previous_score: 8.8
+delta_vs_previous: 0.0
+previous_scores:
+  clarity: 9
+  specificity: 9
+  industry_fit: 9
+  output_quality: 9
+  personalization: 7
+  efficiency: 9
+improvement_candidate: false
+improvement_applied: false
+replaced_original: false
+note: |
+  Cold re-grade confirms the v1.6->v1.7 pricing fix HOLDS under full independent re-derivation. Residential:
+  Bronze = rates.maintenance_plan_annual_residential = $349 (matches fixture exactly); Silver = 2.5x349+400/2 =
+  872.50+200 = 1072.50 -> round-half-up to nearest $5 = $1,075 (correct, and the half-up rule is explicitly
+  disclosed at the exact boundary where it matters); Gold = 1.75x1075+1000/2 = 1881.25+500 = 2381.25 -> nearest
+  $5 = $2,380 (correct, 2381.25 is closer to 2380 than 2385). Monthly ($30/$90/$200) and annual-prepay
+  ($320/$990/$2,190, all x0.92) both re-derive exactly. Commercial: Silver = 60,000x$0.09+2,500/2 = 5,400+1,250 =
+  $6,650; Gold = 6,650x2.5+3,000 = $19,625; Platinum = 19,625x2+6,000 = $45,250 -- all exact, and monthly/prepay
+  columns ($555/$1,635/$3,770 and $6,120/$18,055/$41,630) all re-derive to the dollar. ROI figures check out too:
+  18-mo repair history $6,820 annualizes to $4,547 (6,820x12/18); 13-yr Gold cost 19,625x13=$255,125 exact;
+  tenant-chargeback band 0.40-1.20 x 60,000sf = $24k-$72k exact, 24,000/19,625=1.2yr and 72,000/19,625=3.7yr both
+  match. Company identity is now fully correct and consistent: "ACME ROOFING & RESTORATION LLC," license
+  TX-RC-0481234, phone 469-555-0142, and certifications[] (GAF Master Elite, Owens Corning Preferred, HAAG
+  Certified) / commercial.certifications[] (Carlisle CCM Authorized Applicator, GAF Master Select) all match the
+  fixture verbatim in both the residential and commercial headers/footers. personalization holds at 7, not
+  higher: the skill still invents an entire `maintenance.*` / `billing.*` namespace (tiers[], base_rate_per_
+  square, inspection_rate_flat, repair_cap_basic/standard/premium, commercial_repair_cap_silver/gold/platinum,
+  post_storm_response_sla_hours, billing.recurring_platform) and `warranty.workmanship_years_on_plan_extension`
+  / `warranty.manufacturer_certifications[]` that do not exist anywhere in the fixture schema (fixture warranty
+  block has only workmanship_years/_better/_best and manufacturer_tiers[]; there is no maintenance or billing
+  key at all) -- these are true invented fields, not ABSENT-BY-DESIGN ones, even though the skill defaults them
+  sensibly and discloses every default in the Assumptions footer ("absent from base config -- flagged, not
+  invented"). That graceful-default discipline is real and keeps this out of the 4-6 band, but per this repo's
+  standard (invented namespace = mark down regardless of how gracefully it degrades) it also keeps personalization
+  out of 8-9. No dimension moved from the post-improvement 07-20 state; the fix is durable.

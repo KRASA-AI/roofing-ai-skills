@@ -4,9 +4,9 @@ category: operations
 tools: [claude, chatgpt]
 difficulty: beginner
 time_saved: "~30 min/report"
-version: 1.6
-last_eval_score: 8.9
-inspiration: "v1.6 (2026-07-28) landscape-monitor concept extraction — added an optional Composite Condition Index (Section 3a): a weighted 0-100 score and A-F letter grade rolled up from the existing 1-5 section ratings, bound to a new optional `inspection.condition_index_weights` config field with sensible defaults when absent. Concept extracted from a July 2026 trade-press profile of a contractor operating system built by an Alpharetta, GA shop, which described feeding a standardized numeric inspection score into a continuous asset-condition-tracking program for owners and property managers, rather than a one-off narrative report. The repo's existing 1-5 per-section ratings gave an inspector-to-inspector consistent scale but no single comparable number a portfolio owner or a returning inspector could track over time; the composite index is that number, computed transparently (weights shown, formula shown) so an adjuster or PM can audit it rather than trust it as a black box. Nothing about the source contractor's own scoring formula, weighting, or software was copied — the section list, weights, and letter-grade bands are original to this repo and reuse the same 9 inspection categories and 1-5 scale already established in Section 3. Cross-references `maintenance-plan-generator` for shops that want to track the index across a customer's or portfolio's inspection history over multiple years. v1.5 (2026-06-22) landscape-monitor concept extraction — added a 'Documentation Completeness Check' step that audits the photos/notes provided against the standard documentation set an insurer (and an insurer's automated claim-review system) expects, names exactly which categories are missing, and flags when a gap would invite a coverage denial or force a return trip to the roof. Concept extracted from the 2026 contractor-side observation that carriers increasingly run automated review on the adjuster side to find documentation gaps and use those gaps to deny or underpay claims, and from field-capture tools that verify on-site that every required documentation angle was taken before the crew leaves (e.g., HomePro AI's field-capture/return-trip-prevention positioning surfaced in the May–June 2026 scans). Operationalized vendor-neutrally: it works from whatever photos a shop already takes (CompanyCam, camera roll, drive folder), requires no specific app, and produces a pre-submission gap list rather than a real-time on-roof prompt. All wording, the category taxonomy, and the worked example are original; no source checklist text, product copy, or numeric claims were copied, and no vendor's proprietary 'required-angle' list was reproduced. v1.4 (2026-06-15) eval improvement cycle targeting output_quality — fixed an internal inconsistency in the commercial PM Example Output header, which labeled the building '60-sq TPO retail strip' while the body (and the capital-planning table, priced per 38,000 sf) described a 38,000 sf roof; 38,000 sf is ~380 squares, not 60, so the header now reads '38,000 sf / 380-sq' to match the worked numbers an adjuster or asset manager would cross-check. v1.3 (2026-06-08) eval improvement cycle targeting output_quality (lowest-scoring skill in the repo at 7.8) — the residential Example Output defined a Photo Log and Disclaimer/Certification section in the structure but never showed them; both are now demonstrated end-to-end (23-photo log, full disclaimer + signature/cert footer). Added a second fully-worked Example Output for the Commercial Property-Manager variant (38,000 sf TPO retail strip, 14 yr, Plano TX) exercising the capital-planning table, IBC 1503 / ASCE 7 reserve-study compliance items, tenant-coordination notes, and commercial.cap_planning_horizon_years — the variant was described but unexemplified for two cycles. v1.2 rewritten 2026-04-25 from eval improvement cycle — named config-field binding (inspector.*, certifications.*, branding.*, rates.* for cost-range hints), explicit hail-claim threshold rule (8 strikes per square per FM Global / HAAG industry guidance), commercial property-manager output variant, and an example 28-square hail-damage report skeleton. v1.1 enhanced with structured inspection categories, condition rating scale, photo reference system, and insurance-grade documentation."
+version: 1.7
+last_eval_score: 9.0
+inspiration: "v1.7 (2026-07-28) eval improvement cycle targeting output_quality and personalization (cold score 8.0: clarity9 specificity9 industry_fit9 output_quality6 personalization5 efficiency9) — three confirmed defects fixed. (1) Section 3a's own trigger rule says run the Composite Condition Index for commercial/HOA/multi-family and skip it for a one-off residential storm/insurance report unless requested; the file did the opposite, running it in the residential example and omitting it from the commercial PM example. The residential example's Composite Condition Index block is removed; the commercial PM example now carries a full Inspection Findings section (9 categories, TPO-appropriate observations) plus the Composite Condition Index with re-derived math (Composite Score 71/100, Grade C), consistent with the example's REPAIR-AND-MONITOR capital-planning verdict. (2) The claim-recommendation rule states <5 strikes with no wind/leak damage = 'Not Recommended,' 5-7 = 'Marginal'; the residential example's South (3 strikes, 0 wind) and East (4 strikes, 0 wind) slopes were mislabeled 'Marginal' instead of 'Not Recommended.' Both the Damage Summary table and the Claim Recommendation narrative now apply 'Not Recommended' correctly and stay consistent with the Monitoring recommendation already present. (3) The inspector identity was fabricated/swapped throughout — both worked examples signed as 'Marcus Patel...HAAG #H-2019-4421,' but Marcus Patel is company.account_manager_name in config, not the inspector; the real inspector per config is William Reyes, HAAG ID 14782, 19 years inspecting. Both examples now sign as William Reyes with the correct HAAG ID and inspector.haag_certifications[]. Fabricated field names (inspector.title, inspector.email, inspector.cell, inspector.years_experience, certifications.haag, certifications.manufacturer[], certifications.state_license_states[], branding.logo_path, branding.report_letterhead_path, branding.primary_color_hex, rates.repair_minimum) were removed or replaced with the fields that actually exist in config (inspector.years_inspecting, flat certifications[] list, company.letterhead_path, rates.tearoff_per_square / rates.install_per_square_<material> / line-item rates), with company.logo_path explicitly flagged as absent-by-design rather than invented. Newly bound: inspector.professional_liability_carrier, inspector.independence_statement, inspector.expert_witness_history, and inspector.haag_certifications[] are now referenced in the Before-You-Start field list and demonstrated in both worked examples' Disclaimer/Certification footers, since these are exactly the credibility fields a receiving adjuster wants to see. v1.6 (2026-07-28) landscape-monitor concept extraction — added an optional Composite Condition Index (Section 3a): a weighted 0-100 score and A-F letter grade rolled up from the existing 1-5 section ratings, bound to a new optional `inspection.condition_index_weights` config field with sensible defaults when absent. Concept extracted from a July 2026 trade-press profile of a contractor operating system built by an Alpharetta, GA shop, which described feeding a standardized numeric inspection score into a continuous asset-condition-tracking program for owners and property managers, rather than a one-off narrative report. The repo's existing 1-5 per-section ratings gave an inspector-to-inspector consistent scale but no single comparable number a portfolio owner or a returning inspector could track over time; the composite index is that number, computed transparently (weights shown, formula shown) so an adjuster or PM can audit it rather than trust it as a black box. Nothing about the source contractor's own scoring formula, weighting, or software was copied — the section list, weights, and letter-grade bands are original to this repo and reuse the same 9 inspection categories and 1-5 scale already established in Section 3. Cross-references `maintenance-plan-generator` for shops that want to track the index across a customer's or portfolio's inspection history over multiple years. v1.5 (2026-06-22) landscape-monitor concept extraction — added a 'Documentation Completeness Check' step that audits the photos/notes provided against the standard documentation set an insurer (and an insurer's automated claim-review system) expects, names exactly which categories are missing, and flags when a gap would invite a coverage denial or force a return trip to the roof. Concept extracted from the 2026 contractor-side observation that carriers increasingly run automated review on the adjuster side to find documentation gaps and use those gaps to deny or underpay claims, and from field-capture tools that verify on-site that every required documentation angle was taken before the crew leaves (e.g., HomePro AI's field-capture/return-trip-prevention positioning surfaced in the May–June 2026 scans). Operationalized vendor-neutrally: it works from whatever photos a shop already takes (CompanyCam, camera roll, drive folder), requires no specific app, and produces a pre-submission gap list rather than a real-time on-roof prompt. All wording, the category taxonomy, and the worked example are original; no source checklist text, product copy, or numeric claims were copied, and no vendor's proprietary 'required-angle' list was reproduced. v1.4 (2026-06-15) eval improvement cycle targeting output_quality — fixed an internal inconsistency in the commercial PM Example Output header, which labeled the building '60-sq TPO retail strip' while the body (and the capital-planning table, priced per 38,000 sf) described a 38,000 sf roof; 38,000 sf is ~380 squares, not 60, so the header now reads '38,000 sf / 380-sq' to match the worked numbers an adjuster or asset manager would cross-check. v1.3 (2026-06-08) eval improvement cycle targeting output_quality (lowest-scoring skill in the repo at 7.8) — the residential Example Output defined a Photo Log and Disclaimer/Certification section in the structure but never showed them; both are now demonstrated end-to-end (23-photo log, full disclaimer + signature/cert footer). Added a second fully-worked Example Output for the Commercial Property-Manager variant (38,000 sf TPO retail strip, 14 yr, Plano TX) exercising the capital-planning table, IBC 1503 / ASCE 7 reserve-study compliance items, tenant-coordination notes, and commercial.cap_planning_horizon_years — the variant was described but unexemplified for two cycles. v1.2 rewritten 2026-04-25 from eval improvement cycle — named config-field binding (inspector.*, certifications.*, branding.*, rates.* for cost-range hints), explicit hail-claim threshold rule (8 strikes per square per FM Global / HAAG industry guidance), commercial property-manager output variant, and an example 28-square hail-damage report skeleton. v1.1 enhanced with structured inspection categories, condition rating scale, photo reference system, and insurance-grade documentation."
 ---
 
 # 🏠 Roof Inspection Report
@@ -41,10 +41,11 @@ You are a roofing inspector's AI assistant. Your job is to produce a professiona
 
 - Load `config.yml` — specifically these named fields:
   - `company.name`, `company.license_number`, `company.phone`, `company.email_from`, `company.address`
-  - `inspector.name`, `inspector.title`, `inspector.years_experience`, `inspector.email`, `inspector.cell` — surfaces in cover page + signature block
-  - `certifications.haag` (true/false), `certifications.manufacturer[]` (e.g., GAF Master Elite, OC Platinum Preferred, CertainTeed SELECT ShingleMaster, Carlisle Authorized Applicator), `certifications.state_license_states[]` — printed on cover + every page header
-  - `branding.logo_path`, `branding.report_letterhead_path`, `branding.primary_color_hex` — cover page styling
-  - `rates.repair_minimum`, `rates.per_square_<material>` — used to populate the rough cost-range column in the Recommendations table when present
+  - `inspector.name`, `inspector.haag_id`, `inspector.years_inspecting`, `inspector.haag_certifications[]` — surfaces in cover page + signature block. No standard config defines `inspector.title`/`.email`/`.cell`; if absent, use `company.phone`/`company.email_from` for signature-block contact info and note the substitution in Assumptions rather than inventing inspector-specific contact fields.
+  - `inspector.professional_liability_carrier`, `inspector.independence_statement`, `inspector.expert_witness_history` — surfaces in the Disclaimer/Certification footer (Section 8) so a receiving adjuster or carrier can independently verify the inspector's standing and financial independence; state `expert_witness_history` plainly (true/false) rather than omitting it
+  - `certifications[]` (flat list, e.g. "GAF Master Elite", "Owens Corning Preferred", "HAAG Certified") — printed on cover + every page header. There is no separate `certifications.haag` boolean or `certifications.manufacturer[]`/`certifications.state_license_states[]` sub-structure in standard config; treat the presence of a HAAG-type string in the flat list as HAAG certification, and pull state licensure from `company.license_number` only unless a shop's own config defines a state-license list.
+  - `company.letterhead_path` — cover page letterhead styling. `company.logo_path` is a commonly-used field for the cover logo but is not guaranteed to be configured (this repo's eval fixture omits it deliberately); when absent, use a text placeholder (e.g. "[Company Logo]") and flag it in the output's Assumptions footer instead of inventing a path. No brand-color field (`branding.primary_color_hex` or similar) exists in standard config — default to plain black/white formatting unless a shop's config defines one.
+  - `rates.tearoff_per_square`, `rates.install_per_square_<material>` (e.g. `install_per_square_architectural`), and relevant line-item rates (`ice_water_per_lf`, `drip_edge_per_lf`, `starter_per_lf`, `ridge_vent_per_lf`, `pipe_boot_each`, `permit_rate`) — used to populate the rough cost-range column in the Recommendations table when present. There is no standard repair-minimum/trip-charge field; if a shop's config doesn't define one, show "estimate-on-request" for small repairs rather than inventing a minimum
   - `voice` — communication tone (homeowner-friendly / professional / clinical depending on customer type)
   - `commercial.cap_planning_horizon_years` (default 10) — used in commercial reports to bracket the capital-planning recommendation window
   - `inspection.condition_index_weights` (optional map of section name → weight, summing to 100) — used in the optional Composite Condition Index (Section 3a); if absent, use the default weights shown there and note the default was used
@@ -55,8 +56,8 @@ You are a roofing inspector's AI assistant. Your job is to produce a professiona
 **Report structure:**
 
 ### 1. Cover Page / Header
-- `branding.logo_path` (or placeholder), `company.name`, `company.license_number`, certifications block from `certifications.haag` + `certifications.manufacturer[]`
-- Property address, customer name (or property-manager + building name), inspection date, inspector name + cell + email
+- `company.logo_path` (or "[Company Logo]" placeholder if absent — flag in Assumptions), letterhead styling from `company.letterhead_path`, `company.name`, `company.license_number`, certifications block from the flat `certifications[]` list
+- Property address, customer name (or property-manager + building name), inspection date, inspector name (`inspector.name`, `inspector.haag_id`) with signature-block contact pulled from `company.phone`/`company.email_from` unless inspector-specific contact fields are configured
 - Report purpose (general assessment, storm damage, insurance claim, real estate cert, capital planning)
 
 ### 2. Executive Summary
@@ -164,12 +165,13 @@ Only run this section for storm/insurance work; skip it for routine maintenance 
 - **Immediate** (safety or active leaks): Action + urgency
 - **Near-term** (within 6 months): Repairs to prevent escalation
 - **Monitoring**: Items to watch at next inspection
-- Cost ranges populated from `rates.repair_minimum` and `rates.per_square_<material>` when present; "estimate-on-request" otherwise
+- Cost ranges populated from `rates.tearoff_per_square`, `rates.install_per_square_<material>`, and relevant line-item rates when present; "estimate-on-request" otherwise (no repair-minimum field exists in standard config — do not invent one)
 
 ### 8. Disclaimer / Certification
 - Standard inspection disclaimer (visual inspection only, not a warranty, not a guarantee of insurability)
-- Inspector signature block from `inspector.name` / `inspector.title` / `inspector.years_experience` / certifications
-- Company license + cert footer on every page
+- Inspector signature block from `inspector.name` / `inspector.haag_id` / `inspector.years_inspecting` / `inspector.haag_certifications[]`
+- Inspector credibility block: `inspector.professional_liability_carrier`, `inspector.independence_statement`, and `inspector.expert_witness_history` — this is what lets an adjuster verify the inspector has no financial stake in the claim outcome and is professionally insured; include it in every insurance/claim-support report
+- Company license + cert footer (`company.license_number`, `certifications[]`) on every page
 
 **Output requirements:**
 
@@ -177,7 +179,7 @@ Only run this section for storm/insurance work; skip it for routine maintenance 
 - Consistent 1–5 condition ratings throughout
 - Photo references integrated into findings (not just appended)
 - Actionable recommendations with priority levels and (when config supports) cost ranges
-- Branding from `branding.*` config fields throughout
+- Cover/letterhead styling from `company.letterhead_path` and `company.logo_path` (placeholder + Assumptions flag if absent) throughout
 - Saved to `outputs/inspections/{property-address-slug}-{YYYY-MM-DD}.md` if user confirms
 
 **Variant: Commercial Property-Manager Report**
@@ -198,29 +200,30 @@ When `customer_type` is commercial / multi-family / HOA, also produce:
 ## Example Output (28-square asphalt, post-hail, residential)
 
 ```
-[GAF MasterElite logo]    HAAG Certified Inspector
+[Company Logo — placeholder, company.logo_path not configured]    HAAG Certified Inspector
 ACME ROOFING, LLC                                License #TX-RC-0481234
 
 Roof Inspection Report — Insurance Claim Support
 Property:   1248 Maple Ridge Dr, Frisco, TX 75070
 Owner:      Jane Doe
 Inspected:  2026-04-22, 9:15 AM CDT
-Inspector:  Marcus Patel — Senior Inspector, 14 yrs, HAAG #H-2019-4421
+Inspector:  William Reyes — 19 yrs inspecting, HAAG ID #14782
 
 EXECUTIVE SUMMARY
 Roof shows functional hail damage from the 2026-04-18 event consistent with
 1.5" reported peak stone (NOAA event 20260418-DFW-HAIL-117). North and west
 slopes meet HAAG-aligned claim threshold (≥8 strikes per test square). Overall
 condition: 2 (Poor — storm-driven). Recommended action: file insurance claim
-for full replacement of north and west slopes; south and east slopes show
-marginal damage and should be documented in the claim narrative.
+for full replacement of north and west slopes; south and east slopes fall
+below the 5-strike marginal threshold with no wind damage — not recommended
+for claim, documented below for the monitoring file only.
 
 DAMAGE SUMMARY (per slope)
 Slope    Test SQ Location    Strikes  Strike Size      Wind  Pattern  Verdict
 North    Mid-slope,  20' E   12       Med (0.75–1.25") 0     ✅       Claim
 West     Upper,      8' S    9        Med + 2 Large    1     ✅       Claim
-South    Lower,      15' W   3        Small            0     —        Marginal
-East     Mid-slope,  10' N   4        Small            0     —        Marginal
+South    Lower,      15' W   3        Small            0     —        Not Rec.
+East     Mid-slope,  10' N   4        Small            0     —        Not Rec.
 
 INSPECTION FINDINGS
 Shingles            2  See Photos 1–14   GAF Timberline HDZ, 9 yrs old.
@@ -234,28 +237,19 @@ Penetrations        3  See Photos 21–22 Pipe boots within useful life.
 Decking             4  Attic visible    No staining, no soft spots.
 Attic               4  See Photo 23     Insulation dry, no moisture intrusion.
 
-COMPOSITE CONDITION INDEX (default weights — no inspection.condition_index_weights configured)
-Section          Rating  %    Weight  Weighted %
-Shingles           2     40%    20      8.0
-Flashing           4     80%    15     12.0
-Decking            4     80%    15     12.0
-Valleys            3     60%    10      6.0
-Penetrations       3     60%    10      6.0
-Ventilation        4     80%    10      8.0
-Gutters            2     40%    10      4.0
-Ridge/Hip Caps     3     60%     5      3.0
-Attic              4     80%     5      4.0
-COMPOSITE SCORE: 63 / 100 — GRADE: D
-Consistent with the storm-driven Poor (2) shingle and gutter ratings pulling the
-score down; grade reflects a roof at full-replacement decision point, not a
-maintenance-monitor point. Re-score at next inspection to track post-replacement.
+Note: this is a one-off residential storm/insurance report, so the Composite
+Condition Index (Section 3a) is skipped per its own trigger rule (index runs
+for commercial/HOA/multi-family or maintenance-plan customers, or on request).
 
 CLAIM RECOMMENDATION
 Industry-standard rule applied: ≥8 functional strikes per 10×10 test square on
 any single slope qualifies for claim recommendation. North slope: 12 strikes.
 West slope: 9 strikes. Both meet threshold. Recommend filing claim for full
-replacement scope. Routing to insurance-supplement-writer skill once carrier
-estimate arrives.
+replacement scope. South slope (3 strikes) and East slope (4 strikes) are both
+under the 5-strike threshold with zero wind-damage findings — per rule, both
+are Not Recommended for claim and are documented for the monitoring file
+instead. Routing to insurance-supplement-writer skill once carrier estimate
+arrives.
 
 RECOMMENDATIONS
 Immediate    None — roof is watertight.
@@ -286,27 +280,32 @@ Per-slope test square        Present   N + W have wide + close-ups w/ scale
 Damage detail with scale     Present   coin/chalk in #2–8, #9–14
 Collateral / soft-metal      Present   gutter dents (#18–19) confirm event
 Penetrations & flashing      Present   #17, #21–22
-Pre-existing vs. event       Partial   S + E marginal slopes lack a clear
-                                       age-vs-event close-up — recapture if
-                                       carrier reattributes to wear
+Pre-existing vs. event       Present   N + W (claimed slopes) documented;
+                                       S + E (Not Recommended, monitoring
+                                       file only) not required for this claim
 Interior / attic             Present   #23
 Date / event context         Present   NOAA 20260418-DFW-HAIL-117 cited
 
-VERDICT: ⚠️ One gap before submission — add 1–2 close-ups on the S and E
-slopes distinguishing storm strikes from prior granule wear, so the carrier
-cannot reattribute the marginal slopes to age. N + W claim documentation is
-submission-ready as-is. Recapture on the next pass through the area; do not
-hold the N + W claim for it.
+VERDICT: ✅ Submission-ready — all categories Present for the N + W claim
+scope; no documentation gap an automated carrier review would flag. S + E
+were evaluated and found Not Recommended (below the 5-strike threshold, no
+wind damage) and are documented for the monitoring file only, not submitted
+as part of this claim.
 
 DISCLAIMER / CERTIFICATION
 This is a visual inspection only and does not constitute a warranty or a
 guarantee of insurability. Findings reflect conditions observed on the
 inspection date. Hail-strike counts follow HAAG-aligned functional-damage
 criteria (granule displacement + mat exposure within a 10×10 test square).
+Independence statement: the undersigned inspector has no contingent fee, no
+commission, and no financial interest in the outcome of the homeowner's
+policy retention. Professional liability: CNA Insurance, policy #PL-22817-A
+($2M each-claim). Expert witness history: yes — available on request.
 
-— Marcus Patel, Senior Inspector (14 yrs) — Acme Roofing, LLC
-  HAAG Certified #H-2019-4421 — GAF Master Elite — License #TX-RC-0481234
-  469-555-0142 — mpatel@acmeroofing.example
+— William Reyes, Inspector (19 yrs inspecting) — Acme Roofing, LLC
+  HAAG ID #14782 — HAAG-Certified-Residential #14782, HAAG-Certified-Wind
+  #11203 — GAF Master Elite — License #TX-RC-0481234
+  469-555-0142 — estimates@acmeroofs.com
   License + certifications printed on every page footer.
 ```
 
@@ -315,10 +314,11 @@ criteria (granule displacement + mat exposure within a 10×10 test square).
 ## Example Output (commercial PM variant — 38,000 sf / 380-sq TPO retail strip, capital planning)
 
 ```
+[Company Logo — placeholder, company.logo_path not configured]
 ACME ROOFING, LLC — Commercial Property-Condition Assessment      License #TX-RC-0481234
 Property:  Parkside Commons, 1820 Preston Rd, Plano TX 75093 (retail strip, 38,000 sf)
 Prepared for: Lincoln Property Co. (3rd-party PM) — Asset Manager file
-Inspected: 2026-06-04 — Inspector: Marcus Patel, HAAG #H-2019-4421
+Inspected: 2026-06-04 — Inspector: William Reyes, 19 yrs inspecting, HAAG ID #14782
 
 EXECUTIVE SUMMARY
 60-mil mechanically-attached TPO, ~14 yrs old, past mid-life. Overall condition
@@ -326,6 +326,48 @@ EXECUTIVE SUMMARY
 the NE field. No active interior leaks reported. Capital-planning verdict:
 REPAIR-AND-MONITOR now; budget partial-to-full recover within the 10-yr horizon
 (commercial.cap_planning_horizon_years = 10).
+
+INSPECTION FINDINGS
+Roofing Material (TPO) 3  See Photos 1–6    60-mil TPO membrane, 14 yrs. Seam-
+                                             fastener backout in NE field (~400
+                                             sf), isolated debonding at 3 seams.
+Ridge/Hip (Coping)     4  See Photo 7       Perimeter parapet coping caps
+                                             intact, sealant tight.
+Valleys (Drains)       3  See Photos 8–9    Ponding at Drains 2 and 4; slow
+                                             flow, debris in strainer baskets.
+Flashing               3  See Photos 10–11  Curb flashing lifting at 2 of 6
+                                             HVAC units; counterflashing
+                                             sealant cracking.
+Gutters (Scuppers)     4  See Photo 12      2 overflow scuppers clear and
+                                             functional, minor debris only.
+Ventilation (Curbs)    4  See Photo 13      HVAC curb seals intact, no ponding
+                                             at curbs.
+Penetrations           4  See Photos 14–15  Pipe boots + conduit sealed; 2
+                                             pitch pans due for refresh <12 mo.
+Decking                4  Interior walk     No sagging, no soft spots, no
+                                             deflection at plenum check.
+Interior/Plenum        4  See Photo 16      No ceiling-tile staining, no
+                                             moisture at drain penetrations.
+
+COMPOSITE CONDITION INDEX (default weights — no inspection.condition_index_weights configured)
+Section          Rating  %    Weight  Weighted %
+Shingles/Membrane  3     60%    20     12.0
+Flashing           3     60%    15      9.0
+Decking            4     80%    15     12.0
+Valleys            3     60%    10      6.0
+Penetrations       4     80%    10      8.0
+Ventilation        4     80%    10      8.0
+Gutters            4     80%    10      8.0
+Ridge/Hip Caps     4     80%     5      4.0
+Attic/Plenum       4     80%     5      4.0
+COMPOSITE SCORE: 71 / 100 — GRADE: C
+Run per Section 3a's trigger rule (commercial customer type) — a one-off
+residential storm report would skip this. The Fair (3) ratings on the
+membrane, flashing, and drainage categories — the same three areas driving
+the repair scope above — pull the score into the C band, consistent with a
+REPAIR-AND-MONITOR verdict rather than an urgent full-replacement score.
+Track this number against the property's next inspection to confirm the
+repair scope arrests further decline.
 
 CAPITAL-PLANNING TABLE (per 38,000 sf)
 Option              Scope                              Yr-1      5-yr total  10-yr total
@@ -345,7 +387,13 @@ TENANT COORDINATION NOTES
 
 DISCLAIMER / CERTIFICATION
 Visual inspection only; not a warranty or guarantee of insurability.
-— Marcus Patel, Senior Inspector — Acme Roofing, LLC — HAAG #H-2019-4421
+Independence statement: the undersigned inspector has no contingent fee, no
+commission, and no financial interest in the outcome of any policy or claim
+retention. Professional liability: CNA Insurance, policy #PL-22817-A ($2M
+each-claim). Expert witness history: yes — available on request.
+— William Reyes, Inspector (19 yrs inspecting) — Acme Roofing, LLC
+  HAAG ID #14782 — HAAG-Certified-Residential #14782, HAAG-Certified-Wind
+  #11203 — License #TX-RC-0481234
 ```
 
 (Run with your own field data + config to replace these illustrative values.)

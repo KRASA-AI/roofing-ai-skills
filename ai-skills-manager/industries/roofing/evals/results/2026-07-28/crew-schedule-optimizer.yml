@@ -1,0 +1,38 @@
+skill: crew-schedule-optimizer
+file: skills/operations/crew-schedule-optimizer.md
+date: 2026-07-28
+version_evaluated: "1.3"
+file_changed_since_last_eval: false
+grading_basis: cold  # re-derived from scratch; personalization graded against fixtures/config.sample.yml
+scores:
+  clarity: 9
+  specificity: 9
+  industry_fit: 9
+  output_quality: 8
+  personalization: 5
+  efficiency: 9
+overall: 8.4
+previous_score: 8.4
+delta_vs_previous: 0.0
+previous_scores:
+  clarity: 9
+  specificity: 9
+  industry_fit: 9
+  output_quality: 8
+  personalization: 5
+  efficiency: 9
+improvement_candidate: false
+improvement_applied: false
+replaced_original: false
+note: |
+  Cold re-grade, version unchanged at 1.3 — both previously-identified defects hold verbatim. (1) Utilization
+  re-derives clean: Crew A 32+16+32+32+32=144/160=90%, Crew B 24+12+24+24+0=84/120=70%, Crew C 10+0+6+8+8=32/80=40%
+  — no error here. (2) Risk Register J1 still reads "Tear-off Mon, install Wed, punch Wed PM -- 6-day buffer"
+  against a 5/18 deadline: 5/13 to 5/18 is 5 days, not 6, and the escalation "if Wed is rained out, push to Thu
+  (still 1 day buffer)" is doubly wrong -- moving install one day later (to 5/14) leaves a 4-day buffer, not 1.
+  Confirmed output_quality defect, unchanged. personalization still 5: the skill names crews[], shift.start_time/
+  end_time, weather_rules, standard_crew_days, preferred_suppliers, and safety.jha_path, none of which exist in
+  the fixture schema (fixture instead has crew_leads[] with only 2 entries -- Hector Ramirez es/6, Dale Whitmore
+  en/5 -- and suppliers.preferred[], and no shift/weather_rules/jha_path block at all). Only service_area.zip_codes
+  resolves. The worked example's 3-crew roster (Jones/Ramos/Tran) and J3's "config.safety.jha_path" citation are
+  both fabricated against a fixture that has neither a 3rd crew nor a jha_path field. No change from 07-20.

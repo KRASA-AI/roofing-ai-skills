@@ -1,0 +1,46 @@
+skill: predictive-lead-scorer
+file: skills/sales/predictive-lead-scorer.md
+date: 2026-07-28
+version_evaluated: "2.2"
+file_changed_since_last_eval: false
+grading_basis: cold  # re-derived from scratch; personalization graded against fixtures/config.sample.yml
+scores:
+  clarity: 9
+  specificity: 9
+  industry_fit: 9
+  output_quality: 9
+  personalization: 8
+  efficiency: 9
+overall: 8.9
+previous_score: 8.9
+delta_vs_previous: 0.0
+previous_scores:
+  clarity: 9
+  specificity: 9
+  industry_fit: 9
+  output_quality: 9
+  personalization: 8
+  efficiency: 9
+improvement_candidate: false
+improvement_applied: false
+replaced_original: false
+note: |
+  FIX VERIFIED — HOLDS. Re-derived all 10 composites in the Storm-Response worked example by hand under the
+  skill's own weights (Weather 35 / Age 20 / Neighborhood 15 / Recency 15 / Revenue 15, /10): Janelle Doe
+  10/10/10/10/8 -> 970/10=97 (shown 97, correct); Marcus Bell 10/10/10/6/8 -> 910/10=91 (shown 91, correct);
+  Pat Nguyen 10/8/7/10/8 -> 885/10=88.5 -> 88 per stated round-down convention (shown 88, correct); Lisa Fortuna
+  10/8/10/4/8 -> 840/10=84 (shown 84, correctly Hot -- this is the exact row the pre-2.2 version mis-scored as
+  78/Warm, and it now clears the >=80 line); Cold-75074 #1 10/8/10/0/8 -> 780/10=78 (Warm, correct); Diana Chu
+  10/4/10/6/6 -> 760/10=76 (correct); Cold-75070 #1 10/8/10/0/6 -> 750/10=75 (correct); Greg Novak 10/8/7/4/4 ->
+  735/10=73.5 -> 73 (correct); T. Maddox 4/5/10/10/8 -> 660/10=66 (correct); Sara Odom 2/4/4/8/2 -> 360/10=36
+  (correct). All 10 rows decompose exactly, the ranking 97/91/88/84/78/76/75/73/66/36 is monotonic, and the tier
+  summary (4 Hot / 13 Warm / 8 Nurture, summing to the 25-lead batch) reconciles. No arithmetic defect found this
+  cycle. Personalization holds at 8: service_area.zip_codes[] and .hail_zones[] resolve as exact matches against
+  the fixture, voice matches verbatim ("Direct, plain-spoken, no jargon"), and the inspector reference correctly
+  binds the fixture's William Reyes. Fields absent from the fixture entirely -- canvassing.territories[],
+  target_profile.roof_age_floor/premium/ticket_minimum, rates.average_job_value (fixture has only per-line
+  rates.*, no blended job value), past_jobs.completed_addresses[] -- are all explicitly flagged as
+  config-absent/batch-supplied/defaulted rather than fabricated as if resolved from config.yml, which is the
+  graceful-degradation behavior the rubric rewards; short of 9-10 only because several of the skill's named
+  fields simply don't exist in the fixture schema. No regression on any dimension since the 2.2 fix landed;
+  delta is flat at 0.0.

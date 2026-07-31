@@ -1,0 +1,99 @@
+skill: sales-call-coach
+file: skills/sales/sales-call-coach.md
+date: 2026-07-28
+version_evaluated: "1.0"
+file_changed_since_last_eval: true
+grading_basis: cold  # re-derived from scratch; personalization graded against fixtures/config.sample.yml
+scores:
+  clarity: 9
+  specificity: 9
+  industry_fit: 9
+  output_quality: 7
+  personalization: 5
+  efficiency: 9
+overall: 8.2
+previous_score: null
+delta_vs_previous: null
+improvement_candidate: true
+improvement_applied: true
+replaced_original: true
+scores_after_improvement:
+  clarity: 9
+  specificity: 9
+  industry_fit: 9
+  output_quality: 9
+  personalization: 9
+  efficiency: 9
+overall_after_improvement: 9.0
+delta_after_improvement: 0.8
+improvement_note: |
+  Applied all three confirmed defects to skills/sales/sales-call-coach.md, bumped version 1.0 -> 1.1,
+  prepended a v1.1 inspiration entry, set last_eval_score: 8.2 (the pre-improvement score) in frontmatter.
+  Fix 1 (output_quality, missed/scored contradiction): Step 1's Missed rule now states explicitly that a
+  weak-but-attempted rebuttal is scored, not Missed, and that this must stay consistent through Step 4 --
+  "an objection that gets technique sub-scores in this table can never also be logged as missed in the Team
+  Objection Log." Step 4's log spec now defines the three `handled` values (yes/no/missed) and maps each to
+  Step 1 state, plus a hard rule: "Only use missed when the scorecard itself marked that objection Missed."
+  In the worked example, both Team Objection Log rows for Sam Rivera's two objections changed from
+  "missed | undecided | A2 R1 E1 C1" / "missed | undecided | A1 R2 E1 C1" to "no | undecided | A2 R1 E1 C1" /
+  "no | undecided | A1 R2 E1 C1", matching the scorecard rows directly above them which score both responses
+  (2/1/1/1 and 1/2/1/1). A one-line note under the scorecard and another under the log now call out explicitly
+  that both objections were attempted, not missed. Fix 2 (output_quality, rounding): Step 2's spec now requires
+  showing the unrounded weighted sum before rounding and states round-half-up as the convention. The worked
+  example now reads "Unrounded sum: 9.0 + 8.0 + 8.75 + 2.0 + 2.0 = 29.75. Round half-up ->" followed by
+  "Composite: 30 / 100 (29.75, rounded)" instead of a bare "Composite: 30 / 100". Fix 3 (personalization,
+  fabricated config): removed `team.rep_roster[]` entirely from "Before you start" and the worked example --
+  rep identity now correctly sourced from Required Input #2 (the skill never needed a config roster). Rewrote
+  the `financing.partners[]` and `reviews.*` bullets in "Before you start" to name them as commonly-absent
+  fields the skill must ask about, substitute an in-config evidence anchor for, or flag -- never invent. Added
+  an "Assumptions footer" requirement to Output requirements. In the worked example, the "Resolved config
+  fields" line now lists only the four fields that actually resolve against fixtures/config.sample.yml
+  (company.name, voice, warranty.workmanship_years, warranty.manufacturer_tiers[1], certifications[]), a new
+  "Not found in this shop's config" paragraph names financing.partners[] and reviews.* as absent, the
+  $725/mo financing figure in the scorecard and cheat sheet is now inline-flagged "[placeholder -- not in
+  config]" instead of presented as a resolved GreenSky rate, all review-count/rating citations were removed
+  from the coaching (no substitute review evidence was invented), and a new "Assumptions footer for this run"
+  section closes the example naming exactly what was absent and why. Re-graded the full edited file cold
+  against rubric.yml and fixtures/config.sample.yml: clarity9 specificity9 industry_fit9 output_quality9
+  personalization9 efficiency9, overall 9.0 (all five weighted-dimension arithmetic re-derived: 9x.2 x4 +
+  9x.1 x2 = 9.0). Every dimension is >= its pre-improvement value (output_quality 7->9, personalization 5->9,
+  the other four unchanged at 9) and overall improved 8.2 -> 9.0 (delta +0.8), so the edited file was kept in
+  place per the improvement-cycle rule.
+note: |
+  FIRST EVALUATION. New v1.0 skill, cold-graded against fixtures/config.sample.yml with no prior cycle to compare.
+
+  output_quality (7 -- "a gap / minor inconsistency"): the worked example's Overall Call Score sub-totals
+  (Rapport 15%x60=9.0, Discovery 20%x40=8.0, Objection handling 35%x25=8.75, Close 20%x10=2.0, Next-step
+  10%x20=2.0) re-derive correctly and sum to 29.75, which the skill then states as "Composite: 30/100" -- a
+  rounding gap the skill doesn't acknowledge, minor on its own. The real defect is a self-contradiction against
+  the skill's own Step 1 rule: "If the call record shows no rebuttal attempt for an objection that was clearly
+  raised, mark it Missed rather than scoring it." Sam DID respond to both objections in the call record ("it's
+  actually a really fair price for the area" / "we use better materials"), and the scorecard explicitly scores
+  those responses (Acknowledge/Reframe/Evidence/Close = 2/1/1/1 and 1/2/1/1, averaging 1.25 each) and folds both
+  averages into the Objection-handling composite sub-score. Yet the Team Objection Log entries for both of those
+  same objections are written as "missed" ("2026-07-25 | Sam Rivera | \"too expensive\" | missed | undecided |
+  A2 R1 E1 C1"). Per the skill's own definition, "missed" means no rebuttal was attempted and should NOT be
+  scored/averaged -- these two rows are scored AND logged as missed simultaneously, which can't both be true.
+  A sales manager reading the log would file this as "Sam never responded" when the scorecard shows he responded
+  and just responded badly; that's a materially different coaching action.
+
+  personalization (5 -- "config referenced only generically" / heavy invention): company.name ("Acme Roofing &
+  Restoration LLC"), voice ("Direct, plain-spoken, no jargon"), warranty.workmanship_years (6), and
+  certifications[] (GAF Master Elite / Owens Corning Preferred / HAAG Certified) all resolve as exact matches
+  against the fixture -- genuinely good binding. But three of the seven named config groups are fabricated
+  wholesale: `financing.partners[]` doesn't exist anywhere in the fixture (no `financing:` key at all), yet the
+  example states specific invented terms -- "GreenSky, 9.99% APR / 0% for 24 months on $15k+" -- and uses them
+  as the anchor for the entire "too expensive" rebuttal. `reviews.google_profile_url` / `.count_last_90_days` /
+  `.average_rating` also don't exist in the fixture (no `reviews:` key), yet the example states "4.9" and "142"
+  as if pulled from config. `team.rep_roster[]` doesn't exist either -- the fixture's only personnel list is
+  `crew_leads[]` (Hector Ramirez / Dale Whitmore, installation crew with language + crew_size fields, not sales
+  reps), so "Sam Rivera" resolving from "team.rep_roster" is invented outright. This is the repo's
+  most-recurring defect pattern (fabricated config fields with specific, confident-sounding numbers) and it's
+  concentrated on the highest-stakes claims in the coaching script (an APR a rep would actually quote a
+  homeowner, a review count a rep would actually cite). No known contact-info bug (phone/email/address) is
+  present -- the worked example never prints company contact details.
+
+  clarity/specificity/industry_fit/efficiency all land at 9: the four-step structure (scorecard -> composite ->
+  cheat sheet -> log line) is unambiguous and well-sequenced, the technique sub-scores and weights are fully
+  specified, the objection taxonomy correctly cross-references `follow-up-sequence` rather than re-deriving it,
+  and the efficiency notes cap clarification at one question.

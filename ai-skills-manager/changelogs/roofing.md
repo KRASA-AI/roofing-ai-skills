@@ -4,6 +4,50 @@ Maintained by the Skill Evaluator scheduled task. Most recent entry first.
 
 ---
 
+## 2026-07-28 (automated eval cycle)
+
+**Evaluated:** all **17 skills** in `skills/` (excluding `_shared/`) against rubric v1.0, cold, personalization graded against `evals/fixtures/config.sample.yml`. Two firsts: **Sales Call Coach** (v1.0) is a brand-new skill, graded for the first time; **Roof Inspection Report** shipped a new feature mid-cycle (v1.5 → v1.6, Composite Condition Index) and was graded as changed. Results persisted to `evals/results/2026-07-28/` (17 files).
+
+**Averages:** cold **8.45** (was 8.43 on 07-20) → **8.61 after repairing the bottom 3**. No skill degraded.
+
+**Headline finding — a 9.0 score is not a permanent guarantee.** Commercial Prospect Researcher was the repo's #1 skill on 07-20 (9.0, personalization 9/9) on an **unchanged file**. A closer adversarial pass this cycle found its three worked outreach briefs all shipped with literal unresolved `{company.name}` / `{company.commercial_phone}` / `{company.commercial_email_from}` placeholder syntax — a full-file grep confirmed zero real company values anywhere in the file, despite the skill's Purpose promising a brief "the sales rep can turn into email... without rewriting." Its Est. Project Value $/sf basis was also stated twice with two different, irreconcilable ranges, and 3 of 5 worked rows exceeded both. Score dropped to 8.2 cold — the single biggest drop of the cycle — before being repaired. Separately, Roof Inspection Report's new Composite Condition Index (added 07-20, arithmetically correct on its own) had its trigger rule backwards in practice (ran where it should skip, skipped where it should run), and its worked examples were signed by "Marcus Patel" — the fixture's `company.account_manager_name`, not the inspector — throughout, a fabricated-identity defect that had gone uncaught for at least two prior cycles.
+
+**Improvements made (bottom 3 by cold score, all replaced their originals, none degraded):**
+
+1. **Roof Inspection Report v1.6 → v1.7: 8.0 → 9.0 (+1.0).** Moved the Composite Condition Index into the commercial PM example (where its own trigger rule says it belongs) and out of the residential one, re-deriving the math (71/100, Grade C); relabeled the residential example's South (3 strikes) / East (4 strikes) slopes from "Marginal" to "Not Recommended" per the skill's own <5-strike rule, updating the claim narrative and Documentation Completeness verdict to match; replaced the fabricated inspector "Marcus Patel" with the fixture's real inspector (William Reyes, HAAG #14782, 19 yrs) throughout, removed fabricated field names (`inspector.title/.email/.cell`, `branding.*`), and newly bound the fixture's adjuster-relevant credibility fields (`professional_liability_carrier`, `independence_statement`, `expert_witness_history`, `haag_certifications[]`). output_quality 6→9, personalization 5→9.
+2. **Commercial Prospect Researcher v1.5 → v1.6: 8.2 → 9.0 (+0.8).** Reconciled the two contradictory $/sf ranges into a single three-tier basis (coating ~$3-5/sf, recover ~$5-8/sf, tear-off ~$9-13/sf) and verified all five worked-example rows now land inside the range matching their labeled scope; resolved all three worked briefs' unresolved `{company.*}` placeholders to the fixture's actual values; fixed `voice.commercial` → the fixture's real top-level `voice_commercial` key. specificity 8→9, output_quality 7→9, personalization 7→9.
+3. **Sales Call Coach v1.0 → v1.1 (first eval): 8.2 → 9.0 (+0.8).** Fixed a scored-vs-"missed" self-contradiction in the Team Objection Log (both of Sam Rivera's objections were scored in the scorecard yet logged as unattempted — impossible per the skill's own definition), added a hard consistency rule tying the log status to the scorecard; surfaced and fixed a silent 29.75→"30/100" rounding gap; removed three fabricated config namespaces (`financing.partners[]`, `reviews.*`, `team.rep_roster[]` — none exist in the fixture) in favor of an explicit Assumptions-footer pattern. output_quality 7→9, personalization 5→9.
+
+**Final ranking (after improvements):**
+
+| Rank | Skill | Score | 07-20 |
+|-----:|-------|------:|------:|
+| 1 | Roof Inspection Report | 9.0 | 8.7 |
+| 1 | Commercial Prospect Researcher | 9.0 | 9.0 |
+| 1 | Sales Call Coach | 9.0 | — (new) |
+| 4 | Material Order Calculator | 8.9 | 8.9 |
+| 4 | Predictive Lead Scorer | 8.9 | 8.9 |
+| 6 | Maintenance Plan Generator | 8.8 | 8.8 |
+| 7 | Jobsite Content Repurposer | 8.7 | 8.8 |
+| 8 | AI Jobsite Hazard Planner | 8.6 | 8.6 |
+| 9 | Safety Toolbox Talk Generator | 8.5 | 8.7 |
+| 10 | Crew Schedule Optimizer | 8.4 | 8.4 |
+| 10 | Estimate Builder | 8.4 | 8.4 |
+| 10 | Insurance Appeal Inspection Report | 8.4 | 8.6 |
+| 10 | Insurance Supplement Writer | 8.4 | 8.9 |
+| 10 | Tariff & Price Adjustment Communicator | 8.4 | 8.4 |
+| 15 | Follow-Up Sequence | 8.3 | 8.5 |
+| 15 | Lead Response Automator | 8.3 | 8.6 |
+| 15 | Storm Canvassing Prioritizer | 8.3 | 8.3 |
+
+**Persistent weaknesses:** (1) personalization still the dominant weak dimension — literal unresolved placeholders (new failure mode, caught this cycle), fabricated config namespaces (`estimators[]`, `supplement.*`, array-vs-scalar `safety.*`, `crews[]` vs. `crew_leads[]`), and the wrong company phone (`0140` vs. fixture `0142`) still hard-coded across ~7 skills, unfixed since 07-20; (2) five specific worked-example arithmetic/logic defects flagged 07-20 (Estimate Builder metal deposit, Crew Schedule buffer, Insurance Appeal roof age, Follow-Up 60-day date, Storm Canvassing Day-1 split) remain unfixed; (3) `test-cases/` still empty after 8 cycles.
+
+**Recommendations for next cycle:** (1) the library-wide identity sweep recommended on 07-20 is still not done — do it; (2) fix the five already-diagnosed arithmetic/logic defects, each a one-line correction; (3) rewrite the remaining phantom config schemas against the real fixture using the now-three-times-proven playbook (Commercial Prospect, Roof Inspection, and Sales Call Coach each gained 0.8-1.0 points this way); (4) add a pre-ship grep for unresolved `{...}` template syntax in worked examples — it would have caught Commercial Prospect Researcher's regression immediately; (5) seed `test-cases/` to regression-test arithmetic programmatically instead of by hand.
+
+**Verification:** all 17 `overall` scores recompute correctly from their six weighted dimensions; 17 skills map 1:1 to 17 result files; cold average 143.7/17 = 8.4529 → 8.45, after-improvement average 146.3/17 = 8.6059 → 8.61. Each bottom-3 fix was re-graded independently by the editing agent, re-deriving every changed number and re-checking every changed personalization binding, before being finalized; none regressed a dimension versus its own pre-fix cold score. **Not committed** — edits, results, summary, and this entry are in the working tree, left for the repo's daily-sync job.
+
+---
+
 ## 2026-07-20 14:43 (automated eval cycle)
 
 **Evaluated:** all **16 skills** in `skills/` (excluding `_shared/`) against rubric v1.0 — including the new **AI Jobsite Hazard Planner** (v1.0), graded for the first time. Two firsts this cycle: personalization was graded **against the committed fixture** (`evals/fixtures/config.sample.yml`) as the fixture's header instructs, and **every skill was graded cold** rather than carrying dimension scores forward. Results persisted to `evals/results/2026-07-20/`.

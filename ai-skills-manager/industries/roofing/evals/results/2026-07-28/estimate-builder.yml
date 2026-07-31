@@ -1,0 +1,45 @@
+skill: estimate-builder
+file: skills/sales/estimate-builder.md
+date: 2026-07-28
+version_evaluated: "1.7"
+file_changed_since_last_eval: false
+grading_basis: cold  # re-derived from scratch; personalization graded against fixtures/config.sample.yml
+scores:
+  clarity: 9
+  specificity: 9
+  industry_fit: 9
+  output_quality: 7
+  personalization: 7
+  efficiency: 9
+overall: 8.4
+previous_score: 8.4
+delta_vs_previous: 0.0
+previous_scores:
+  clarity: 9
+  specificity: 9
+  industry_fit: 9
+  output_quality: 7
+  personalization: 7
+  efficiency: 9
+improvement_candidate: false
+improvement_applied: false
+replaced_original: false
+note: |
+  Cold re-grade of an unchanged file (v1.7); every 07-20 defect independently re-derived and confirmed still
+  present, none fixed. Metal example: (1) Better-tier deposit "25% deposit ($14,003 on Better)" -- 25% x $54,910
+  = $13,727.50 -> $13,728, not $14,003 (a $275 error a rep would paste into a contract; Good $12,693 and Best
+  $28,100 both re-derive correctly). (2) Tier table header reads "$/yr (40-yr proxy)" but only the Good row
+  actually divides by 40 ($50,770/40=$1,269.25->$1,269, correct); Better's $1,098 backs out to a 50-yr divisor
+  ($54,910/50=$1,098.20) and Best's $1,499 backs out to a 75-yr divisor ($112,400/75=$1,498.67) -- two of three
+  rows are computed on a proxy the header doesn't disclose. (3) 144-mo/9.99%-APR financing is consistently ~1%
+  low: computed payments are $606/$656/$1,343 for Good/Better/Best (amortization formula, r=.008325, n=144)
+  against stated $601/$650/$1,331. The asphalt example remains fully clean on re-derivation: subtotal $17,794
+  sums correctly line-by-line, Better/Best deltas $2,746 (+15.4%) and $6,416 (+36%) both land inside their
+  stated +12-18%/+25-40% bands, $/yr $593/$514/$484 all divide cleanly (30/40/50-yr), 25% deposit $4,449 is
+  exact, and the 144-mo financing column ($213/$245/$289) matches the amortization formula to the dollar.
+  personalization unchanged: the asphalt worked example binds real fixture rates/license/phone (TX license
+  #RC-0481234, 469-555-0142) correctly, but the GreenSky financing table, the $475/$625 dump-fee line items, and
+  `deposit_pct`/`rates.validity_window_days`/`rates.repair_minimum` are all presented as config-resolved though
+  none of those keys (financing.*, dump_fee, deposit_pct, validity_window_days, repair_minimum) exist anywhere in
+  the fixture; the skill also names `rates.per_square_<material>` where the fixture's actual key is
+  `install_per_square_architectural` (naming mismatch, not just missing data).

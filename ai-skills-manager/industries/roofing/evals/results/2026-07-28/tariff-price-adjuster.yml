@@ -1,0 +1,56 @@
+skill: tariff-price-adjuster
+file: skills/sales/tariff-price-adjuster.md
+date: 2026-07-28
+version_evaluated: "2.3"
+file_changed_since_last_eval: false
+grading_basis: cold  # re-derived from scratch; personalization graded against fixtures/config.sample.yml
+scores:
+  clarity: 9
+  specificity: 9
+  industry_fit: 9
+  output_quality: 8
+  personalization: 5
+  efficiency: 9
+overall: 8.4
+previous_score: 8.4
+delta_vs_previous: 0.0
+previous_scores:
+  clarity: 9
+  specificity: 9
+  industry_fit: 9
+  output_quality: 8
+  personalization: 5
+  efficiency: 9
+improvement_candidate: false
+improvement_applied: false
+replaced_original: false
+note: |
+  UNCHANGED, BOTH KNOWN DEFECTS STILL PRESENT. Version is still 2.3, text identical to the 2026-07-20 cold-grade.
+
+  Re-derived every number across all five templates and all five worked examples; the arithmetic itself is
+  internally consistent throughout: Template A line deltas (10,080->10,786 = +706; 1,120->1,198 = +78;
+  810->867 = +57; sum +841, 16,800->17,641, 5.0%) all check against a flat 7% uplift; Addendum mirrors Template A
+  exactly; Template D's five objection blocks reuse the same $841/5.0%/$74-per-month/$17,221 figures without
+  drift; Template E's cost-per-year cells all re-derive from the stated formula (Timberline: (17,600+25x140)/25
+  = 844; Grand Sequoia: (24,500+30x130)/30 = 946.67->947; Drexel: (41,000+50x-160)/50 = 660) -- no black-box
+  numbers, no contradiction. output_quality is capped at 8 purely on the flagship Template A letter's
+  identity fields, which a rep would actually paste and mail: phone printed as 469-555-0140 (fixture is
+  469-555-0142), email domain acmeroofing.com (fixture is acmeroofs.com), street address "1620 Commerce Drive"
+  (fixture is "3120 Industrial Blvd"), and company name truncated to "Acme Roofing, LLC" (fixture is "Acme
+  Roofing & Restoration LLC"). The same wrong phone number repeats in the Template C website copy.
+
+  personalization held at 5: `market_conditions.active_tariffs[]` does not bind correctly -- the fixture's only
+  committed tariff is the "2026 Section 232 steel/aluminum surcharge" (7% pass-through, scope = "metal
+  accessories, standing-seam panels, drip edge, fasteners"), but every worked example instead fabricates a
+  "USTR HTS 6807.10" asphalt-roofing-materials tariff and applies ~7% to asphalt shingles, underlayment, and
+  ice-and-water shield -- materials explicitly OUTSIDE the fixture's tariff scope. Tellingly, the one line item
+  the fixture's real tariff would actually hit -- "Drip edge, ridge cap, starter" -- is the one line shown flat
+  at $0 change in the letter, which is backwards. `warranty.workmanship_years` is stated as "10-yr" in Template D
+  ("`warranty.workmanship_years` (10-yr Acme workmanship)") and as "10 yr" across all three columns of Template
+  E, but the fixture value is 6. `financing.partners[]` (GreenSky, 9.99% APR) and `market_conditions
+  .manufacturer_increases[]` (GAF letter GAF-2026-05-01-ARCH) are both invented -- neither key exists in the
+  fixture. `supplement.typical_recovery_per_claim` (Objection 5) is also invented -- no `supplement:` section in
+  the fixture. Partial credit: `inspector.haag_id` ("14782") and `appeals.recent_wins[]` (cited generically in
+  Objection 5) both correctly match fixture values, and `company.letterhead_path` is used rather than the
+  ABSENT-BY-DESIGN `company.logo_path`, showing the skill can degrade gracefully when it isn't inventing a
+  wrong-scope scenario. No change on any dimension since the last cycle.

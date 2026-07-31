@@ -1,0 +1,55 @@
+skill: lead-response-automator
+file: skills/customer-service/lead-response-automator.md
+date: 2026-07-28
+version_evaluated: "1.5"
+file_changed_since_last_eval: false
+grading_basis: cold  # re-derived from scratch; personalization graded against fixtures/config.sample.yml
+scores:
+  clarity: 9
+  specificity: 9
+  industry_fit: 9
+  output_quality: 8
+  personalization: 4
+  efficiency: 9
+overall: 8.3
+previous_score: 8.6
+delta_vs_previous: -0.3
+previous_scores:
+  clarity: 9
+  specificity: 9
+  industry_fit: 9
+  output_quality: 9
+  personalization: 5
+  efficiency: 9
+improvement_candidate: false
+improvement_applied: false
+replaced_original: false
+note: |
+  Cold re-grade, version unchanged at 1.5. output_quality DEFECT found on this pass (new, not previously
+  flagged) in the in-shift call-miss recovery example: the estimator handoff brief states "ASSIGNED: Marcus
+  Patel — ETA 15:35 CT today (T+0:52 from original call drop; T+0:48 from VM save)." VM save is independently
+  pinned at 14:43:22 elsewhere in the same example ("AI transcription... T+5 sec after voicemail save" firing at
+  14:43:27), and "original call drop" is the same call only ~22 sec earlier (~14:43:00) given the stated 22-sec
+  ring timeout. 14:43:22 to 15:35:00 is 51 min 38 sec (~0:52), not the stated 0:48 — the two deltas differ by 4
+  minutes despite their reference points being only 22 seconds apart, which is mathematically impossible. Minor,
+  single-scenario, but it's exactly the kind of self-disagreeing number this repo's methodology exists to catch,
+  so output_quality drops 9->8. All five tier examples are otherwise complete and the capacity-diagnostic dollar
+  math re-derives clean (3 x $16k = $48k; 4 x $80 = $320). personalization DEFECT holds and is worse than
+  previously scored (5->4): confirmed against the fixture that company.sms_from_number, company.website,
+  company.calendar_integration, and company.estimators[] (the skill's entire estimator-routing engine —
+  name/phone/calendar_id/skill_tier/service_zips[]/is_on_call_after_hours) do not exist anywhere in config — the
+  fixture's company.* block has only name/license_number/phone/commercial_phone/email_from/commercial_email_from/
+  address/delivery_address/account_manager_name/letterhead_path, and crew_leads[] (name/language/crew_size) is
+  the closest real analog but is never bound. The entire response.* namespace (sla_overrides[], fallback_routing[],
+  business_hours, in_shift_missed_call_recovery_window_seconds, source_quality_log_path) is fabricated — no
+  "response:" key exists in the fixture at all — as is reviews.* (google_profile_url/average_rating/
+  count_last_90_days, rendered as a fabricated "4.9★ ... 142 reviews"), crm.system, service_area.licensed_counties[]
+  (fixture has licensed_states[], not counties), and voice.intake (fixture has voice/voice_commercial/voice_expert,
+  no "intake" variant). "OC Platinum Preferred" in the 🟢 example is also a fabricated cert tier — fixture
+  certifications[] has "Owens Corning Preferred" with no "Platinum" qualifier. Re-checked the previously-flagged
+  phone inconsistency across every scenario, not just one: the fixture phone is 469-555-0142, and it is rendered
+  correctly exactly once (the 🔴 example's SMS body) against six-plus other renderings of the stale 469-555-0140
+  across the 🟡/🟢/⚪ examples and both the 🔴 and in-shift-recovery auto-confirmation emails — worse than "wrong
+  in one place," this is wrong nearly everywhere. What resolves correctly: service_area.zip_codes[] (75033/75070/
+  75074 all present) and warranty.workmanship_years/manufacturer_tiers[] (6/10/25 stated correctly). efficiency
+  unchanged at 9 — genuine single-blocking-input design, well-justified defaults.

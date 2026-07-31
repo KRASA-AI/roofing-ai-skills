@@ -1,0 +1,61 @@
+skill: insurance-supplement-writer
+file: skills/admin/insurance-supplement-writer.md
+date: 2026-07-28
+version_evaluated: "2.3"
+file_changed_since_last_eval: false
+grading_basis: cold  # re-derived from scratch; personalization graded against fixtures/config.sample.yml
+scores:
+  clarity: 9
+  specificity: 9
+  industry_fit: 9
+  output_quality: 8
+  personalization: 5
+  efficiency: 9
+overall: 8.4
+previous_score: 8.9
+delta_vs_previous: -0.5
+previous_scores:
+  clarity: 9
+  specificity: 9
+  industry_fit: 9
+  output_quality: 9
+  personalization: 8
+  efficiency: 9
+improvement_candidate: false
+improvement_applied: false
+replaced_original: false
+note: |
+  Cold re-grade of v2.3, the version the 2026-07-20 cycle's improvement pass produced (previous_score/
+  previous_scores here use that cycle's scores_after_improvement block, since that is the state of the file we
+  actually read). The flagship 24-line supplement example was fully re-derived by hand line-by-line: lines 1-20
+  sum to exactly $5,874.40 (verified by adding all 20 figures), pre-O&P base = $14,820.00 + $5,874.40 =
+  $20,694.40, O&P 10/10 (20%) = $4,138.88 (20,694.40 x 0.20 = 4,138.88, exact), total supplement $10,013.28,
+  revised RCV $24,833.28, ACV $21,251.28 (24,833.28 - 3,582.00), net payable $19,751.28 (21,251.28 - 1,500.00) --
+  every figure reconciles perfectly; the v2.2 reconciliation defect is genuinely fixed and stays fixed.
+  output_quality DEFECT found in the secondary "diagnostic-first" example (new finding, not previously flagged):
+  its Step-0 diagnostic table shows 7 dollar-flagged rows (1,517+1,738+348+234+323+462+98) that sum to $4,720,
+  but the very next line claims "Diagnostic total (flagged rows): ~$5,700 in line-item gaps" -- a ~$980 (21%)
+  gap between the number labeled as the sum of the visible rows and what visible rows actually add to. The
+  $5,700 figure only reconciles if you back-solve from the flagship's final $5,874.40 minus the $174.20 discovery
+  items disclosed two sentences later ($5,874.40 - $174.20 = $5,700.20) -- i.e. it silently borrows unshown line
+  items (drip edge eaves reprice, ridge cap reprice, felt qty, step flashing, high-wind nailing, paint touch-up,
+  dump fee, permit, inspection fee, satellite/vent-box detach-reset = $980.70 combined) that were never surfaced
+  in this scenario's own table. A rep reading only this example would not be able to reproduce "~$5,700" from
+  what's on the page. Docked output_quality 9->8 for this labeling/completeness inconsistency in the alternate
+  path, even though the flagship path is clean. personalization DEFECT, re-scored 8->5: the "Before you start"
+  field list still names an entire supplement.* namespace (supplement.standard_op_rate,
+  supplement.typical_recovery_per_claim, supplement.standard_attachments[]) that does not exist anywhere in
+  config.sample.yml -- confirmed there is no top-level "supplement:" key in the fixture at all -- plus
+  company.tax_id_last4 and company.ein_last4 (no such fields; company.* in the fixture has no tax/EIN field of
+  any kind) and pricing.supplement_filing_flat (fixture pricing.* has only appeal_inspection_flat, with
+  commercial_inspection_flat explicitly marked ABSENT-BY-DESIGN -- supplement_filing_flat isn't part of the
+  schema at all). The Section 5 Attachments Checklist is literally captioned "(`supplement.standard_attachments[]`)"
+  and the Assumptions footer states "`supplement.standard_attachments[]` resolved against config" -- a false
+  claim of resolution against a field that is not in the fixture, which is worse than silently defaulting. This
+  contradicts the 2026-07-20 improvement note's claim that personalization moved 6->8; that claimed fix addressed
+  the EIN line and the appeals.recent_wins/company-name/phone errors but never touched the supplement.* namespace,
+  which was already fabricated in v2.1/v2.2 and remains fabricated in v2.3. What does resolve correctly:
+  inspector.* (haag_id, years_inspecting), appeals.recent_wins[] (correctly matches the TX Allstate/granular-loss
+  entry, carrier-neutral, no fabricated dollar figure), service_area.licensed_states[] (TX contained), and
+  company.name/phone (correctly "Acme Roofing & Restoration LLC" / 469-555-0142 throughout, the prior wrong-name/
+  wrong-phone defect stays fixed). efficiency unchanged at 9.

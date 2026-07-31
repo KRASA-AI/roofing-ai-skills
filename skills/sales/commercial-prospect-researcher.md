@@ -4,9 +4,9 @@ category: sales
 tools: [claude, chatgpt]
 difficulty: intermediate
 time_saved: "~2 hours/prospect list"
-version: 1.5
-last_eval_score: 8.9
-inspiration: "v1.5 (2026-07-13) eval improvement cycle targeting efficiency — the six-item Required Input list read as an interrogation, but five of the six already resolve from config (verticals from commercial.target_verticals[], territory bounds from service_area.commercial_zip_codes[], channel/tone from voice.commercial, case studies and certifications from their arrays) and the sixth (trigger event) is precisely what Layer 3 of the research framework exists to discover — asking the rep for it inverts the skill. Added a 'Fastest path — minimum viable input' block (territory is the sole blocking input; a bare zip code is enough), [blocking]/[from config]/[inferred] annotations on every input, and an expanded Efficiency-notes block that fixes the default list depth (10 buildings), default contact depth (name-level attempted, company-level accepted), and a single-question fallback used only when config carries no verticals and no commercial zips. Strictly additive: the four-layer framework, decision-maker lookup, Est. Project Value math, priority tiers, campaign plan, and all three worked briefs are untouched. v1.4 (2026-06-22) eval improvement cycle targeting output_quality — Section 2 of the output spec requires an outreach brief for *every* 🔥 and 🟡 prospect, but the worked Example Output demonstrated only the single 🔥 #1 brief (the header literally read 'one worked brief'), leaving the second 🔥 (#3 Allen Tech, the name-level contact the campaign plan says to lead the week with) and the 🟡 (#2 Parkside) undemonstrated. This version writes both missing briefs in full and relabels the section: the 🔥 #3 brief exercises the name-level-contact + fresh-solar-permit-trigger path with the vertical-matched EPDM case study and a pre-solar-readiness angle; the 🟡 #2 brief exercises the harder contact-not-yet-identified path (explicit find-the-PM steps, ponding/aerial trigger, first-reference-project framing, and a batch-with-#4 note that ties back to the campaign plan). All three briefs now sort by the Est. Project Value/trigger logic the campaign plan describes, so the example is internally consistent end-to-end. v1.3 (2026-06-15) eval improvement cycle targeting output_quality — prior versions' frontmatter and output rules referenced 'estimated-value flagging' but the prospect-list table had no value column, so reps had no way to sort the biggest qualified jobs to the top. Added an Est. Project Value column (Est. SF × a labeled recover/tear-off $/sf assumption, always flagged estimated) to both the spec table and the 5-building worked example, with an explicit basis note; wired it into the priority sort (intra-tier ties broken by value) and the capacity check (🔥 tier now reports ~$790K combined). v1.2 (2026-06-08) eval improvement cycle targeting output_quality — the skill's primary deliverable is a prospect LIST, but prior versions only demonstrated a single building brief and left the prospect-list table as an empty header row. Added a fully populated 5-building Example Output (Plano/Allen warehouse + retail + MOB mix, with 🔥/🟡/🟢 priority tiers, estimated-value flagging, and decision-maker titles from the vertical lookup) plus a worked Campaign-Level Recommendations block (send order, geo cluster, shared-PM batching, vertical gaps, and a crew_capacity_sf_per_week saturation check). v1.1 rewritten 2026-04-25 from eval improvement cycle — named config-field binding (commercial.case_studies[].vertical/zip/system, commercial.certifications[], commercial.target_verticals[], voice.commercial), example outreach brief showing voice-tuned opening, and explicit decision-maker-by-vertical lookup table. v1.0 concept from 2026 commercial-roofing B2B AI outreach tools that aggregate facility-manager and building-owner data from public sources to seed cold outreach."
+version: 1.6
+last_eval_score: 9.0
+inspiration: "v1.6 (2026-07-28) eval improvement cycle targeting specificity/output_quality/personalization — the 07-28 cold re-grade (8.2, down from a stale 9.0) found three defects. First, the Est. Project Value $/sf assumption was stated twice with contradictory ranges (Output-structure spec said recover/coating ~$4-6/sf and tear-off ~$8-12/sf; the worked-example footnote said recover ~$5-7/sf or tear-off ~$10/sf), and re-deriving the worked example against the spec range showed #1 Riverside ($6.94/sf), #2 Parkside ($7.89/sf), and #3 Allen Tech ($7.06/sf) all fell outside it. Replaced both statements with one three-tier basis (coating ~$3-5/sf, recover ~$5-8/sf, full tear-off + new membrane ~$9-13/sf) that every worked-example row now falls inside for its labeled scope. Second, despite the Purpose promising a brief the rep can turn into outreach 'without rewriting,' all three fully-worked briefs left company.name, company.commercial_phone, and company.commercial_email_from as literal unresolved {company.x} placeholders; all three signature blocks and opening lines now resolve to the fixture's actual values (Acme Roofing & Restoration LLC / 469-555-0177 / commercial@acmeroofs.com). Third, the skill referenced a nested voice.commercial config path that doesn't exist in the fixture; every reference (Required Input, Before-you-start field list, output-structure rule, and all three OPENING LINE labels) now points to the fixture's actual top-level voice_commercial key. v1.5 (2026-07-13) eval improvement cycle targeting efficiency — the six-item Required Input list read as an interrogation, but five of the six already resolve from config (verticals from commercial.target_verticals[], territory bounds from service_area.commercial_zip_codes[], channel/tone from voice.commercial, case studies and certifications from their arrays) and the sixth (trigger event) is precisely what Layer 3 of the research framework exists to discover — asking the rep for it inverts the skill. Added a 'Fastest path — minimum viable input' block (territory is the sole blocking input; a bare zip code is enough), [blocking]/[from config]/[inferred] annotations on every input, and an expanded Efficiency-notes block that fixes the default list depth (10 buildings), default contact depth (name-level attempted, company-level accepted), and a single-question fallback used only when config carries no verticals and no commercial zips. Strictly additive: the four-layer framework, decision-maker lookup, Est. Project Value math, priority tiers, campaign plan, and all three worked briefs are untouched. v1.4 (2026-06-22) eval improvement cycle targeting output_quality — Section 2 of the output spec requires an outreach brief for *every* 🔥 and 🟡 prospect, but the worked Example Output demonstrated only the single 🔥 #1 brief (the header literally read 'one worked brief'), leaving the second 🔥 (#3 Allen Tech, the name-level contact the campaign plan says to lead the week with) and the 🟡 (#2 Parkside) undemonstrated. This version writes both missing briefs in full and relabels the section: the 🔥 #3 brief exercises the name-level-contact + fresh-solar-permit-trigger path with the vertical-matched EPDM case study and a pre-solar-readiness angle; the 🟡 #2 brief exercises the harder contact-not-yet-identified path (explicit find-the-PM steps, ponding/aerial trigger, first-reference-project framing, and a batch-with-#4 note that ties back to the campaign plan). All three briefs now sort by the Est. Project Value/trigger logic the campaign plan describes, so the example is internally consistent end-to-end. v1.3 (2026-06-15) eval improvement cycle targeting output_quality — prior versions' frontmatter and output rules referenced 'estimated-value flagging' but the prospect-list table had no value column, so reps had no way to sort the biggest qualified jobs to the top. Added an Est. Project Value column (Est. SF × a labeled recover/tear-off $/sf assumption, always flagged estimated) to both the spec table and the 5-building worked example, with an explicit basis note; wired it into the priority sort (intra-tier ties broken by value) and the capacity check (🔥 tier now reports ~$790K combined). v1.2 (2026-06-08) eval improvement cycle targeting output_quality — the skill's primary deliverable is a prospect LIST, but prior versions only demonstrated a single building brief and left the prospect-list table as an empty header row. Added a fully populated 5-building Example Output (Plano/Allen warehouse + retail + MOB mix, with 🔥/🟡/🟢 priority tiers, estimated-value flagging, and decision-maker titles from the vertical lookup) plus a worked Campaign-Level Recommendations block (send order, geo cluster, shared-PM batching, vertical gaps, and a crew_capacity_sf_per_week saturation check). v1.1 rewritten 2026-04-25 from eval improvement cycle — named config-field binding (commercial.case_studies[].vertical/zip/system, commercial.certifications[], commercial.target_verticals[], voice.commercial), example outreach brief showing voice-tuned opening, and explicit decision-maker-by-vertical lookup table. v1.0 concept from 2026 commercial-roofing B2B AI outreach tools that aggregate facility-manager and building-owner data from public sources to seed cold outreach."
 ---
 
 # 🏢 Commercial Prospect Researcher
@@ -31,7 +31,7 @@ Build a qualified commercial-roofing prospect list by gathering public data abou
 2. **Building criteria** `[from config / inferred]` — Verticals default to `commercial.target_verticals[]`. Roof size defaults to the band the shop's crews actually run (bracket around `commercial.crew_capacity_sf_per_week`; if absent, 10K–100K sf). Roof age defaults to 12+ years — the point at which a low-slope membrane enters the recover conversation. Exclusions default to single-family and owner-occupied residential.
 3. **Contact depth** `[inferred]` — Default: attempt name-level, accept company-level. Never ask this; a rep always prefers the name and will take the switchboard when the name isn't public.
 4. **Source list** `[optional]` — If an address list, CRE export, or database dump is provided, enrich it rather than re-discover. If not, run "research from scratch" — this is the normal mode, not a fallback.
-5. **Outreach channel** `[from config / inferred]` — Default to email + LinkedIn for name-level contacts and phone-to-switchboard for company-level; tone from `voice.commercial`. Only ask if the rep is working a channel the shop doesn't normally run (e.g., direct mail).
+5. **Outreach channel** `[from config / inferred]` — Default to email + LinkedIn for name-level contacts and phone-to-switchboard for company-level; tone from `voice_commercial`. Only ask if the rep is working a channel the shop doesn't normally run (e.g., direct mail).
 6. **Reason to call** `[inferred — do not ask]` — Trigger discovery *is* Layer 3 of the research framework. Asking the rep for a trigger inverts the skill: the rep is here because they don't know which building has one. If the rep volunteers a trigger (a storm date, a drive-by observation), weight it heavily; otherwise discover it and cite the source.
 
 **Single-question fallback:** ask exactly one question, and only when config carries *neither* `commercial.target_verticals[]` *nor* `service_area.commercial_zip_codes[]` — "Which verticals do you have crews and case studies for?" Anything less than that, proceed on defaults and list them in the Assumptions footer.
@@ -52,7 +52,7 @@ You are a commercial-roofing prospect researcher supporting an outside sales rep
   - `commercial.preferred_systems[]` — the membrane systems the shop installs (drives the "what we'd recommend" reflex line in briefs)
   - `commercial.crew_capacity_sf_per_week` — used to flag any prospect that would saturate or stall capacity if it converted
   - `service_area.commercial_zip_codes[]` — the licensed-and-bonded commercial-work area (often narrower than residential)
-  - `voice.commercial` — communication tone for commercial briefs (typically more consultative than residential `voice`); falls back to `voice` if missing
+  - `voice_commercial` — top-level config key (not nested under `voice`) giving the communication tone for commercial briefs (typically more consultative than residential `voice`); falls back to `voice` if missing
   - If a named field is missing, use a sensible default and flag it in the output's "Assumptions" footer
 
 - Reference `knowledge-base/industry-overview.md` for commercial-vs-residential context
@@ -110,7 +110,12 @@ Pull publicly available data:
 |---|----------|---------|---------------|---------|--------------------|----------|----------------------|---------------------------------|---------|------------------------------|----------|
 | 1 | | | | | | | | | | | 🔥/🟡/🟢 |
 
-**Est. Project Value column:** rough planning figure = Est. SF × a per-sf assumption (recover/coating ~$4–6/sf, full tear-off + new membrane ~$8–12/sf); pick recover vs replace from the roof's estimated age/condition and label the basis (e.g., `~$430K (recover)`). Always flag as estimated. Use it to (a) sort within a priority tier so reps work the largest qualified jobs first, and (b) feed the capacity check below.
+**Est. Project Value column:** rough planning figure = Est. SF × a per-sf assumption, picked by scope tier from the roof's estimated age/condition:
+  - **Coating** (recoat over a sound existing membrane, no tear-off, no new membrane) ~$3–5/sf
+  - **Recover** (new membrane mechanically attached or fully adhered over the existing insulation/deck — the typical call for a 12–18 yr membrane in acceptable condition) ~$5–8/sf
+  - **Full tear-off + new membrane and insulation** (roofs past recover candidacy, or with deck damage) ~$9–13/sf
+
+Label the basis explicitly on every row (e.g., `~$430K (recover)`). Always flag as estimated. Use it to (a) sort within a priority tier so reps work the largest qualified jobs first, and (b) feed the capacity check below.
 
 Priority legend:
 - 🔥 Hot — documented trigger + identified contact + in `service_area.commercial_zip_codes[]` + matches `commercial.target_verticals[]`
@@ -123,7 +128,7 @@ For each priority prospect, produce a 150–220 word brief:
 - **Building summary** in two sentences (what it is, what the roof likely is)
 - **Decision-maker line** — name if known, else role from the vertical lookup table + best hypothesis on how to find them (LinkedIn search string, switchboard ask)
 - **Reason-to-call** anchored to a trigger or observable signal
-- **Opening line drafted in `voice.commercial`** — not generic AI prose. Use the vertical-matched case study from `commercial.case_studies[]` as the social-proof anchor
+- **Opening line drafted in `voice_commercial`** — not generic AI prose. Use the vertical-matched case study from `commercial.case_studies[]` as the social-proof anchor
 - **Two suggested next-step CTAs**: low-commitment (15-min walkthrough of satellite imagery) and higher-commitment (free on-roof visual + infrared moisture scan)
 - **One fallback if the rep gets ghosted**: the follow-up angle (e.g., send a 1-page condition snapshot by mail 10 days after first touch — feeds into `follow-up-sequence` skill)
 
@@ -163,7 +168,7 @@ For each priority prospect, produce a 150–220 word brief:
 | 4 | Cedarbrook Medical Office | 1100 W McDermott, Allen 75013 | ~19 (est.) | 28,000 | ~$280K (tear-off) | Medical office (MOB) | Property Manager (3rd-party) | — | Roof past mfr. warranty window (est.) | none — MOB vertical gap | 🟢 Nurture |
 | 5 | Greenline Distribution | 3900 Mapleshade Ln, Plano 75075 | ~9 (est.) | 84,000 | ~$420K (recover) | Warehouse/distribution | Regional FM | — | None current; large SF, monitor | Frisco Logistics Hub 78k TPO 2024 | 🟢 Nurture |
 
-*All age/SF/value/system figures flagged estimated (assessor + aerial; value = Est. SF × $/sf assumption, recover ~$5–7/sf or tear-off ~$10/sf per estimated condition). No personal contact info included beyond publicly listed PM switchboards.*
+*All age/SF/value/system figures flagged estimated (assessor + aerial; value = Est. SF × $/sf assumption per the scope-tier ranges above — coating ~$3–5/sf, recover ~$5–8/sf, full tear-off ~$9–13/sf — picked per estimated condition). No personal contact info included beyond publicly listed PM switchboards.*
 
 ### 2. Campaign-Level Recommendations
 
@@ -195,13 +200,13 @@ Vertical-matched case study (from commercial.case_studies[]):
   "Frisco Logistics Hub, 78k sf TPO restoration, 2024 — recovered $0.42/sf vs full
   replacement; client extended Carlisle SureWeld warranty 10 years."
 
-OPENING LINE (voice.commercial = consultative):
-  "Quick note from {company.name} — we just wrapped a 78k-sf TPO restoration on a
-  distribution roof in Frisco that was about the same age as Riverside Logistics
-  Center. The 4/18 hail and the recent HVAC permits in the area are usually when
-  the seam separations start showing up. If you'd want a 15-minute walk-through
-  of satellite imagery before we'd ever talk about a quote, I can send a
-  condition snapshot this week."
+OPENING LINE (voice_commercial = consultative):
+  "Quick note from Acme Roofing & Restoration LLC — we just wrapped a 78k-sf TPO
+  restoration on a distribution roof in Frisco that was about the same age as
+  Riverside Logistics Center. The 4/18 hail and the recent HVAC permits in the
+  area are usually when the seam separations start showing up. If you'd want a
+  15-minute walk-through of satellite imagery before we'd ever talk about a
+  quote, I can send a condition snapshot this week."
 
 CTAs:
   Low:  15-min satellite walkthrough — no roof access, just imagery
@@ -215,7 +220,7 @@ DIFFERENTIATION LINE (from commercial.certifications):
   As a Carlisle CCM Authorized Applicator we can extend SureWeld warranty terms
   on a TPO restoration — most regional contractors can't.
 
-— {company.name} | {company.commercial_phone} | {company.commercial_email_from}
+— Acme Roofing & Restoration LLC | 469-555-0177 | commercial@acmeroofs.com
 ```
 
 #### 🔥 #3 — Allen Tech Business Park, Bldg C (name-level contact + fresh trigger → lead the week)
@@ -236,13 +241,13 @@ Vertical-matched case study (from commercial.case_studies[]):
   "Plano flex-space EPDM, 2023 — re-flashed and coated ahead of a tenant solar
   install; zero leak callbacks through two summers."
 
-OPENING LINE (voice.commercial = consultative):
-  "Dana — quick note from {company.name}. We saw Bldg C pulled a rooftop-solar
-  permit this spring. On a 12-year EPDM field, the moment to settle seams and
-  flashing details is before the array goes down and you can't get to the membrane
-  under it. We did exactly this on a Plano flex building in 2023 — re-flashed and
-  coated ahead of the tenant's panels, no callbacks since. Worth a 15-minute look
-  at the imagery before your installer mobilizes?"
+OPENING LINE (voice_commercial = consultative):
+  "Dana — quick note from Acme Roofing & Restoration LLC. We saw Bldg C pulled a
+  rooftop-solar permit this spring. On a 12-year EPDM field, the moment to settle
+  seams and flashing details is before the array goes down and you can't get to
+  the membrane under it. We did exactly this on a Plano flex building in 2023 —
+  re-flashed and coated ahead of the tenant's panels, no callbacks since. Worth a
+  15-minute look at the imagery before your installer mobilizes?"
 
 CTAs:
   Low:  15-min satellite + permit-overlay walkthrough — no roof access
@@ -258,7 +263,7 @@ DIFFERENTIATION LINE (from commercial.certifications):
   As a Carlisle CCM Authorized Applicator we can coordinate the membrane warranty
   around a third-party PV attachment — most contractors leave that gap unaddressed.
 
-— {company.name} | {company.commercial_phone} | {company.commercial_email_from}
+— Acme Roofing & Restoration LLC | 469-555-0177 | commercial@acmeroofs.com
 ```
 
 #### 🟡 #2 — Parkside Commons retail strip (strong trigger, contact not yet identified)
@@ -280,13 +285,13 @@ Vertical-matched case study: none on file for 75093 retail — pitch this as the
   shop's first 75093 retail reference project and flag for commercial.case_studies[]
   logging on win (also note for the #4 MOB vertical gap).
 
-OPENING LINE (voice.commercial = consultative, PM-agnostic until named):
+OPENING LINE (voice_commercial = consultative, PM-agnostic until named):
   "Hi — I'm trying to reach whoever manages the roof at Parkside Commons on Preston.
-  We're a {company.name} commercial crew; current aerial imagery shows standing
-  water at two of the interior drains, which on a 14-year TPO usually means the
-  fasteners are starting to back out under the membrane. No charge to put a drone
-  over it and send you a one-page condition snapshot — then you decide if it's
-  worth a closer look."
+  We're an Acme Roofing & Restoration LLC commercial crew; current aerial imagery
+  shows standing water at two of the interior drains, which on a 14-year TPO
+  usually means the fasteners are starting to back out under the membrane. No
+  charge to put a drone over it and send you a one-page condition snapshot — then
+  you decide if it's worth a closer look."
 
 CTAs:
   Low:  emailed 1-page drone + ponding-overlay snapshot (no roof access, no cost)
@@ -301,7 +306,7 @@ DIFFERENTIATION LINE (from commercial.certifications):
   As a Carlisle CCM Authorized Applicator a TPO recover here can carry a renewed
   manufacturer warranty rather than a contractor-only patch.
 
-— {company.name} | {company.commercial_phone} | {company.commercial_email_from}
+— Acme Roofing & Restoration LLC | 469-555-0177 | commercial@acmeroofs.com
 ```
 
 (Run with your own territory + config to replace these illustrative values.)

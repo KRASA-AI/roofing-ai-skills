@@ -1,0 +1,85 @@
+skill: commercial-prospect-researcher
+file: skills/sales/commercial-prospect-researcher.md
+date: 2026-07-28
+version_evaluated: "1.5"
+file_changed_since_last_eval: false
+grading_basis: cold  # re-derived from scratch; personalization graded against fixtures/config.sample.yml
+scores:
+  clarity: 9
+  specificity: 8
+  industry_fit: 9
+  output_quality: 7
+  personalization: 7
+  efficiency: 9
+overall: 8.2
+previous_score: 9.0
+delta_vs_previous: -0.8
+previous_scores:
+  clarity: 9
+  specificity: 9
+  industry_fit: 9
+  output_quality: 9
+  personalization: 9
+  efficiency: 9
+improvement_candidate: true
+improvement_applied: true
+replaced_original: true
+scores_after_improvement:
+  clarity: 9
+  specificity: 9
+  industry_fit: 9
+  output_quality: 9
+  personalization: 9
+  efficiency: 9
+overall_after_improvement: 9.0
+delta_after_improvement: 0.8
+improvement_note: |
+  Applied fixes for both defects and bumped the skill to v1.6. (1) specificity/output_quality: replaced the two
+  contradictory $/sf statements (spec section: "recover/coating ~$4-6/sf, full tear-off ~$8-12/sf"; footnote:
+  "recover ~$5-7/sf or tear-off ~$10/sf") with a single reconciled three-tier basis stated once and referenced
+  identically in both places -- coating (recoat, no tear-off) ~$3-5/sf, recover (new membrane over existing
+  insulation/deck) ~$5-8/sf, full tear-off + new membrane/insulation ~$9-13/sf. Re-derived every worked-example
+  row against the new range: #1 Riverside $430K/62,000sf=$6.94/sf (recover, in $5-8), #2 Parkside $300K/38,000sf=
+  $7.89/sf (recover, in $5-8), #3 Allen Tech $360K/51,000sf=$7.06/sf (recover, in $5-8), #4 Cedarbrook
+  $280K/28,000sf=$10.00/sf (tear-off, in $9-13), #5 Greenline $420K/84,000sf=$5.00/sf (recover, in $5-8) -- all
+  five now land inside the range matching their labeled scope; capacity-check math re-verified unchanged and
+  correct (113,000 sf combined, $790K combined, 113,000/25,000=4.52 -> "~4.5 weeks"). (2) personalization:
+  resolved company.name / company.commercial_phone / company.commercial_email_from in all three worked briefs
+  (Riverside, Allen Tech, Parkside opening lines and signature blocks) from literal "{company.x}" placeholders to
+  the fixture's actual values -- "Acme Roofing & Restoration LLC", "469-555-0177", "commercial@acmeroofs.com";
+  confirmed via full-file grep that zero "{company." placeholders remain. Also replaced every live reference to
+  the nonexistent nested `voice.commercial` path (Required Input item 5, the Before-you-start field list, the
+  output-structure brief rule, and all three OPENING LINE labels) with the fixture's actual top-level
+  `voice_commercial` key, noting explicitly it is "not nested under voice"; historical inspiration-string entries
+  documenting past versions were left untouched since they describe what those versions did at the time. Adversarial
+  cold re-grade after the edit: clarity 9 (unchanged), specificity 8->9 (single fully-specified, internally
+  consistent three-tier calc rule), industry_fit 9 (unchanged), output_quality 7->9 (worked example now
+  arithmetically consistent end-to-end and paste-ready with no placeholders), personalization 7->9 (all named
+  fields -- company.name/commercial_phone/commercial_email_from, voice_commercial, case_studies[],
+  certifications[], crew_capacity_sf_per_week, target_verticals[] -- now bind to the fixture correctly throughout,
+  with graceful degradation preserved for the MOB case-study gap), efficiency 9 (unchanged). Overall 8.2 -> 9.0
+  (+0.8); every dimension is >= its pre-improvement value, so the edited v1.6 file replaces v1.5 as the skill of
+  record. last_eval_score in frontmatter updated to 8.2 (this cycle's pre-fix cold score, per repo convention of
+  recording the score that triggered the fix) and version bumped to 1.6 with a new inspiration entry prepended.
+note: |
+  Cold re-grade of an unchanged file (v1.5) surfaces two defects the 07-20 cycle missed. (1) specificity/
+  output_quality: the Est. Project Value per-sf assumption is stated TWICE with different numbers -- Output
+  structure section 1 (line 113) says "recover/coating ~$4-6/sf, full tear-off + new membrane ~$8-12/sf" but the
+  worked-example footnote (line 166) redefines it as "recover ~$5-7/sf or tear-off ~$10/sf." Re-deriving each
+  prospect-list row against the SPEC range: #1 Riverside $430K/62,000sf=$6.94/sf, #2 Parkside $300K/38,000sf=
+  $7.89/sf, #3 Allen Tech $360K/51,000sf=$7.06/sf -- all three exceed the spec's stated $4-6/sf recover ceiling
+  (only #5 Greenline at exactly $5.00/sf and #4 Cedarbrook tear-off at exactly $10.00/sf land inside either
+  range). #2 at $7.89/sf even breaks the looser footnote range. The capacity-check math itself is clean (62,000+
+  51,000=113,000sf; $430K+$360K=$790K; 113,000/25,000=4.5 wks all re-derive correctly), but the per-sf rule
+  feeding the column is internally contradictory and inconsistently applied. (2) personalization: despite the
+  Purpose claiming a "personalized outreach brief the sales rep can turn into email... without rewriting," none
+  of the three fully-worked briefs (Sections 2, all three) ever resolve company.name, company.commercial_phone,
+  or company.commercial_email_from to the fixture's actual values ("Acme Roofing & Restoration LLC," 469-555-
+  0177, commercial@acmeroofs.com) -- every signature block and opening line is left as a literal unresolved
+  {company.name} / {company.commercial_phone} / {company.commercial_email_from} placeholder (confirmed via
+  full-file search: zero occurrences of "Acme" or any phone number in the file). Also still names `voice.
+  commercial` as a config path, but the fixture's actual field is a top-level `voice_commercial` key, not nested
+  under `voice` (carried over from 07-20, unresolved). commercial.case_studies[], commercial.certifications[0]
+  (Carlisle CCM), commercial_zip_codes, and crew_capacity_sf_per_week=25,000 still bind correctly by value.
+  clarity/industry_fit/efficiency hold at 9 -- the four-layer framework, decision-maker table, and single-question
+  fallback design are unaffected by either defect.

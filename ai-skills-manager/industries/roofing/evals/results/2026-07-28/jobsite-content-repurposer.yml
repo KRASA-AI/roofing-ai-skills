@@ -1,0 +1,45 @@
+skill: jobsite-content-repurposer
+file: skills/sales/jobsite-content-repurposer.md
+date: 2026-07-28
+version_evaluated: "1.3"
+file_changed_since_last_eval: false
+grading_basis: cold  # re-derived from scratch; personalization graded against fixtures/config.sample.yml
+scores:
+  clarity: 9
+  specificity: 9
+  industry_fit: 9
+  output_quality: 9
+  personalization: 6
+  efficiency: 9
+overall: 8.7
+previous_score: 8.8
+delta_vs_previous: -0.1
+previous_scores:
+  clarity: 9
+  specificity: 9
+  industry_fit: 9
+  output_quality: 9
+  personalization: 7
+  efficiency: 9
+improvement_candidate: false
+improvement_applied: false
+replaced_original: false
+note: |
+  Cold re-grade of an unchanged file (v1.3). Strongest trade guardrails in the library still hold up on re-
+  inspection (hip-and-ridge vs ridge cap, starter strip vs first course, synthetic vs felt, step/counter/apron
+  flashing distinctions, warranty-misrepresentation guard), and the Reel shot-list timing re-sums correctly
+  (2.5+3.5+4+4+3+5=22, matching the stated "~22 sec"). personalization drops a further point this cycle (7->6)
+  on a defect the 07-20 note did not catch: the "Resolved config" line states `company.name = Acme Roofing`, and
+  that exact truncated string is then printed twice in the finished deliverable -- the GBP post ("Acme Roofing
+  serves Frisco and North Texas") and the Nextdoor post ("-- Acme Roofing") -- but the fixture's actual
+  company.name is "Acme Roofing & Restoration LLC." This is the same wrong-company-name pattern flagged
+  repeatedly across this library's prior cycles, here caught in a skill that had previously been scored as if
+  company.name resolved cleanly. Layered on top of the already-identified fabrications -- service_area.metro,
+  service_area.neighborhoods[], financing.partner/promo, company.service_email, channels.* (instagram_handle /
+  facebook_url / gbp_profile / nextdoor_url / linkedin_url / website_gallery_url), and manufacturers[] -- none of
+  which exist in the fixture (fixture has no service_area.metro, no financing block, no company.service_email,
+  no channels block, and no top-level manufacturers[] array; only certifications[] and material_brands exist).
+  certifications[0]=GAF Master Elite does bind correctly and the skill still degrades gracefully on the unset
+  TikTok handle and falls back to "manufacturer-backed materials" language when certification is unconfirmed --
+  the graceful-degradation mechanics are sound, but the number of invented field names plus the wrong company
+  name keeps this out of the 7-8 band. output_quality and the other dimensions are unaffected and hold at 9.
